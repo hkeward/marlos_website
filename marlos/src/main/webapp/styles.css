@@ -1,0 +1,5 @@
+ /* Make forms line up */
+form { display: table;      }
+p.form     { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }
