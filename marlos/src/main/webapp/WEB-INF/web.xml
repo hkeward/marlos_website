@@ -7,10 +7,21 @@
     <servlet>
         <servlet-name>new_room</servlet-name>
         <jsp-file>/new_room.jsp</jsp-file>
+        <!--<servlet-class>com.downloadablezebras.NewRoomServlet</servlet-class>-->
     </servlet>
     <servlet-mapping>
         <servlet-name>new_room</servlet-name>
         <url-pattern>/new_room</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>users</servlet-name>
+        <servlet-class>com.downloadablezebras.UserListServlet</servlet-class>
+        <!--<jsp-file>/users.jsp</jsp-file>-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>users</servlet-name>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -14,5 +14,8 @@
   <form action="new_room" method="post">
     <input type="submit" value="Add a new room" />
   </form>
+  <form action="users" method="post">
+    <input type="submit" value="View users" />
+  </form>
   </body>
 </html>
