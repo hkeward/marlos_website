@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class UserListServlet extends HttpServlet {
 
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public void service(HttpServletRequest req, HttpServletResponse res) throws IOException {
         PrintWriter out = res.getWriter();
 
         out.println("<h1>User list</h1>");
@@ -29,30 +29,25 @@ public class UserListServlet extends HttpServlet {
         SessionFactory factory = con.buildSessionFactory(reg);
 
         Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
 
         ArrayList<UsersEntity> users = new ArrayList<>();
         UsersEntity currentUser;
 
-        for (int i=1; i <= 5; i++) {
-            currentUser = session.get(UsersEntity.class, i);
-            users.add(currentUser);
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            for (int i=1; i <= 5; i++) {
+                currentUser = session.get(UsersEntity.class, i);
+                users.add(currentUser);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
-
-        tx.commit();
-
-//        System.out.println(user);
-//
-//        try {
-//            tx = session.beginTransaction();
-//            user = session.get(UsersEntity.class, 1);
-//            tx.commit();
-//        } catch (Exception e) {
-//            if (tx!=null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
 
         out.println("<table>");
         out.println("<tr><th>ID</th><th>Username</th><th>Email</th></tr>");
@@ -64,7 +59,5 @@ public class UserListServlet extends HttpServlet {
             out.println("</tr>");
         }
         out.println("</table>");
-
-
     }
 }
