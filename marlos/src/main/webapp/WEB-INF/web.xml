@@ -17,11 +17,28 @@
     <servlet>
         <servlet-name>users</servlet-name>
         <servlet-class>com.downloadablezebras.UserListServlet</servlet-class>
-        <!--<jsp-file>/users.jsp</jsp-file>-->
     </servlet>
     <servlet-mapping>
         <servlet-name>users</servlet-name>
         <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>new_user</servlet-name>
+        <jsp-file>/new_user.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>new_user</servlet-name>
+        <url-pattern>/new_user</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>user</servlet-name>
+        <servlet-class>com.downloadablezebras.NewUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>user</servlet-name>
+        <url-pattern>/user</url-pattern>
     </servlet-mapping>
 
 </web-app>

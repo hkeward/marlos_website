@@ -17,5 +17,8 @@
   <form action="users" method="post">
     <input type="submit" value="View users" />
   </form>
+  <form action="new_user" method="post">
+    <input type="submit" value="New user" />
+  </form>
   </body>
 </html>

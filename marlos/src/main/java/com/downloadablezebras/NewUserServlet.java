@@ -7,20 +7,34 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
-public class UserListServlet extends HttpServlet {
+public class NewUserServlet extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        byte[] pw_byte = password.getBytes();
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String email = req.getParameter("email");
+
         PrintWriter out = res.getWriter();
 
-        out.println("<h1>User list</h1>");
+        out.println("<h1>User page</h1>");
+
+
+        UsersEntity newUser = new UsersEntity();
+
+        newUser.setUsername(username);
+        newUser.setPassword(pw_byte);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setEmail(email);
 
         Configuration con = new Configuration().configure().addAnnotatedClass(UsersEntity.class);
 
@@ -30,34 +44,20 @@ public class UserListServlet extends HttpServlet {
 
         Session session = factory.openSession();
 
-        ArrayList<UsersEntity> users = new ArrayList<>();
-        UsersEntity currentUser;
-
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
-            for (int i=1; i <= 6; i++) {
-                currentUser = session.get(UsersEntity.class, i);
-                users.add(currentUser);
-            }
+            session.save(newUser);
             tx.commit();
+            out.println("New user " + newUser.getUsername() + " added successfully!");
         } catch (Exception e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            out.println("There was a problem adding user " + newUser.getUsername() + "!");
         } finally {
             session.close();
         }
 
-        out.println("<table>");
-        out.println("<tr><th>ID</th><th>Username</th><th>Full name</th></tr>");
-        for (UsersEntity user : users) {
-            out.println("<tr>");
-            out.println("<td>" + user.getId() + "</td>");
-            out.println("<td>" + user.getUsername() + "</td>");
-            out.println("<td>" + user.getFirstName() + " " + user.getLastName() + "</td>");
-            out.println("</tr>");
-        }
-        out.println("</table>");
     }
 }

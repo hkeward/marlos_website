@@ -11,6 +11,20 @@ public class UsersEntity {
     private String username;
     private byte[] password;
     private String email;
+    private String firstName;
+    private String lastName;
+
+    @Basic
+    @Column(name = "first_name")
+    public String getFirstName() { return firstName; }
+
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    @Basic
+    @Column(name = "last_name")
+    public String getLastName() { return lastName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
     @Id
     @Column(name = "id")
@@ -71,6 +85,6 @@ public class UsersEntity {
     }
 
     public String toString() {
-        return this.username + ": " + this.id;
+        return this.username + ": " + this.firstName + " " + this.lastName;
     }
 }
