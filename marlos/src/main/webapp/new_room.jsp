@@ -13,15 +13,15 @@
         </p>
         <p class="form">
             <label>Type:</label>
-            <input type=""text" name="type"><br>
+            <input type="text" name="type"><br>
         </p>
         <p class="form">
             <label>Description:</label>
-            <input type=""text" name="type"><br>
+            <input type="text" name="type"><br>
         </p>
         <p class="form">
             <label>Creatures:</label>
-            <input type=""text" name="type"><br>
+            <input type="text" name="type"><br>
         </p>
         <input type="submit" value="Create room">
     </form>
