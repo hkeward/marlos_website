@@ -1,8 +1,10 @@
 package com.downloadablezebras;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
+@XmlRootElement
 @Entity
 @Table(name = "rooms", schema = "marlos")
 public class RoomsEntity {
@@ -18,6 +20,24 @@ public class RoomsEntity {
     private String tags;
     private String quality;
     private String description;
+
+    public RoomsEntity() {
+    }
+
+    public RoomsEntity(int roomId, String roomName, Integer timeEstimate, String rating, String difficulty, Byte grid, Byte darkvision, String type, String environment, String tags, String quality, String description) {
+        this.roomId = roomId;
+        this.roomName = roomName;
+        this.timeEstimate = timeEstimate;
+        this.rating = rating;
+        this.difficulty = difficulty;
+        this.grid = grid;
+        this.darkvision = darkvision;
+        this.type = type;
+        this.environment = environment;
+        this.tags = tags;
+        this.quality = quality;
+        this.description = description;
+    }
 
     @Id
     @Column(name = "room_id")
