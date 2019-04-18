@@ -1,5 +1,77 @@
- /* Make forms line up */
-form { display: table;      }
-p.form     { display: table-row;  }
-label { display: table-cell; }
-input { display: table-cell; }
+ul.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: darkslategrey;
+    color: aliceblue;
+}
+
+li.navbar {
+    float: left;
+    width: 33.33%;
+    font-weight: bold;
+}
+
+a.navbar {
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    text-align: center;
+}
+a {
+    color: cyan;
+}
+a:hover {
+    color: cyan;
+}
+
+a:visited {
+    color: cyan;
+}
+
+a:active {
+    color: cyan;
+}
+
+li.navbar a:hover {
+    background-color: cadetblue;
+    color: aliceblue;
+}
+
+li.navbar a:visited {
+    color: white;
+}
+
+li.active {
+    background-color: cadetblue;
+    color: aliceblue;
+}
+
+li.visited {
+    color: aliceblue;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #4c20b2;
+    color: white;
+    font-size: 1vw;
+}
+
+h1.title {
+    font-size: 5.5vw;
+}
+
+h1.subtitle {
+    font-size: 3vw;
+}
+
+#description {
+    white-space: pre-wrap;
+}
+
+.fa {
+    float: left;
+    padding: 10px;
+}
