@@ -1,4 +1,9 @@
+# Backend
 .idea
-marlos/target
-marlos/.idea
-marlos/*.iml
+marlos-back/target
+marlos-back/.idea
+marlos-back/*.iml
+
+# Frontend
+marlos-front/node_modules
+marlos-front/dist
