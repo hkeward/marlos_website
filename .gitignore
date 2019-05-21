@@ -1,4 +1,4 @@
 .idea
 marlos/target
 marlos/.idea
-marlos/.*.iml
+marlos/*.iml
