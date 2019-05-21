@@ -40,6 +40,7 @@ public class RoomsEntity {
     }
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "room_id")
     public int getRoomId() {
         return roomId;
