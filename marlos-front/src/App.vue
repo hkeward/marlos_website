@@ -2,22 +2,20 @@
 
 <template>
   <div id="app" class="small-container">
-    <h1>Rooms</h1>
+    <navbar />
 
-    <room-list v-bind:rooms="rooms" @delete:room="deleteRoom" @edit:room="editRoom" />
-    <room-form @add:room="addRoom" />
+<!--     <room-form @add:room="addRoom" /> -->
+    <router-view :rooms="rooms" /> 
   </div>
 </template>
 
 <script>
-import RoomList from '@/components/RoomList.vue'
-import RoomForm from '@/components/RoomForm.vue'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'app',
   components: {
-    RoomList,
-    RoomForm,
+    Navbar,
   },
 
   data() {
@@ -40,63 +38,9 @@ export default {
         console.error(err.message);
       }
     },
-
-    async addRoom(room) {
-      try {
-        const response = await fetch('https://heatherward.dev/rest/rooms', {
-          method: 'POST',
-          body: JSON.stringify(room),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        });
-        const data = await response;
-        const roomId = await data.json();
-        if (data.status === 200) {
-          const newRoom = { ...room, roomId };
-          this.rooms = [...this.rooms, newRoom];
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    async deleteRoom(id) {
-      try {
-        const response = await fetch(`https://heatherward.dev/rest/rooms/${id}`, {
-          method: 'DELETE'
-        });
-        const data = await response;
-        if (data.status == 200) {
-          this.rooms = this.rooms.filter(room =>
-          room.roomId !== id);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    async editRoom(id, updatedRoom) {
-      try {
-        const response = await fetch(`https://heatherward.dev/rest/rooms/${id}`, {
-          method: 'PUT',
-          body: JSON.stringify(updatedRoom),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        })
-        const data = await response;
-        if (data.status === 400) {
-          const errorMessage = await data.json();
-          console.error(errorMessage);
-        } else if (data.status === 200) {
-          this.rooms = this.rooms.map(room => 
-            room.roomId === id ? updatedRoom : room);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-
-    },
-
   },
 }
+
 </script>
 
 <style>
@@ -104,8 +48,9 @@ export default {
     background: #009435;
     border: 1px solid #009435;
   }
-
-  .small-container {
-    max-width: 680px;
+  body {
+    font-family: 'Raleway', sans-serif;
+    color: black;
   }
+
 </style>
