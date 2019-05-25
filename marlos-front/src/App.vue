@@ -44,13 +44,4 @@ export default {
 </script>
 
 <style>
-  button {
-    background: #009435;
-    border: 1px solid #009435;
-  }
-  body {
-    font-family: 'Raleway', sans-serif;
-    color: black;
-  }
-
 </style>

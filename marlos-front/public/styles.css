@@ -1,0 +1,39 @@
+/* Remove default margin */
+html, body {
+	margin: 0;
+}
+
+html {
+	font-size: 1rem;
+}
+
+body {
+	font-size: 1rem;
+	font-family: 'Raleway', sans-serif;
+	background: #1F2430;
+	color: white;
+}
+
+a:hover, a:visited {
+	color: #A4CDD0;
+}
+
+
+
+
+button {
+	font-size: 1.5rem;
+	background: #1F1A6C;
+	border: 1px solid white;
+	color: white;
+	border-radius: 4px;
+}
+
+th {
+	border-bottom: 1px solid white;
+}
+
+td {
+	padding: 5px 10px 5px 10px;
+}
+

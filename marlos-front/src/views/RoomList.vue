@@ -2,7 +2,7 @@
 
 <template>
     <div id="room-list">
-        <button><router-link :to="{ name: 'create', params: { rooms : rooms } }">Create new room</router-link></button>
+        <router-link :to="{ name: 'create', params: { rooms : rooms } }" tag="button">Create new room</router-link>
         <p v-if="rooms.length < 1" class="empty-table">
             No rooms in database
         </p>

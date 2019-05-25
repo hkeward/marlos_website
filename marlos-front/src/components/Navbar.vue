@@ -3,9 +3,9 @@
 <template>
 	<div id="navbar">
 		<nav>
-			<router-link to="/" class="navbar">Home</router-link>
-			<router-link to="/about" class="navbar">About</router-link>
-			<router-link to="/rooms" class="navbar">Rooms</router-link>
+			<router-link to="/" class="navbar home" tag="button">Home</router-link>
+			<router-link to="/about" class="navbar" tag="button">About</router-link>
+			<router-link to="/rooms" class="navbar" tag="button">Rooms</router-link>
 		</nav>
 	</div>
 </template>
@@ -18,38 +18,22 @@
 </script>
 
 <style scoped>
-a.navbar {
-	float: left;
-    background-color: darkslategrey;
-	width: 33.33%;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-}
-nav {
-	color: black;
-    display: block;
+#navbar {
+	display: block;
+	background-color: #1F1A6C;
 }
 
-a.navbar {
-    padding: 8px 16px;
+nav button {
+	font-size: 1.5rem;
+	background: #514BB1;
+	border: 1px solid #514BB1;
+	color: white;
+	border-radius: 4px;
+	margin: 12px 5px 12px 5px;
+	padding: 5px;
 }
 
-a:hover {
-    background-color: cadetblue;
-    color: aliceblue;
-}
-
-a:visited {
-    color: white;
-}
-
-a:active {
-    background-color: cadetblue;
-    color: aliceblue;
-}
-
-a:visited {
-    color: aliceblue;
+button:focus {
+	outline: 0;
 }
 </style>
