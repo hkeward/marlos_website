@@ -57,6 +57,14 @@ button:focus, button:active {
 /* Tables */
 table {
 	border-collapse: collapse;
+	width: 100%;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+}
+
+th, td {
+	text-align: left;
+	padding: 0.5rem;
 }
 
 th {
