@@ -2,7 +2,8 @@
 
 <template>
     <div id="room-list">
-        <router-link :to="{ name: 'create', params: { rooms : rooms } }" tag="button">Create new room</router-link>
+        <h1>All Rooms</h1>
+        <router-link :to="{ name: 'create', params: { rooms : rooms } }" tag="button" id="create-room">Create new room</router-link>
         <p v-if="rooms.length < 1" class="empty-table">
             No rooms in database
         </p>
@@ -74,7 +75,27 @@
 </script>
 
 <style scoped>
-button {
-  margin: 10px 0 10px 0;
+
+#room-list {
+    width: 100%;
 }
+
+h1 {
+    display: inline-block;
+}
+
+#create-room {
+    display: inline-block;
+    float: right;
+    background: #AAC97A;
+    border-color: #AAC97A;
+    color: #1F2430;
+    font-weight: 8000;
+}
+
+#create-room:hover {
+    background: #1F2430;
+    color: white;
+}
+
 </style>

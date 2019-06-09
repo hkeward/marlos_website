@@ -1,32 +1,62 @@
 /* Remove default margin */
 html, body {
 	margin: 0;
+	height: 100%;
 }
 
 html {
 	font-size: 1rem;
+	box-sizing: border-box;
 }
 
 body {
-	font-size: 1rem;
+	font-size: 1.3rem;
 	font-family: 'Raleway', sans-serif;
-	background: #1F2430;
+	background: #4C5169;
 	color: white;
 }
 
+.container {
+	width: 80%;
+	padding: 0 1rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Links */
 a:hover, a:visited {
-	color: #A4CDD0;
+	color: white;
 }
 
-
-
-
+/* Buttons */
 button {
-	font-size: 1.5rem;
-	background: #1F1A6C;
-	border: 1px solid white;
+	display: inline-block;
+	font-weight: 600;
+	background: #7992C4;
+	border: 1px solid #7992C4;
 	color: white;
-	border-radius: 4px;
+	border-radius: 3px;
+	transition-duration: 0.4s;
+	padding: .75rem 1.25rem;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 1;
+}
+
+button:hover {
+	border: 1px solid #1F2430;
+	background: #1F2430;
+	cursor: pointer;
+}
+
+button:focus, button:active {
+	outline: 0;
+	border: 1px solid #4D489C;
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
 }
 
 th {
@@ -37,3 +67,21 @@ td {
 	padding: 5px 10px 5px 10px;
 }
 
+/* Forms */
+[type=color], [type=date], [type=datetime], [type=datetime-local], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=url], [type=week], [type=time], select, textarea {
+	overflow: auto;
+	height: auto;
+	display: block;
+	border: 1px solid #dedede;
+	background: #6D7392;
+	border-radius: 4px;
+	padding: .75rem;
+	outline: none;
+	margin-bottom: .5rem;
+	font-size: inherit;
+	width: 100%;
+	max-width: 100%;
+	line-height: 1;
+	font-family: 'Raleway', sans-serif;
+	color: white;
+}

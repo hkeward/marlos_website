@@ -1,6 +1,7 @@
 <template>
 	<div class="home">
-		<p>Hello</p>
+		<h1>Hello</h1>
+		<p>This is the landing page! Welcome.</p>
 	</div>
 </template>
 
