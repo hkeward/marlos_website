@@ -4,9 +4,8 @@
   <div id="app">
     <navbar />
 
-<!--     <room-form @add:room="addRoom" /> -->
     <div class="container">
-      <router-view :rooms="rooms" @add:room="addRoom" @delete:room="removeRoom" /> 
+      <router-view :rooms="rooms" @add:room="addRoom" @delete:room="deleteRoom" /> 
     </div>
   </div>
 </template>
@@ -40,9 +39,10 @@ export default {
         console.error(err.message);
       }
     },
-    removeRoom(id) {
+    deleteRoom(id) {
       this.rooms = this.rooms.filter(room => room.roomId !== id);
     },
+
     async addRoom(room) {
       try {
         const response = await fetch('https://heatherward.dev/rest/rooms', {

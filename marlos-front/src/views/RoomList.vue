@@ -2,12 +2,16 @@
 
 <template>
     <div id="room-list">
-        <h1>All Rooms</h1>
-        <div id="interact-buttons">
-            <button v-for="tag in tagFilter" v-bind:key="tagFilter.indexOf(tag)" @click="removeFilter(tag)" class="remove-filter-button"> 
-                {{ "❌ " + tag }}
-            </button>
-            <router-link :to="{ name: 'create', params: { rooms : rooms } }" tag="button" id="create-room">Create new room</router-link>
+        <div id="header-info">
+            <div class="title">
+                <h1>All Rooms</h1>
+            </div>
+            <div id="interact-buttons">
+                <button v-for="tag in tagFilter" v-bind:key="tagFilter.indexOf(tag)" @click="removeFilter(tag)" class="filter-button"> 
+                    {{ "❌ " + tag }}
+                </button>
+                <router-link :to="{ name: 'create', params: { rooms : rooms } }" tag="button" id="create-room">Create new room</router-link>
+            </div>
         </div>
         <p v-if="rooms.length < 1" class="empty-table">
             No rooms in database
@@ -84,22 +88,26 @@
 </script>
 
 <style scoped>
-
-h1 {
-    display: inline-block;
+#header-info {
+    display: flex;
+    justify-content: space-between;
 }
 
 #interact-buttons {
-    float: right;
+    margin: 30px 0 0 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#interact-buttons button {
+    margin: 30px 0 10px 5px;
 }
 
 #create-room {
-    display: inline-block;
-    float: right;
     background: #AAC97A;
     border-color: #AAC97A;
     color: #1F2430;
-    font-weight: 8000;
+    margin: 30px 0 10px 5px;
 }
 
 #create-room:hover {
@@ -107,8 +115,13 @@ h1 {
     color: white;
 }
 
+.title {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .room-button {
-    width: 30%;
+    width: 15rem;
     margin-bottom: 0;
 }
 
@@ -121,9 +134,6 @@ h1 {
 
 .tag-button:hover {
     background: #1F2430;
-}
-
-.remove-filter-button {
 }
 
 </style>

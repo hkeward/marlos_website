@@ -8,7 +8,7 @@
 			<router-link to="/rooms" class="navbar" tag="button">Rooms</router-link>
 		</div>
 		<div id="login-signup" :helpertext="helpertext">
-			{{ helpertext }}
+			<p class="helpertext"> {{ helpertext }} </p>
 			<button id="sign-up" @click="placeholderText()">Sign up</button>
 			<button id="login" @click="placeholderText()">Login</button>
 		</div>
@@ -41,10 +41,9 @@
 <style scoped>
 #navbar {
 	border-top: 5px solid #7992C4;
-	display: block;
+	display: flex;
 	background-color: #1F2430;
-	width: 100%;
-	overflow: auto;
+	justify-content: space-between;
 }
 
 button {
@@ -54,7 +53,7 @@ button {
 	margin: 12px 5px 12px 5px;
 }
 
-button:focus, button:active, .router-link-exact-active {
+button:focus, button:active {
 	outline: 0;
 }
 
@@ -63,14 +62,14 @@ button:focus, button:active, .router-link-exact-active {
 	cursor: pointer;
 }
 
-#common {
-	display: inline-block;
+#login-signup {
+	padding-right: 0.2rem;
+	display: flex;
+	justify-content: flex-end;
 }
 
-#login-signup {
-	display: inline-block;
-	float: right;
-	padding-right: 0.2rem;
+.helpertext {
+	font-size: 1.2rem;
 }
 
 #login {
