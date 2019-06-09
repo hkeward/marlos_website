@@ -2,6 +2,7 @@
 
 <template>
     <div id="room-form">
+        <h1>Room Form</h1>
         <form @submit.prevent="handleSubmit">
             <label>Room name</label>
             <input 
@@ -38,9 +39,11 @@
 <script>
     export default {
         name: 'room-form',
+
         props: {
             rooms: Array,
         },
+
         data() {
             return {
                 room: {
@@ -53,6 +56,7 @@
                 success: false,
             }
         },
+        
         methods: {
             handleSubmit() {
                 this.submitting = true;
@@ -82,9 +86,9 @@
         computed: {
             invalidRoomName() {
                return (this.room.roomName === '');
+           },
         },
-    },
-}
+    }
 
 </script>
 

@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import RoomList from './views/RoomList.vue'
+import About from './views/About.vue'
+import RoomView from './views/RoomView.vue'
+import RoomForm from './views/RoomForm.vue'
 
 Vue.use(Router)
 
@@ -10,16 +14,31 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: '/',
       component: Home
+    },
+    {
+      path: '/rooms',
+      name: 'rooms',
+      component: RoomList
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      component: About
+    },
+    // 'create' has to go before 'room' or it will try to assign a room id of 'create'
+    {
+      path: '/rooms/create',
+      name: 'create',
+      component: RoomForm,
+      props: true
+    },
+    {
+      path: '/rooms/:id',
+      name: 'room',
+      component: RoomView,
+      props: true
+    },
   ]
 })
