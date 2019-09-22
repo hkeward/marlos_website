@@ -1,3 +1,6 @@
+# Config
+config
+
 # Backend
 .idea
 marlos-back/target
