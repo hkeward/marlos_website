@@ -174,6 +174,7 @@ export default {
 		return {
 			editing: null,
 			info_expanded: false,
+			keycloak_token: this.$root.keycloak.token
 		}
 	},
 
@@ -218,7 +219,8 @@ export default {
 		async deleteRoom(id) {
 			try {
 				const response = await fetch(`https://heatherward.dev/rest/rooms/${id}`, {
-					method: 'DELETE'
+					method: 'DELETE',
+					headers: {'Authorization': 'Bearer ' + this.keycloak_token}
 				});
 				const data = await response;
 				if (data.status == 200) {
@@ -235,7 +237,8 @@ export default {
 				const response = await fetch(`https://heatherward.dev/rest/rooms/${updatedRoom.roomId}`, {
 					method: 'PUT',
 					body: JSON.stringify(updatedRoom),
-					headers: { 'Content-type': 'application/json; charset=UTF-8' },
+					headers: { 'Content-type': 'application/json; charset=UTF-8',
+								'Authorization': 'Bearer ' + this.keycloak_token}
 				})
 				const data = await response;
 				if (data.status === 400) {
