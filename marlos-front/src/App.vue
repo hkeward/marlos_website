@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       rooms: [],
+      keycloak_token: this.$root.keycloak.token
     }
   },
 
@@ -32,13 +33,17 @@ export default {
   methods: {
     async getRoomData() {
       try {
-        const response = await fetch("https://heatherward.dev/rest/rooms");
+        console.log(this.keycloak_token);
+        const response = await fetch("https://heatherward.dev/rest/rooms", {
+          headers: {'Authorization': 'Bearer ' + this.keycloak_token}
+        });
         const data = await response.json();
         this.rooms = data;
       } catch (err) { 
         console.error(err.message);
       }
     },
+
     deleteRoom(id) {
       this.rooms = this.rooms.filter(room => room.roomId !== id);
     },
@@ -48,7 +53,8 @@ export default {
         const response = await fetch('https://heatherward.dev/rest/rooms', {
           method: 'POST',
           body: JSON.stringify(room),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+          headers: { 'Content-type': 'application/json; charset=UTF-8',
+                      'Authorization': 'Bearer ' + this.keycloak_token}
         });
         const data = await response;
         const roomId = await data.json();
