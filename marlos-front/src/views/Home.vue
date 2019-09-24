@@ -15,6 +15,14 @@
 		</h2>
 
 		<h3>
+			User scopes
+		</h3>
+
+		<p>
+			All users can view rooms; only admin users can create new rooms, edit, and delete rooms. Contact me to upgrade you to admin.
+		</p>
+
+		<h3>
 			Rooms
 		</h3>
 
@@ -41,18 +49,6 @@
 			</ul>
 		</p>
 
-		<br />
-
-		<h3>
-			Achtung
-		</h3>
-
-		<p>
-			Login is not currently functional! This means that literally any person on the internet can come in and delete the entire database. It's pretty unlikely that anyone will randomly find this page, but still -- until login becomes functional, **DO NOT PUT ANYTHING IN HERE THAT YOU DO NOT HAVE BACKUPS OF ELSEWHERE!!**
-			<br />
-			<br />
-			I am currently making a backup of the rooms database every hour, so if something is lost it's possible I still have it; let me know ASAP and I will try to retrieve it. Basically don't use this website 'for real' though until I have implemented login.
-		</p>
 	</div>
 </template>
 
