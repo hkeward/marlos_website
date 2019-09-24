@@ -19,7 +19,7 @@ keycloak
     if (!auth) {
       window.location.reload();
     } else {
-      console.log("Authenticated " + keycloak.token);
+      console.log("Authenticated");
     }
 
     new Vue({

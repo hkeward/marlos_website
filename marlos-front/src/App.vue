@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       rooms: [],
+      keycloak: this.$root.keycloak,
       keycloak_token: this.$root.keycloak.token
     }
   },
@@ -33,7 +34,6 @@ export default {
   methods: {
     async getRoomData() {
       try {
-        console.log(this.keycloak_token);
         const response = await fetch("https://heatherward.dev/rest/rooms", {
           headers: {'Authorization': 'Bearer ' + this.keycloak_token}
         });

@@ -10,7 +10,7 @@
                 <button v-for="tag in tagFilter" v-bind:key="tagFilter.indexOf(tag)" @click="removeFilter(tag)" class="filter-button"> 
                     {{ "❌ " + tag }}
                 </button>
-                <router-link :to="{ name: 'create', params: { rooms : rooms } }" tag="button" id="create-room">Create new room</router-link>
+                <router-link v-if="this.userIsAdmin" :to="{ name: 'create', params: { rooms : rooms } }" tag="button" id="create-room">Create new room</router-link>
             </div>
         </div>
         <p v-if="rooms.length < 1" class="empty-table">
@@ -59,6 +59,7 @@
         data() {
             return {
                 tagFilter: [],
+                userIsAdmin: this.$root.keycloak.hasRealmRole('admin')
             }
         },
 

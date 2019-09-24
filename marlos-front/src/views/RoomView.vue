@@ -20,7 +20,7 @@
 
 			</div>
 
-			<div v-if="editing === room.roomId" class="edit-bar">
+			<div v-if="editing === room.roomId && this.userIsAdmin" class="edit-bar">
 
 				<button @click="editRoom(room)" class="save-button">
 					Save
@@ -32,7 +32,7 @@
 
 			</div>
 
-			<div v-else class="edit-bar">
+			<div v-else-if="this.userIsAdmin" class="edit-bar">
 
 				<button @click="editMode(room)" class="edit-button">
 					Edit
@@ -41,6 +41,9 @@
 				<button @click="deleteRoom(room.roomId)" class="delete-button">
 					Delete
 				</button>
+			</div>
+
+			<div v-else class="edit-bar">
 			</div>
 		</div>
 
@@ -174,6 +177,7 @@ export default {
 		return {
 			editing: null,
 			info_expanded: false,
+			userIsAdmin: this.$root.keycloak.hasRealmRole('admin'),
 			keycloak_token: this.$root.keycloak.token
 		}
 	},

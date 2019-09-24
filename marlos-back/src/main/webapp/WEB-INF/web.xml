@@ -6,6 +6,7 @@
 
     <security-constraint>
         <web-resource-collection>
+            <web-resource-name>all-requests</web-resource-name>
             <url-pattern>/rest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -14,6 +15,28 @@
         </auth-constraint>
     </security-constraint>
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>create-room</web-resource-name>
+            <url-pattern>/rest/rooms</url-pattern>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>update-delete-room</web-resource-name>
+            <url-pattern>/rest/rooms/*</url-pattern>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 
     <security-role>
         <role-name>admin</role-name>
