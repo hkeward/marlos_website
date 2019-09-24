@@ -10,7 +10,7 @@
 		<div id="login-signup" :helpertext="helpertext">
 <!--			<p class="helpertext"> {{ helpertext }} </p>-->
 <!--			<button id="sign-up" @click="placeholderText()">Sign up</button>-->
-<!--			<button id="login" @click="placeholderText()">Login</button>-->
+			<p id="user-banner">Welcome {{this.keycloak.idTokenParsed.preferred_username}}</p>
 			<button id="log-out" @click="logout()">Log out</button>
 		</div>
 	</div>
@@ -37,6 +37,9 @@
 			},
 			logout() {
 				this.keycloak.logout();
+			},
+			whoami() {
+				console.log(this.keycloak.idTokenParsed.given_name);
 			}
 		},
 	}
@@ -93,6 +96,10 @@ button:focus, button:active {
 
 #sign-up:hover {
 	background: #7992C4;
+}
+
+#user-banner {
+	margin-right: 2px;
 }
 
 </style>
