@@ -8,9 +8,10 @@
 			<router-link to="/rooms" class="navbar" tag="button">Rooms</router-link>
 		</div>
 		<div id="login-signup" :helpertext="helpertext">
-			<p class="helpertext"> {{ helpertext }} </p>
-			<button id="sign-up" @click="placeholderText()">Sign up</button>
-			<button id="login" @click="placeholderText()">Login</button>
+<!--			<p class="helpertext"> {{ helpertext }} </p>-->
+<!--			<button id="sign-up" @click="placeholderText()">Sign up</button>-->
+<!--			<button id="login" @click="placeholderText()">Login</button>-->
+			<button id="log-out" @click="logout()">Log out</button>
 		</div>
 	</div>
 </template>
@@ -22,6 +23,7 @@
 		data() {
 			return {
 				helpertext: "",
+				keycloak: this.$root.keycloak
 			}
 		},
 
@@ -33,6 +35,9 @@
 					this.helpertext = "";
 				}
 			},
+			logout() {
+				this.keycloak.logout();
+			}
 		},
 	}
 
@@ -82,7 +87,7 @@ button:focus, button:active {
 	border: 1px solid #6D7392;
 }
 
-#sign-up {
+#sign-up,#log-out {
 	border: 1px solid #7992C4;
 }
 
