@@ -1,5 +1,5 @@
 <template>
-	<div class="room" :roomid="id">
+	<div v-if="roomFound" class="room" :roomid="id">
 		<div id="room-header">
 			<div id="title-info">
 
@@ -156,7 +156,9 @@
 
 		</div>
 	</div>
-
+    <div v-else>
+        <h1> No rooms with ID {{ this.$route.params.id }} found.</h1>
+    </div>
 </template>
 
 <script>
@@ -171,6 +173,8 @@ export default {
 
 	data() {
 		return {
+            currentRoom: {},
+            roomFound: true,
 			info_expanded: false,
 			updatedRoom: {}
 		}
@@ -196,21 +200,20 @@ export default {
 		]),
 
 		async getCurrentRoom (roomId) {
-			console.log(this.rooms);
 			if (roomId in this.rooms) {
 				this.currentRoom = this.rooms[roomId];
-				return;
-			}
-			try {
-				const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
-					headers: {'Authorization': 'Bearer ' + this.keycloak.token}
-				});
-				const roomData = await response.json();
-				this.currentRoom = roomData;
-			} catch (err) {
-				// TODO add a page for 'no rooms with this id'
-				console.error(err.message);
-			}
+			} else {
+                try {
+                    const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
+                    headers: {'Authorization': 'Bearer ' + this.keycloak.token}
+                });
+                    const roomData = await response.json();
+                    this.currentRoom = roomData;
+                } catch (err) {
+                    this.roomFound = false;
+                    console.error(err.message);
+                }
+            }
 		},
 
 		toggleInfo() {
@@ -250,8 +253,7 @@ export default {
 		},
 	},
 
-	mounted() {
-		console.log(this.$route.params.id);
+	created() {
 		this.getCurrentRoom(this.$route.params.id);
 	},
 }
