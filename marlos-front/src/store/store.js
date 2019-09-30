@@ -17,8 +17,7 @@ export const store = new Vuex.Store({
         },
         keycloak: {},
         // TODO temp
-        rooms: {1: {'roomId': 1, 'roomName': 'First room', 'tags': 'tag', 'type': 'Fighting', 'description': 'This is the description field.'},
-                2: {'roomId': 2, 'roomName': 'Second room', 'tags': 'no tags here', 'type': 'RP', 'description': 'YES HELLO'}},
+        rooms: {},
         // end temp
         editing: null,
         isAdminUser: false,
@@ -58,10 +57,7 @@ export const store = new Vuex.Store({
                     headers: {'Authorization': 'Bearer ' + state.keycloak.token}
                 });
                 const data_array = await response.json();
-                const data_json = data_array.reduce((new_object, item) => {
-                    new_object[item['roomId']] = item;
-                    return new_object;
-                });
+                const data_json = Object.assign({}, ...(data_array.map(item => ({ [item['roomId']]: item }) )));
                 commit('SET_ROOMS', data_json);
             } catch (err) {
                 console.error(err.message);
