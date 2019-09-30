@@ -63,7 +63,7 @@ export default {
 button {
 	background: #1F2430;
 	color: white;
-	border: none;
+    border: 1px solid transparent;
 	margin: 12px 5px 12px 5px;
 }
 
