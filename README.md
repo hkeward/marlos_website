@@ -29,12 +29,19 @@ Will serve on port 5000.
 
 ### Testing
 
-To build:
+View changes in real time:
+
+`npm run serve -- --port 5500 &`
+
+When changes are saved in Webstorm, changed files are automatically uploaded to the web server. Changes can then be seen at `testing.heatherward.dev`. This is to get around the issue of CORS/requesting things from localhost -> the real backend. Offline development is still problematic; this will hopefully be resolved when I dockerize the components and I can actually run the full stack locally.
+
+Be aware that testing uses the same database as production; changes are real!
+
+
+Build production version (of test deployment):
 
 `npm run build -- --dest dist-testing`
 
-To serve:
+Serve production version (of test deployment):
 
-`serve -l 5500 dist-testing`
-
-Will serve on port 5500 (testing.heatherward.dev)
+`serve -l 5500 dist-testing &`
