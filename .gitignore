@@ -10,3 +10,4 @@ marlos-back/*.iml
 # Frontend
 marlos-front/node_modules
 marlos-front/dist
+marlos-front/dist-testing
