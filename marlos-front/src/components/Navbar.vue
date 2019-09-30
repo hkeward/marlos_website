@@ -17,14 +17,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'navbar',
 
 	data() {
 		return {
-			helpertext: "",
-			keycloak: this.$root.keycloak
+			helpertext: ""
 		}
+	},
+
+	computed: {
+		...mapState([
+				'keycloak'
+		])
 	},
 
 	methods: {

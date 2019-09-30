@@ -4,7 +4,7 @@ import * as Keycloak from 'keycloak-js'
 import router from '../router'
 
 // Mutations
-import { SET_ROOMS, SET_CURRENT_ROOM, ADD_ROOM, EDIT_MODE, SAVE_ROOM, DELETE_ROOM, CONFIGURE_KEYCLOAK, SET_USER_ROLE } from './mutations'
+import { SET_ROOMS, ADD_ROOM, EDIT_MODE, SAVE_ROOM, DELETE_ROOM, CONFIGURE_KEYCLOAK, SET_USER_ROLE } from './mutations'
 
 Vue.use(Vuex);
 
@@ -20,7 +20,6 @@ export const store = new Vuex.Store({
         rooms: {1: {'roomId': 1, 'roomName': 'First room', 'tags': 'tag', 'type': 'Fighting', 'description': 'This is the description field.'},
                 2: {'roomId': 2, 'roomName': 'Second room', 'tags': 'no tags here', 'type': 'RP', 'description': 'YES HELLO'}},
         // end temp
-        currentRoom: {},
         editing: null,
         isAdminUser: false,
         fetched: false
@@ -29,9 +28,6 @@ export const store = new Vuex.Store({
         [SET_ROOMS] (state, rooms) {
             state.fetched = true;
             state.rooms = rooms;
-        },
-        [SET_CURRENT_ROOM] (state, currentRoom) {
-          state.currentRoom = currentRoom;
         },
         [ADD_ROOM] (state, newRoom) {
             state.rooms[newRoom.roomId] = newRoom;
@@ -68,22 +64,6 @@ export const store = new Vuex.Store({
                 });
                 commit('SET_ROOMS', data_json);
             } catch (err) {
-                console.error(err.message);
-            }
-        },
-        async getCurrentRoom ({commit, state}, roomId) {
-            if (roomId in state.rooms) {
-                commit('SET_CURRENT_ROOM', state.rooms[roomId]);
-                return;
-            }
-            try {
-                const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
-                    headers: {'Authorization': 'Bearer ' + state.keycloak.token}
-                });
-                const roomData = await response.json();
-                commit('SET_CURRENT_ROOM', roomData);
-            } catch (err) {
-                // TODO add a page for 'no rooms with this id'
                 console.error(err.message);
             }
         },

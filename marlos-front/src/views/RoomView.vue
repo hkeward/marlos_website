@@ -178,7 +178,8 @@ export default {
 
 	computed: {
 		...mapState([
-				'currentRoom',
+				'keycloak',
+				'rooms',
 				'editing',
 				'isAdminUser'
 		])
@@ -186,7 +187,6 @@ export default {
 
 	methods: {
 		...mapActions([
-				'getCurrentRoom',
 				'editRoom',
 				'deleteRoom'
 		]),
@@ -194,6 +194,24 @@ export default {
 		...mapMutations([
 				'EDIT_MODE'
 		]),
+
+		async getCurrentRoom (roomId) {
+			console.log(this.rooms);
+			if (roomId in this.rooms) {
+				this.currentRoom = this.rooms[roomId];
+				return;
+			}
+			try {
+				const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
+					headers: {'Authorization': 'Bearer ' + this.keycloak.token}
+				});
+				const roomData = await response.json();
+				this.currentRoom = roomData;
+			} catch (err) {
+				// TODO add a page for 'no rooms with this id'
+				console.error(err.message);
+			}
+		},
 
 		toggleInfo() {
 			this.info_expanded = !this.info_expanded;
@@ -233,6 +251,7 @@ export default {
 	},
 
 	mounted() {
+		console.log(this.$route.params.id);
 		this.getCurrentRoom(this.$route.params.id);
 	},
 }
