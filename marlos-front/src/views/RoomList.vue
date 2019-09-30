@@ -81,7 +81,10 @@ export default {
             if (filterArray.length == 0) {
                 return this.rooms;
             } else {
-                return this.rooms.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
+                var rooms_array = Object.keys(this.rooms).map(key => {
+                    return this.rooms[key];
+                });
+                return rooms_array.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
             }
         },
         ...mapState([
