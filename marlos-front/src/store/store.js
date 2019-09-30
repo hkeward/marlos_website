@@ -136,7 +136,10 @@ export const store = new Vuex.Store({
                             resolve();
                         }
                     })
-                })
+                    .error(e => {
+                   reject(e);
+                });
+            })
         }
     }
 });

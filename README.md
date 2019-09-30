@@ -29,7 +29,7 @@ Will serve on port 5000.
 
 ### Testing
 
-View changes in real time:
+View changes in real time -- start the development server. Recommended to start this in a screen session so it can be detached from.
 
 `npm run serve -- --port 5500 &`
 
