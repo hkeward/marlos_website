@@ -16,9 +16,7 @@ export const store = new Vuex.Store({
             clientId: "marlos-front"
         },
         keycloak: {},
-        // TODO temp
         rooms: {},
-        // end temp
         editing: null,
         isAdminUser: false,
         fetched: false
@@ -83,11 +81,6 @@ export const store = new Vuex.Store({
                 }
             } catch(error) {
                 console.error(error);
-                // TODO temp vv
-                room['roomId'] = 3;
-                commit('ADD_ROOM', room);
-                router.push("/rooms");
-                // TODO end temp
             }
         },
         async editRoom ({ commit, state }, updatedRoom) {
@@ -110,9 +103,6 @@ export const store = new Vuex.Store({
                 }
             } catch (error) {
                 console.error(error);
-                // TODO temp
-                commit('SAVE_ROOM', updatedRoom);
-                commit('EDIT_MODE', false);
             }
         },
         async deleteRoom({ commit, state }, roomId) {
@@ -127,10 +117,6 @@ export const store = new Vuex.Store({
                   router.push("/rooms");
               }
           } catch (error) {
-              // TODO temp vv
-              commit('DELETE_ROOM', roomId);
-              router.push("/rooms");
-              //  TODO end temp
               console.error(error);
           }
         },
