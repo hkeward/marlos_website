@@ -67,6 +67,7 @@ export const store = new Vuex.Store({
                 console.error(err.message);
             }
         },
+
         async addRoom ({ commit, state }, room) {
             try {
                 const response = await fetch('https://heatherward.dev/rest/rooms', {
@@ -139,14 +140,18 @@ export const store = new Vuex.Store({
         },
         initializeKeycloak ({ commit, state }) {
             commit('CONFIGURE_KEYCLOAK');
-            state.keycloak.init({onLoad: "login-required"})
-                .success(auth => {
-                    if (!auth) {
-                        window.location.reload();
-                    } else {
-                        console.log("Authenticated");
-                        commit('SET_USER_ROLE');
-                    }
+            return new Promise(function(resolve, reject) {
+                state.keycloak.init({onLoad: "login-required"})
+                    .success(auth => {
+                        if (!auth) {
+                            window.location.reload();
+                            reject();
+                        } else {
+                            console.log("Authenticated");
+                            commit('SET_USER_ROLE');
+                            resolve();
+                        }
+                    })
                 })
         }
     }
