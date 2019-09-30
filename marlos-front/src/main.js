@@ -1,35 +1,31 @@
 import Vue from "vue";
+import Vuex from 'vuex';
 import App from "./App.vue";
 import router from "./router";
-import * as Keycloak from "keycloak-js";
+import { store } from './store/store';
 
 Vue.config.productionTip = false;
+Vue.use(Vuex);
 
-let keycloakConfig = {
-  realm: "marlos",
-  url: "https://keycloak.heatherward.dev/auth",
-  clientId: "marlos-front"
+// store.dispatch('initializeKeycloak')
+//     .then(() => {
+//         new Vue({
+//             router,
+//             store,
+//             render: h => h(App)
+//         }).$mount("#app");
+//     });
+
+new Vue({
+    router,
+    store,
+    render: h => h(App)
+}).$mount("#app");
+
+
+store.state.keycloak = {
+    token: 'hithereIamfake'
 };
 
-let keycloak = new Keycloak(keycloakConfig);
+store.state.isAdminUser = true;
 
-keycloak
-  .init({ onLoad: "login-required" })
-  .success(auth => {
-    if (!auth) {
-      window.location.reload();
-    } else {
-      console.log("Authenticated");
-    }
-
-    new Vue({
-      router,
-      data: {
-        keycloak: keycloak
-      },
-      render: h => h(App)
-    }).$mount("#app");
-  })
-  .error(() => {
-    console.log("Authentication failed");
-  });

@@ -1,44 +1,44 @@
 <template>
-	<div class="room" :roomid="id" :room="room">
+	<div class="room" :roomid="id">
 		<div id="room-header">
 			<div id="title-info">
 
-				<h1 v-if="editing === room.roomId" v-text="room.roomName" @blur="onEdit" class="room-name editing" contenteditable="true">
+				<h1 v-if="editing === currentRoom.roomId" v-text="currentRoom.roomName" @blur="onEdit" class="room-name editing" contenteditable="true">
 				</h1>
 
 				<h1 v-else class="room-name" contenteditable="false">
-					{{ room.roomName }}
+					{{ currentRoom.roomName }}
 				</h1>
 
 
-				<h3 v-if="editing === room.roomId" v-text="room.type" @blur="onEdit" class="type editing" contenteditable="true">
+				<h3 v-if="editing === currentRoom.roomId" v-text="currentRoom.type" @blur="onEdit" class="type editing" contenteditable="true">
 				</h3>
 
 				<h3 v-else class="type" contenteditable="false">
-					{{ room.type }}
+					{{ currentRoom.type }}
 				</h3>
 
 			</div>
 
-			<div v-if="editing === room.roomId && this.userIsAdmin" class="edit-bar">
+			<div v-if="editing === currentRoom.roomId && isAdminUser" class="edit-bar">
 
-				<button @click="editRoom(room)" class="save-button">
+				<button @click="editRoom(currentRoom)" class="save-button">
 					Save
 				</button>
 
-				<button @click="cancelEdit(room)" class="muted-button">
+				<button @click="cancelEdit" class="muted-button">
 					Cancel
 				</button>
 
 			</div>
 
-			<div v-else-if="this.userIsAdmin" class="edit-bar">
+			<div v-else-if="isAdminUser" class="edit-bar">
 
-				<button @click="editMode(room)" class="edit-button">
+				<button @click="editMode(currentRoom)" class="edit-button">
 					Edit
 				</button>
 
-				<button @click="deleteRoom(room.roomId)" class="delete-button">
+				<button @click="deleteRoom(currentRoom.roomId)" class="delete-button">
 					Delete
 				</button>
 			</div>
@@ -48,23 +48,23 @@
 		</div>
 
 		<div id="more-info-section">
-			<div v-if="info_expanded === true" class="more-info">
+			<div v-if="info_expanded" class="more-info">
 
 				<button @click="toggleInfo" class="toggle-info">▼ Less</button>
 
-				<div v-if="editing === room.roomId" id="advanced-editing">
+				<div v-if="editing === currentRoom.roomId" id="advanced-editing">
 					<div id="center-container">
 						<div id="darkvision-grid">
 							<div id="darkvision">
 								<p>Darkvision required?</p>
-									<select v-model="room.darkvision">
+									<select v-model="currentRoom.darkvision">
 										<option value=1>Yes</option>
 										<option value=0>No</option>
 									</select>
 							</div>
 							<div id="grid">
 								<p>Grid required?</p>
-										<select v-model="room.grid">
+										<select v-model="currentRoom.grid">
 										<option value=1>Yes</option>
 										<option value=0>No</option>
 									</select>
@@ -88,10 +88,10 @@
 							</div>
 
 							<div id="textboxes">
-								<p v-text="room.rating" @blur="onEdit" class="rating editing" contenteditable="true"></p>
-								<p v-text="room.quality" @blur="onEdit" class="quality editing" contenteditable="true"></p>
-								<p v-text="room.difficulty" @blur="onEdit" class="difficulty editing" contenteditable="true"></p>
-								<p v-text="room.environment" @blur="onEdit" class="environment editing" contenteditable="true"></p>
+								<p v-text="currentRoom.rating" @blur="onEdit" class="rating editing" contenteditable="true"></p>
+								<p v-text="currentRoom.quality" @blur="onEdit" class="quality editing" contenteditable="true"></p>
+								<p v-text="currentRoom.difficulty" @blur="onEdit" class="difficulty editing" contenteditable="true"></p>
+								<p v-text="currentRoom.environment" @blur="onEdit" class="environment editing" contenteditable="true"></p>
 							</div>
 
 						</div>
@@ -101,7 +101,7 @@
 					</div>
 
 						<div id="tags">
-							Tags: {{ "#" + room.tags }}
+							Tags: {{ "#" + currentRoom.tags }}
 						</div>
 
 				</div>
@@ -111,36 +111,35 @@
 					<div id="center-container">
 						<div id="darkvision-grid">
 							<ul>
-								<li v-if="room.darkvision == 1" id="darkvision" contenteditable="false">Darkvision required</li>
-								<li v-if="room.grid == 1" id="grid" contenteditable="false">Grid required</li>
+								<li v-if="currentRoom.darkvision == 1" id="darkvision" contenteditable="false">Darkvision required</li>
+								<li v-if="currentRoom.grid == 1" id="grid" contenteditable="false">Grid required</li>
 							</ul>
 						</div>
 
 						<div class="rate-qual-diff">
-							<p v-if="room.rating">
-								Rating: {{ room.rating }}
+							<p v-if="currentRoom.rating">
+								Rating: {{ currentRoom.rating }}
 							</p>
-							<p v-if="room.quality">
-								Quality: {{ room.quality }}
+							<p v-if="currentRoom.quality">
+								Quality: {{ currentRoom.quality }}
 							</p>
-							<p v-if="room.difficulty">
-								Difficulty: {{ room.difficulty }}
+							<p v-if="currentRoom.difficulty">
+								Difficulty: {{ currentRoom.difficulty }}
 							</p>
-							<p v-if="room.environment">
-								Environment: {{ room.environment }}
+							<p v-if="currentRoom.environment">
+								Environment: {{ currentRoom.environment }}
 							</p>
 						</div>
 
 					</div>
 
 					<div id="tags">
-						Tags: {{ "#" + room.tags }}
+						Tags: {{ "#" + currentRoom.tags }}
 					</div>
 				</div>
 			</div>
 
 			<div v-else class="more-info">
-
 				<button @click="toggleInfo" class="toggle-info">► More info</button>
 
 			</div>
@@ -148,10 +147,12 @@
 
 		<div id="room-contents">
 
-			<p v-if="editing === room.roomId" v-text="room.description" @blur="onEdit" class="description editing" contenteditable="true">
+			<p v-if="editing === currentRoom.roomId" v-text="currentRoom.description" @blur="onEdit" class="description editing" contenteditable="true">
 			</p>
 
-			<p v-else v-text="room.description" class="description" contenteditable="false"></p>
+			<p v-else class="description" contenteditable="false">
+{{ currentRoom.description }}
+			</p>
 
 		</div>
 	</div>
@@ -159,52 +160,62 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex';
+
 export default {
 	name: 'room',
 
 	props: {
 		id: Number,
-		room: Object,
-	},
-
-	computed: {
-		toNumber: function() {
-			return Number(this.id);
-		}
 	},
 
 	data() {
 		return {
-			editing: null,
 			info_expanded: false,
-			userIsAdmin: this.$root.keycloak.hasRealmRole('admin'),
-			keycloak_token: this.$root.keycloak.token
+			updatedRoom: {}
 		}
 	},
 
+	computed: {
+		...mapState([
+				'currentRoom',
+				'editing',
+				'isAdminUser'
+		])
+	},
+
 	methods: {
+		...mapActions([
+				'getCurrentRoom',
+				'editRoom',
+				'deleteRoom'
+		]),
+
+		...mapMutations([
+				'EDIT_MODE'
+		]),
 
 		toggleInfo() {
-			this.info_expanded = this.info_expanded ? false : true; 
+			this.info_expanded = !this.info_expanded;
 		},
 
 		onEdit(e) {
 			const classes = Array.from(e.target.classList);
 			const contents = e.target.innerText;
 			if (classes.includes("description")) {
-				this.room.description = contents;
+				this.currentRoom.description = contents;
 			} else if (classes.includes("room-name")) {
-				this.room.roomName = contents;
+				this.currentRoom.roomName = contents;
 			} else if (classes.includes("type")) {
-				this.room.type = contents;
+				this.currentRoom.type = contents;
 			} else if (classes.includes("rating")) {
-				this.room.rating = contents;
+				this.currentRoom.rating = contents;
 			} else if (classes.includes("quality")) {
-				this.room.quality = contents;
+				this.currentRoom.quality = contents;
 			} else if (classes.includes("difficulty")) {
-				this.room.difficulty = contents;
+				this.currentRoom.difficulty = contents;
 			} else if (classes.includes("environment")) {
-				this.room.environment = contents;
+				this.currentRoom.environment = contents;
 			} else {
 				console.error("onEdit called from an unexpected input location!");
 			}
@@ -212,51 +223,17 @@ export default {
 
 		editMode(room) {
 				this.cachedRoom = Object.assign({}, room);
-				this.editing = room.roomId;            
+				this.EDIT_MODE(room.roomId);
 		},
 
-		cancelEdit(room) {
-				Object.assign(room, this.cachedRoom);
-				this.editing = null;
+		cancelEdit() {
+				Object.assign(this.currentRoom, this.cachedRoom);
+				this.EDIT_MODE(false);
 		},
+	},
 
-		async deleteRoom(id) {
-			try {
-				const response = await fetch(`https://heatherward.dev/rest/rooms/${id}`, {
-					method: 'DELETE',
-					headers: {'Authorization': 'Bearer ' + this.keycloak_token}
-				});
-				const data = await response;
-				if (data.status == 200) {
-					this.$emit('delete:room', id);
-					this.$router.push('/rooms');
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		},
-
-		async editRoom(updatedRoom) {
-			try {
-				const response = await fetch(`https://heatherward.dev/rest/rooms/${updatedRoom.roomId}`, {
-					method: 'PUT',
-					body: JSON.stringify(updatedRoom),
-					headers: { 'Content-type': 'application/json; charset=UTF-8',
-								'Authorization': 'Bearer ' + this.keycloak_token}
-				})
-				const data = await response;
-				if (data.status === 400) {
-					const errorMessage = await data.json();
-					console.error(errorMessage);
-				} else if (data.status === 200) {
-					// this.rooms = this.rooms.map(room => 
-					//   room.roomId === updatedRoom.roomId ? updatedRoom : room);
-					this.editing = null;
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		},
+	mounted() {
+		this.getCurrentRoom(this.$route.params.id);
 	},
 }
 </script>

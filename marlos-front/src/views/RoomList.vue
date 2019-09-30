@@ -10,7 +10,7 @@
                 <button v-for="tag in tagFilter" v-bind:key="tagFilter.indexOf(tag)" @click="removeFilter(tag)" class="filter-button"> 
                     {{ "❌ " + tag }}
                 </button>
-                <router-link v-if="this.userIsAdmin" :to="{ name: 'create', params: { rooms : rooms } }" tag="button" id="create-room">Create new room</router-link>
+                <router-link v-if="isAdminUser" :to="{ name: 'create' }" tag="button" id="create-room">Create new room</router-link>
             </div>
         </div>
         <p v-if="rooms.length < 1" class="empty-table">
@@ -27,7 +27,7 @@
             <tbody>
                 <tr v-for="room in filteredRooms" v-bind:key="room.roomId">
                     <td>
-                        <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.roomId, room : room }}">
+                        <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.roomId}}">
                             {{ room.roomName }}
                         </router-link>
                     </td>
@@ -49,43 +49,51 @@
 
 
 <script>
-    export default {
-        name: 'room-list',
+import { mapState, mapActions } from 'vuex'
 
-        props: {
-            rooms: Array,
-        },
+export default {
+    name: 'room-list',
 
-        data() {
-            return {
-                tagFilter: [],
-                userIsAdmin: this.$root.keycloak.hasRealmRole('admin')
+    data() {
+        return {
+            tagFilter: [],
+        }
+    },
+
+    methods: {
+        ...mapActions([
+            'getRoomData'
+        ]),
+        filterMode(tag) {
+            if (!this.tagFilter.includes(tag)) {
+                this.tagFilter.push(tag);
             }
         },
 
-        methods: {
-            filterMode(tag) {
-                if (!this.tagFilter.includes(tag)) {
-                    this.tagFilter.push(tag);
-                }
-            },
-
-            removeFilter(tagToRemove) {
-                this.tagFilter = this.tagFilter.filter(tag => tag != tagToRemove);
-            },
+        removeFilter(tagToRemove) {
+            this.tagFilter = this.tagFilter.filter(tag => tag != tagToRemove);
         },
+    },
 
-        computed: {
-            filteredRooms: function() {
-                const filterArray = Array.from(this.tagFilter);
-                if (filterArray.length == 0) {
-                    return this.rooms;
-                } else {
-                    return this.rooms.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
-                }
+    computed: {
+        filteredRooms: function() {
+            const filterArray = Array.from(this.tagFilter);
+            if (filterArray.length == 0) {
+                return this.rooms;
+            } else {
+                return this.rooms.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
             }
         },
+        ...mapState([
+            'rooms',
+            'isAdminUser'
+        ])
+    },
+
+    mounted() {
+        this.getRoomData();
     }
+}
 </script>
 
 <style scoped>
