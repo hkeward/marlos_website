@@ -37,59 +37,63 @@
 </template>
 
 <script>
-    export default {
-        name: 'room-form',
+import { mapActions } from 'vuex'
 
-        props: {
-            rooms: Array,
-        },
+export default {
+    name: 'room-form',
 
-        data() {
-            return {
-                room: {
-                    roomName: '',
-                    type: '',
-                    tags: ''
-                },
-                submitting: false,
-                error: false,
-                success: false,
+    props: {
+        rooms: Array,
+    },
+
+    data() {
+        return {
+            room: {
+                roomName: '',
+                type: '',
+                tags: ''
+            },
+            submitting: false,
+            error: false,
+            success: false,
+        }
+    },
+
+    methods: {
+        ...mapActions([
+            'addRoom'
+        ]),
+        handleSubmit() {
+            this.submitting = true;
+            this.clearStatus();
+
+            if (this.invalidRoomName) {
+                this.error = true;
+                return;
             }
+            // we only emit the event if it is valid
+            this.addRoom(this.room);
+            this.$refs.first.focus();
+            this.room = {
+                roomName: '',
+                type: '',
+                tags: ''
+            };
+            this.error = false;
+            this.success = true;
+            this.submitting = false;
         },
-        
-        methods: {
-            handleSubmit() {
-                this.submitting = true;
-                this.clearStatus();
-
-                if (this.invalidRoomName) {
-                    this.error = true;
-                    return;
-                }
-                // we only emit the event if it is valid
-                this.$emit('add:room', this.room);
-                this.$refs.first.focus();
-                this.room = {
-                    roomName: '',
-                    type: '',
-                    tags: ''
-                };
-                this.error = false;
-                this.success = true;
-                this.submitting = false;
-            },
-            clearStatus() {
-                this.success = false;
-                this.error = false;
-            },
+        clearStatus() {
+            this.success = false;
+            this.error = false;
         },
-        computed: {
-            invalidRoomName() {
-               return (this.room.roomName === '');
-           },
-        },
-    }
-
+    },
+    computed: {
+        invalidRoomName() {
+           return (this.room.roomName === '');
+       },
+    },
+}
 </script>
 
 <style scoped>

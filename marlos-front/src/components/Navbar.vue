@@ -10,40 +10,46 @@
 		<div id="login-signup" :helpertext="helpertext">
 <!--			<p class="helpertext"> {{ helpertext }} </p>-->
 <!--			<button id="sign-up" @click="placeholderText()">Sign up</button>-->
-			<p id="user-banner">Welcome {{this.keycloak.idTokenParsed.preferred_username}}</p>
+<!--			<p id="user-banner">Welcome {{this.keycloak.idTokenParsed.preferred_username}}</p>-->
 			<button id="log-out" @click="logout()">Log out</button>
 		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		name: 'navbar',
+import { mapState } from 'vuex';
 
-		data() {
-			return {
-				helpertext: "",
-				keycloak: this.$root.keycloak
+export default {
+	name: 'navbar',
+
+	data() {
+		return {
+			helpertext: ""
+		}
+	},
+
+	computed: {
+		...mapState([
+				'keycloak'
+		])
+	},
+
+	methods: {
+		placeholderText() {
+			if (this.helpertext == "") {
+				this.helpertext = "These are currently nonfunctional placeholders; sorry!";
+			} else {
+				this.helpertext = "";
 			}
 		},
-
-		methods: {
-			placeholderText() {
-				if (this.helpertext == "") {
-					this.helpertext = "These are currently nonfunctional placeholders; sorry!";
-				} else {
-					this.helpertext = "";
-				}
-			},
-			logout() {
-				this.keycloak.logout();
-			},
-			whoami() {
-				console.log(this.keycloak.idTokenParsed.given_name);
-			}
+		logout() {
+			this.keycloak.logout();
 		},
-	}
-
+		whoami() {
+			console.log(this.keycloak.idTokenParsed.given_name);
+		}
+	},
+}
 </script>
 
 <style scoped>
@@ -57,7 +63,7 @@
 button {
 	background: #1F2430;
 	color: white;
-	border: none;
+    border: 1px solid transparent;
 	margin: 12px 5px 12px 5px;
 }
 

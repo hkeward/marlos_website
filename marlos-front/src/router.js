@@ -6,7 +6,7 @@ import About from './views/About.vue'
 import RoomView from './views/RoomView.vue'
 import RoomForm from './views/RoomForm.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -31,14 +31,12 @@ export default new Router({
     {
       path: '/rooms/create',
       name: 'create',
-      component: RoomForm,
-      props: true
+      component: RoomForm
     },
     {
       path: '/rooms/:id',
       name: 'room',
       component: RoomView,
-      props: true
     },
   ]
 })

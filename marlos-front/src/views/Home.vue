@@ -28,6 +28,7 @@
 
 		<p>
 			This is the page where things happen!
+		</p>
 			<br />
 			You can try the following:
 			<ul>
@@ -47,8 +48,6 @@
 					Create a new room using the currently super crappy new room form! Then, add the information that I haven't included in the form by navigating to the new room and clicking 'Edit'. Or, delete it and see it disappear!
 				</li>
 			</ul>
-		</p>
-
 	</div>
 </template>
 
