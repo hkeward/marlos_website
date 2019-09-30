@@ -61,7 +61,6 @@ export const store = new Vuex.Store({
                 console.error(err.message);
             }
         },
-
         async addRoom ({ commit, state }, room) {
             try {
                 const response = await fetch('https://heatherward.dev/rest/rooms', {
@@ -82,6 +81,9 @@ export const store = new Vuex.Store({
             } catch(error) {
                 console.error(error);
             }
+        },
+        toggleEditing({commit}, mode) {
+            commit('EDIT_MODE', mode);
         },
         async editRoom ({ commit, state }, updatedRoom) {
             try {

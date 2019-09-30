@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
 	name: 'room',
@@ -176,7 +176,6 @@ export default {
             currentRoom: {},
             roomFound: true,
 			info_expanded: false,
-			updatedRoom: {}
 		}
 	},
 
@@ -191,12 +190,9 @@ export default {
 
 	methods: {
 		...mapActions([
+				'toggleEditing',
 				'editRoom',
 				'deleteRoom'
-		]),
-
-		...mapMutations([
-				'EDIT_MODE'
 		]),
 
 		async getCurrentRoom (roomId) {
@@ -207,8 +203,7 @@ export default {
                     const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
                     headers: {'Authorization': 'Bearer ' + this.keycloak.token}
                 });
-                    const roomData = await response.json();
-                    this.currentRoom = roomData;
+                    this.currentRoom= await response.json();
                 } catch (err) {
                     this.roomFound = false;
                     console.error(err.message);
@@ -244,12 +239,12 @@ export default {
 
 		editMode(room) {
 				this.cachedRoom = Object.assign({}, room);
-				this.EDIT_MODE(room.roomId);
+				this.toggleEditing(room.roomId);
 		},
 
 		cancelEdit() {
 				Object.assign(this.currentRoom, this.cachedRoom);
-				this.EDIT_MODE(false);
+				this.toggleEditing(false);
 		},
 	},
 
