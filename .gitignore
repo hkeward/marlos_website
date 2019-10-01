@@ -11,3 +11,4 @@ marlos-back/*.iml
 marlos-front/node_modules
 marlos-front/dist
 marlos-front/dist-testing
+marlos-front/tests/unit/.eslintrc.js

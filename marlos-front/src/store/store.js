@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as Keycloak from 'keycloak-js'
 import router from '../router'
-
-// Mutations
-import { SET_ROOMS, ADD_ROOM, EDIT_MODE, SAVE_ROOM, DELETE_ROOM, CONFIGURE_KEYCLOAK, SET_USER_ROLE } from './mutations'
+import mutations from './mutations';
 
 Vue.use(Vuex);
 
@@ -21,30 +18,7 @@ export const store = new Vuex.Store({
         isAdminUser: false,
         fetched: false
     },
-    mutations: {
-        [SET_ROOMS] (state, rooms) {
-            state.fetched = true;
-            state.rooms = rooms;
-        },
-        [ADD_ROOM] (state, newRoom) {
-            state.rooms[newRoom.roomId] = newRoom;
-        },
-        [EDIT_MODE] (state, mode) {
-            state.editing = mode;
-        },
-        [SAVE_ROOM] (state, updatedRoom) {
-            state.rooms[updatedRoom.roomId] = updatedRoom;
-        },
-        [DELETE_ROOM] (state, roomId) {
-            delete state.rooms[roomId];
-        },
-        [CONFIGURE_KEYCLOAK] (state) {
-            state.keycloak = new Keycloak(state.KEYCLOAK_CONFIG);
-        },
-        [SET_USER_ROLE] (state) {
-            state.isAdminUser = state.keycloak.hasRealmRole('admin');
-        }
-    },
+    mutations,
     actions: {
         async getRoomData ({commit, state}) {
             if (state.fetched === true) {
