@@ -16,4 +16,7 @@ store.dispatch('initializeKeycloak')
             store,
             render: h => h(App)
         }).$mount("#app");
+    })
+    .catch(() => {
+        throw Error("Failed initializing keycloak");
     });

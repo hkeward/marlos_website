@@ -8,10 +8,10 @@ var returnData;
 const commit = jest.fn();
 const state = {keycloak: {token: ""}, fetched: false};
 
-const room1 = { roomId: 1, roomName: "First room", type: "Fighting", tags: []};
-const room2 = { roomId: 2, roomName: "Second room", type: "RP", tags: ["first tag"]};
+const room1 = { roomId: 1, roomName: "First room", type: "Fighting", tags: ""};
+const room2 = { roomId: 2, roomName: "Second room", type: "RP", tags: "first tag"};
 
-const room1_updated = {roomId: 1, roomName: "First room renamed", type: "Fighting", tags: []};
+const room1_updated = {roomId: 1, roomName: "First room renamed", type: "Fighting", tags: ""};
 
 beforeEach(() => {
     url = '';
