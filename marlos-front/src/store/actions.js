@@ -12,7 +12,7 @@ const getRoomData = async ({commit, state}) => {
         const data_json = Object.assign({}, ...(data_array.map(item => ({ [item['roomId']]: item }) )));
         commit('SET_ROOMS', data_json);
     } catch (err) {
-        throw Error("Error fetching room data")
+        throw Error("Error fetching room data");
     }
 };
 

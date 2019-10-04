@@ -27,7 +27,7 @@ To serve:
 Will serve on port 5000.
 
 
-### Testing
+### Testing live server
 
 View changes in real time -- start the development server. Recommended to start this in a screen session so it can be detached from.
 
@@ -45,3 +45,10 @@ Build production version (of test deployment):
 Serve production version (of test deployment):
 
 `serve -l 5500 dist-testing &`
+
+
+### Tests
+
+Unit tests are run using Jest:
+
+`npm run test:unit`
