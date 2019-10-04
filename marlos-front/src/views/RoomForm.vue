@@ -6,6 +6,7 @@
         <form @submit.prevent="handleSubmit">
             <label>Room name</label>
             <input 
+                id="room-name"
                 ref="first"
                 type="text"
                 :class="{ 'has-error': submitting && invalidRoomName }"
@@ -14,13 +15,15 @@
                 @keypress="clearStatus"
                  />
             <label>Type</label>
-            <input 
+            <input
+                id="type"
                 type="text" 
                 v-model="room.type" 
                 @focus="clearStatus"
                 />
             <label>Tags</label>
-            <input 
+            <input
+                id="tags"
                 type="text" 
                 v-model="room.tags" 
                 @focus="clearStatus"
@@ -31,7 +34,7 @@
             <p v-if="success" class="success-message">
                 ✅ Room successfully added
             </p>
-            <button>Add room</button>
+            <button id="add-room">Add room</button>
         </form>
     </div>
 </template>
