@@ -57,14 +57,14 @@
 						<div id="darkvision-grid">
 							<div id="darkvision">
 								<p>Darkvision required?</p>
-									<select v-model="currentRoom.darkvision">
+									<select v-model="currentRoom.darkvision" class="darkvision">
 										<option value=1>Yes</option>
 										<option value=0>No</option>
 									</select>
 							</div>
 							<div id="grid">
 								<p>Grid required?</p>
-										<select v-model="currentRoom.grid">
+										<select v-model="currentRoom.grid" class="grid">
 										<option value=1>Yes</option>
 										<option value=0>No</option>
 									</select>
@@ -203,10 +203,9 @@ export default {
                     const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
                     headers: {'Authorization': 'Bearer ' + this.keycloak.token}
                 });
-                    this.currentRoom= await response.json();
+                    this.currentRoom = await response.json();
                 } catch (err) {
                     this.roomFound = false;
-                    console.error(err.message);
                 }
             }
 		},

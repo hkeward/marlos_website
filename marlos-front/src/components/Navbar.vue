@@ -36,7 +36,7 @@ export default {
 
 	methods: {
 		placeholderText() {
-			if (this.helpertext == "") {
+			if (this.helpertext === "") {
 				this.helpertext = "These are currently nonfunctional placeholders; sorry!";
 			} else {
 				this.helpertext = "";
