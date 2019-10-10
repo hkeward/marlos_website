@@ -1,4 +1,4 @@
-import actions from '../../src/store/actions.js'
+import actions from '@/store/actions.js'
 
 var url;
 var body;

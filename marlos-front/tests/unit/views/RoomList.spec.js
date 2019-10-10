@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { shallowMount, createLocalVue, RouterLinkStub } from '@vue/test-utils'
-import RoomList from '../../src/views/RoomList'
+import RoomList from '@/views/RoomList'
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { shallowMount, createLocalVue, RouterLinkStub} from '@vue/test-utils'
-import Navbar from '../../src/components/Navbar'
+import Navbar from '@/components/Navbar'
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

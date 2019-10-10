@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import RoomView from '../../src/views/RoomView'
+import RoomView from '@/views/RoomView'
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

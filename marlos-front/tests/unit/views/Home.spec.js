@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Home from '../../src/views/Home';
+import Home from '@/views/Home';
 
 describe('Home', () => {
   it('is a vue instance', () => {

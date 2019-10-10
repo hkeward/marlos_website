@@ -1,4 +1,4 @@
-import mutations from '../../src/store/mutations.js'
+import mutations from '@/store/mutations.js'
 
 var room_data;
 var state;

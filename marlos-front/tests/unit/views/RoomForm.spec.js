@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import RoomForm from '../../src/views/RoomForm'
+import RoomForm from '@/views/RoomForm'
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
