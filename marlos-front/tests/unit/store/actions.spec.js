@@ -5,8 +5,8 @@ var body;
 var mockError;
 var returnData;
 
-const commit = jest.fn();
-const state = {keycloak: {token: ""}, fetched: false};
+var commit;
+var state;
 
 const room1 = { roomId: 1, roomName: "First room", type: "Fighting", tags: ""};
 const room2 = { roomId: 2, roomName: "Second room", type: "RP", tags: "first tag"};
@@ -14,6 +14,8 @@ const room2 = { roomId: 2, roomName: "Second room", type: "RP", tags: "first tag
 const room1_updated = {roomId: 1, roomName: "First room renamed", type: "Fighting", tags: ""};
 
 beforeEach(() => {
+    commit = jest.fn();
+    state = {keycloak: {token: ""}, fetched: false};
     url = '';
     body = {};
     mockError = false;
@@ -40,6 +42,13 @@ describe("getRoomData", () => {
        expect(url).toBe("https://heatherward.dev/rest/rooms");
        expect(body).toEqual({headers: {'Authorization': 'Bearer ' + state.keycloak.token}});
        expect(commit).toHaveBeenCalledWith('SET_ROOMS', { 1: room1, 2: room2});
+   });
+
+   it('did not fetch room data if it was already fetched', async () => {
+        state.fetched = true;
+        await actions.getRoomData({commit, state});
+
+        expect(commit).not.toHaveBeenCalled();
    });
 
    it("caught an error", async () => {
