@@ -4,38 +4,43 @@
     <div id="room-form">
         <h1>Room Form</h1>
         <form @submit.prevent="handleSubmit">
-            <label>Room name</label>
-            <input 
-                id="room-name"
-                ref="first"
-                type="text"
-                :class="{ 'has-error': submitting && invalidRoomName }"
-                v-model="room.roomName" 
-                @focus="clearStatus"
-                @keypress="clearStatus"
-                 />
-            <label>Type</label>
-            <input
-                id="type"
-                type="text" 
-                v-model="room.type" 
-                @focus="clearStatus"
-                />
-            <label>Tags</label>
-            <input
-                id="tags"
-                type="text" 
-                v-model="room.tags" 
-                @focus="clearStatus"
-                />
+            <div>
+                <label>Room name</label>
+                <input
+                    id="room-name"
+                    ref="first"
+                    type="text"
+                    :class="{ 'has-error': submitting && invalidRoomName }"
+                    v-model="room.roomName"
+                    @focus="clearStatus"
+                    @keypress="clearStatus" />
+
+                <label>Type</label>
+                <input
+                    id="type"
+                    type="text"
+                    v-model="room.type"
+                    @focus="clearStatus" />
+
+                <label>Tags</label>
+                <input
+                    id="whatever"
+                    type="text"
+                    v-model="room.tags"
+                    @focus="clearStatus" />
+            </div>
+            <div>
+                <button id="add-room">Add room</button>
+            </div>
+        </form>
+        <div>
             <p v-if="error && submitting" class="error-message">
                 ❗ Please fill out all required fields
             </p>
             <p v-if="success" class="success-message">
                 ✅ Room successfully added
             </p>
-            <button id="add-room">Add room</button>
-        </form>
+        </div>
     </div>
 </template>
 
@@ -100,19 +105,19 @@ export default {
 </script>
 
 <style scoped>
-    form {
-        margin-bottom: 2rem;
-    }
+form {
+    margin-bottom: 2rem;
+}
 
-    [class*='-message'] {
-        font-weight: 500;
-    }
+[class*='-message'] {
+    font-weight: 500;
+}
 
-    .error-message {
-        color: #d33c40;
-    }
+.error-message {
+    color: #d33c40;
+}
 
-    .success-message {
-        color: #32a95d;
-    }
+.success-message {
+    color: #32a95d;
+}
 </style>

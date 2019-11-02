@@ -76,10 +76,6 @@ th {
 	border-bottom: 1px solid white;
 }
 
-td {
-	/*padding: 0.5rem;*/
-}
-
 /* Forms */
 [type=color], [type=date], [type=datetime], [type=datetime-local], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=url], [type=week], [type=time], select, textarea {
 	overflow: auto;

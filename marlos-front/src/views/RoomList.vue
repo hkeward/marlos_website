@@ -33,6 +33,10 @@
                     <tr>
                         <th>Room</th>
                         <th>Type</th>
+                        <th>Time (h)</th>
+                        <th>Rating</th>
+                        <th>Difficulty</th>
+                        <th>Environment</th>
                         <th>Tags</th>
                     </tr>
                 </thead>
@@ -46,6 +50,22 @@
 
                         <td>
                             {{ room.type }}
+                        </td>
+
+                        <td style="text-align: center">
+                            {{ room.timeEstimate }}
+                        </td>
+
+                        <td>
+                            {{ room.rating }}
+                        </td>
+
+                        <td>
+                            {{ room.difficulty }}
+                        </td>
+
+                        <td>
+                            {{ room.environment }}
                         </td>
 
                         <td>
@@ -110,7 +130,7 @@ export default {
             });
 
             return filteredRooms.sort((a, b) => {
-                return a.roomName > b.roomName ? 1 : -1;
+                return a.roomName.toLowerCase() > b.roomName.toLowerCase() ? 1 : -1;
             });
         },
         ...mapState([
@@ -188,6 +208,10 @@ input {
 
 .tag-button:hover {
     background: #1F2430;
+}
+
+table {
+    margin-bottom: 3rem;
 }
 
 </style>
