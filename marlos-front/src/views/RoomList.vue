@@ -6,7 +6,18 @@
             <div class="title">
                 <h1>All Rooms</h1>
             </div>
-            <div id="interact-buttons">
+        </div>
+        <div id="interact-buttons">
+            <div class="search-bar" >
+                <input v-model="searchTerm"
+                       placeholder="Search rooms"
+                       onfocus="this.placeholder=''"
+                       onblur="this.placeholder='Search rooms'"
+                       v-on:keyup.escape="searchTerm=''"
+                       id="search"
+                />
+            </div>
+            <div>
                 <button v-for="tag in tagFilters" v-bind:key="tagFilters.indexOf(tag)" @click="removeFilter(tag)" class="filter-button">
                     {{ "❌ " + tag }}
                 </button>
@@ -17,10 +28,6 @@
             No rooms in database
         </p>
         <div v-else>
-            <div>
-                <input v-model="searchTerm"/>
-                <p>You entered {{ searchTerm }}</p>
-            </div>
             <table>
                 <thead>
                     <tr>
@@ -88,11 +95,19 @@ export default {
             var rooms_array = Object.keys(this.rooms).map(key => this.rooms[key]);
             var filteredRooms;
 
+            // filter by tags
             if (filterArray.length == 0) {
                 filteredRooms = rooms_array;
             } else {
                 filteredRooms = rooms_array.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
             }
+
+            // filter by search term (check in roomName, type, tags)
+            filteredRooms = filteredRooms.filter(room => {
+                return ((room.roomName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) ||
+                        (room.type.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) ||
+                        (room.tags.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1));
+            });
 
             return filteredRooms.sort((a, b) => {
                 return a.roomName > b.roomName ? 1 : -1;
@@ -116,31 +131,47 @@ export default {
     justify-content: space-between;
 }
 
-#interact-buttons {
-    margin: 30px 0 0 0;
+.title {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
-#interact-buttons button {
-    margin: 30px 0 10px 5px;
+h1 {
+    margin-bottom: 5px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: flex-start;
+    vertical-align: middle;
+}
+
+input {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 3px;
+    border-style: hidden;
+}
+
+#interact-buttons {
+    margin: 10px 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-button {
+    margin: 0 5px 0 0;
 }
 
 #create-room {
     background: #AAC97A;
     border-color: #AAC97A;
     color: #1F2430;
-    margin: 30px 0 10px 5px;
 }
 
 #create-room:hover {
     background: #1F2430;
     color: white;
-}
-
-.title {
-    display: flex;
-    justify-content: flex-start;
 }
 
 .room-button {

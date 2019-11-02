@@ -53,7 +53,7 @@ describe('RoomList', () => {
         expect(wrapper.findAll('.room-button').at(0).text()).toBe("A Second room");
     });
 
-    it('filters rooms', () => {
+    it('filters rooms on tags', () => {
         const wrapper = shallowMount(RoomList, {
             store,
             localVue,
@@ -69,6 +69,19 @@ describe('RoomList', () => {
 
         wrapper.find('.filter-button').trigger('click');
         expect(wrapper.findAll('.room-button').length).toBe(2);
+    });
+
+    it('filters rooms on search term', () => {
+       const wrapper = shallowMount(RoomList, {
+           store,
+           localVue,
+           stubs: {
+               RouterLink: RouterLinkStub
+           }
+       });
+
+       wrapper.find('#search').setValue('fight');
+       expect(wrapper.findAll('.room-button').length).toBe(1);
     });
 
     it('displays create room button for admin users', () => {
