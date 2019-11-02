@@ -13,8 +13,8 @@ var room2;
 const fake_keycloak_object = {token: "fake_token"};
 
 beforeEach(() => {
-    room1 = {roomId: 1, roomName: "First room", type: "fighting", "tags": "magic, riddle", description: "good", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
-    room2 = {roomId: 2, roomName: "Second room", type: "RP", "tags": "magic", description: "Many spiders", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
+    room1 = {roomId: 1, roomName: "B First room", type: "fighting", tags: "magic, riddle", description: "good", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
+    room2 = {roomId: 2, roomName: "A Second room", type: "RP", tags: "magic", description: "Many spiders", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
 
     actions = {
         getRoomData: jest.fn()
@@ -38,7 +38,7 @@ beforeEach(() => {
 });
 
 describe('RoomList', () => {
-    it('retrieves room data and displays rooms', () => {
+    it('retrieves room data and displays rooms alphabetically', () => {
         const wrapper = shallowMount(RoomList, {
             store,
             localVue,
@@ -50,6 +50,7 @@ describe('RoomList', () => {
         expect(actions.getRoomData).toHaveBeenCalled();
         expect(wrapper.findAll('.room-button').length).toBe(2);
         expect(wrapper.find('#create-room').exists()).toBe(false);
+        expect(wrapper.findAll('.room-button').at(0).text()).toBe("A Second room");
     });
 
     it('filters rooms', () => {
@@ -61,10 +62,10 @@ describe('RoomList', () => {
             }
         });
 
-        wrapper.findAll('.tag-button').at(0).trigger('click');
+        wrapper.findAll('.tag-button').at(1).trigger('click');
         expect(wrapper.findAll('.room-button').length).toBe(1);
         wrapper.findAll('.tag-button').at(0).trigger('click');
-        expect(wrapper.vm.tagFilter.length).toBe(1);
+        expect(wrapper.vm.tagFilters.length).toBe(1);
 
         wrapper.find('.filter-button').trigger('click');
         expect(wrapper.findAll('.room-button').length).toBe(2);

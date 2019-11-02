@@ -7,7 +7,7 @@
                 <h1>All Rooms</h1>
             </div>
             <div id="interact-buttons">
-                <button v-for="tag in tagFilter" v-bind:key="tagFilter.indexOf(tag)" @click="removeFilter(tag)" class="filter-button"> 
+                <button v-for="tag in tagFilters" v-bind:key="tagFilters.indexOf(tag)" @click="removeFilter(tag)" class="filter-button">
                     {{ "❌ " + tag }}
                 </button>
                 <router-link v-if="isAdminUser" :to="{ name: 'create' }" tag="button" id="create-room">Create new room</router-link>
@@ -16,34 +16,40 @@
         <p v-if="rooms.length < 1" class="empty-table">
             No rooms in database
         </p>
-        <table v-else>
-            <thead>
-                <tr>
-                    <th>Room</th>
-                    <th>Type</th>
-                    <th>Tags</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="room in filteredRooms" v-bind:key="room.roomId">
-                    <td>
-                        <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.roomId}}">
-                            {{ room.roomName }}
-                        </router-link>
-                    </td>
+        <div v-else>
+            <div>
+                <input v-model="searchTerm"/>
+                <p>You entered {{ searchTerm }}</p>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Type</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="room in filteredRooms" v-bind:key="room.roomId">
+                        <td>
+                            <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.roomId}}">
+                                {{ room.roomName }}
+                            </router-link>
+                        </td>
 
-                    <td>
-                        {{ room.type }}
-                    </td>
-                    
-                    <td>
-                        <button @click="filterMode(room.tags.toLowerCase())" class="tag-button">
-                            {{ "#" + room.tags.toLowerCase() }}
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td>
+                            {{ room.type }}
+                        </td>
+
+                        <td>
+                            <button @click="filterMode(room.tags.toLowerCase())" class="tag-button">
+                                {{ "#" + room.tags.toLowerCase() }}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -56,7 +62,8 @@ export default {
 
     data() {
         return {
-            tagFilter: [],
+            tagFilters: [],
+            searchTerm: ''
         }
     },
 
@@ -65,27 +72,31 @@ export default {
             'getRoomData'
         ]),
         filterMode(tag) {
-            if (!this.tagFilter.includes(tag)) {
-                this.tagFilter.push(tag);
+            if (!this.tagFilters.includes(tag)) {
+                this.tagFilters.push(tag);
             }
         },
 
         removeFilter(tagToRemove) {
-            this.tagFilter = this.tagFilter.filter(tag => tag != tagToRemove);
+            this.tagFilters = this.tagFilters.filter(tag => tag != tagToRemove);
         },
     },
 
     computed: {
         filteredRooms: function() {
-            const filterArray = Array.from(this.tagFilter);
+            const filterArray = Array.from(this.tagFilters);
+            var rooms_array = Object.keys(this.rooms).map(key => this.rooms[key]);
+            var filteredRooms;
+
             if (filterArray.length == 0) {
-                return this.rooms;
+                filteredRooms = rooms_array;
             } else {
-                var rooms_array = Object.keys(this.rooms).map(key => {
-                    return this.rooms[key];
-                });
-                return rooms_array.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
+                filteredRooms = rooms_array.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
             }
+
+            return filteredRooms.sort((a, b) => {
+                return a.roomName > b.roomName ? 1 : -1;
+            });
         },
         ...mapState([
             'rooms',
