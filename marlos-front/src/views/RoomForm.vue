@@ -24,7 +24,7 @@
 
                 <label>Tags</label>
                 <input
-                    id="whatever"
+                    id="tags"
                     type="text"
                     v-model="room.tags"
                     @focus="clearStatus" />

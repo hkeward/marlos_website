@@ -146,14 +146,43 @@
 		</div>
 
 		<div id="room-contents">
+			<div v-if="editing === currentRoom.roomId">
+				<editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+					<div>
+						<button :class="{ 'is-active': isActive.heading({ level: 2}) }" @click="commands.heading({ level: 2 })">
+							H2
+						</button>
+						<button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
+							Bold
+						</button>
+						<button :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
+							Underline
+						</button>
+						<button :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
+							Italic
+						</button>
+						<button @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false})">
+							Table
+						</button>
+						<span v-if="isActive.table()">
+							<button @click="commands.deleteTable">Delete table</button>
+							<button @click="commands.addColumnBefore">Add column before</button>
+							<button @click="commands.addColumnAfter">Add column after</button>
+							<button @click="commands.deleteColumn">Delete column</button>
+							<button @click="commands.addRowBefore">Add row before</button>
+							<button @click="commands.addRowAfter">Add row after</button>
+							<button @click="commands.deleteRow">Delete row</button>
+							<button @click="commands.toggleCellMerge">Mere cells</button>
+						</span>
+					</div>
+				</editor-menu-bar>
+				<editor-content class="description editing" :editor="editor"></editor-content>
+			</div>
 
-			<p v-if="editing === currentRoom.roomId" v-text="currentRoom.description" @blur="onEdit" class="description editing" contenteditable="true">
-			</p>
-
-			<p v-else class="description" contenteditable="false">
-{{ currentRoom.description }}
-			</p>
-
+			<div v-else>
+				<editor-content class="description" :editor="editor">
+				</editor-content>
+			</div>
 		</div>
 	</div>
     <div v-else>
@@ -163,9 +192,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow } from 'tiptap-extensions';
 
 export default {
 	name: 'room',
+
+	components: {
+		EditorContent,
+		EditorMenuBar,
+	},
 
 	props: {
 		id: Number,
@@ -174,8 +210,10 @@ export default {
 	data() {
 		return {
             currentRoom: {},
+			cachedRoom: {},
             roomFound: true,
 			info_expanded: false,
+			editor: null,
 		}
 	},
 
@@ -217,9 +255,7 @@ export default {
 		onEdit(e) {
 			const classes = Array.from(e.target.classList);
 			const contents = e.target.innerText;
-			if (classes.includes("description")) {
-				this.currentRoom.description = contents;
-			} else if (classes.includes("room-name")) {
+			if (classes.includes("room-name")) {
 				this.currentRoom.roomName = contents;
 			} else if (classes.includes("type")) {
 				this.currentRoom.type = contents;
@@ -242,18 +278,50 @@ export default {
 		},
 
 		cancelEdit() {
-				Object.assign(this.currentRoom, this.cachedRoom);
-				this.toggleEditing(false);
+			Object.assign(this.currentRoom, this.cachedRoom);
+			this.currentRoom.__ob__.dep.notify();
+			this.toggleEditing(false);
 		},
 	},
 
 	created() {
 		this.getCurrentRoom(this.$route.params.id);
 	},
+
+	mounted() {
+		this.editor = new Editor({
+			extensions: [
+				new Heading({ levels: [1, 2, 3]}),
+				new Bold(),
+				new Underline(),
+				new Italic(),
+				new Table({ resizable: true }),
+				new TableHeader(),
+				new TableCell(),
+				new TableRow(),
+			],
+			content: this.currentRoom.description,
+			onUpdate: ({ getHTML }) => {
+				this.currentRoom.description = getHTML();
+				this.$emit('input', getHTML());
+			},
+		});
+	},
+
+	watch: {
+		// populates the description when the room data is loaded
+		currentRoom () {
+			this.editor.setContent(this.currentRoom.description);
+		},
+	},
+
+	beforeDestroy() {
+		this.editor.destroy()
+	},
 }
 </script>
 
-<style>
+<style scoped>
 .delete-button, .edit-button, .save-button, .muted-button {
 	margin: 30px 0 10px 5px;
 }
@@ -375,6 +443,10 @@ export default {
 
 .description textarea {
 	min-height: 15rem;
+}
+
+table {
+	border: 1px solid white;
 }
 
 </style>

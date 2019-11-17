@@ -14,6 +14,10 @@ var actions;
 var store;
 var room1;
 
+const editor = {
+    setContent: jest.fn()
+};
+
 const fake_keycloak_object = {token: "fake_token"};
 
 global.fetch = jest.fn().mockImplementation((_url, _body) => {
@@ -75,7 +79,7 @@ describe('RoomView', () => {
         expect(body).toEqual({headers: {'Authorization': 'Bearer ' + fake_keycloak_object.token}});
         expect(wrapper.find('.room-name').text()).toBe(room1.roomName);
         expect(wrapper.find('.type').text()).toBe(room1.type);
-        expect(wrapper.find('.description').text()).toBe(room1.description);
+        // expect(wrapper.find('.description').text()).toBe(room1.description);
         expect(wrapper.find('.edit-button').exists()).toBe(false);
         expect(wrapper.find('.delete-button').exists()).toBe(false);
     });
@@ -83,15 +87,22 @@ describe('RoomView', () => {
     it('displays a room already found in state.rooms', () => {
        store.state.rooms = {1: room1};
        const wrapper = shallowMount(RoomView, {
+           data() {
+               return {
+                   editor
+               }
+           },
            store,
            localVue,
            mocks: {
-               $route: {params: {id: room1.roomId}}
+               $route: {params: {id: room1.roomId}},
+               editor: {setContent: jest.fn()}
            }
        });
+
         expect(wrapper.find('.room-name').text()).toBe(room1.roomName);
         expect(wrapper.find('.type').text()).toBe(room1.type);
-        expect(wrapper.find('.description').text()).toBe(room1.description);
+        expect(editor.setContent).toHaveBeenCalledWith(room1.description);
     });
 
     it('caught an error', async () => {
@@ -100,7 +111,7 @@ describe('RoomView', () => {
             store,
             localVue,
             mocks: {
-                $route: { params: { id: 2 } }
+                $route: { params: { id: 2 } },
             }
         });
 
@@ -116,7 +127,7 @@ describe('RoomView', () => {
             store,
             localVue,
             mocks: {
-                $route: { params: { id: room1.roomId } }
+                $route: { params: { id: room1.roomId } },
             }
         });
 
@@ -142,7 +153,7 @@ describe('RoomView', () => {
             localVue,
             mocks: {
                 $route: { params: { id: room1.roomId } },
-                toggleEditing: jest.fn()
+                toggleEditing: jest.fn(),
             }
         });
 
@@ -176,10 +187,6 @@ describe('RoomView', () => {
         });
 
         await Vue.nextTick();
-
-        wrapper.find('.description').element.innerText = 'There are three skeletons';
-        wrapper.find('.description').trigger('blur');
-        expect(wrapper.find('.description').text()).toBe('There are three skeletons');
 
         wrapper.find('.room-name').element.innerText = 'New room name';
         wrapper.find('.room-name').trigger('blur');
