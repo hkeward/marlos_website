@@ -179,9 +179,7 @@
 				<editor-content class="description editing" :editor="editor"></editor-content>
 			</div>
 
-			<div v-else>
-				<editor-content class="description" :editor="editor">
-				</editor-content>
+			<div v-else class="description" v-html="currentRoom.description">
 			</div>
 		</div>
 	</div>
@@ -282,6 +280,11 @@ export default {
 			this.currentRoom.__ob__.dep.notify();
 			this.toggleEditing(false);
 		},
+
+		addBrToEmptyParagraph(html) {
+			var emptyParagraphRegex = /<p><\/p>/g;
+			return html.replace(emptyParagraphRegex, "<p><br></p>");
+		},
 	},
 
 	created() {
@@ -302,8 +305,9 @@ export default {
 			],
 			content: this.currentRoom.description,
 			onUpdate: ({ getHTML }) => {
-				this.currentRoom.description = getHTML();
-				this.$emit('input', getHTML());
+				const descriptionHTML = this.addBrToEmptyParagraph(getHTML());
+				this.currentRoom.description = descriptionHTML;
+				this.$emit('input', descriptionHTML);
 			},
 		});
 	},
