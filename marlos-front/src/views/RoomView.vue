@@ -145,26 +145,34 @@
 			</div>
 		</div>
 
-		<div id="room-contents">
-			<div v-if="editing === currentRoom.roomId">
-				<editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+		<div v-if="editing === currentRoom.roomId" class="editing">
+			<editor-menu-bar class="editor-menu-bar" :editor="editor" v-slot="{ commands, isActive }">
+				<div>
 					<div>
+						<button :class="{ 'is-active': isActive.heading({ level: 1}) }" @click="commands.heading({ level: 1 })">
+							<font-awesome-icon icon="heading"></font-awesome-icon>1
+						</button>
 						<button :class="{ 'is-active': isActive.heading({ level: 2}) }" @click="commands.heading({ level: 2 })">
-							H2
+							<font-awesome-icon icon="heading"></font-awesome-icon>2
+						</button>
+						<button :class="{ 'is-active': isActive.heading({ level: 3}) }" @click="commands.heading({ level: 3 })">
+							<font-awesome-icon icon="heading"></font-awesome-icon>3
 						</button>
 						<button :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
-							Bold
+							<font-awesome-icon icon="bold"></font-awesome-icon>
 						</button>
 						<button :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
-							Underline
+							<font-awesome-icon icon="underline"></font-awesome-icon>
 						</button>
 						<button :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
-							Italic
+							<font-awesome-icon icon="italic"></font-awesome-icon>
 						</button>
-						<button @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false})">
-							Table
+						<button @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: true})">
+							<font-awesome-icon icon="table"></font-awesome-icon>
 						</button>
-						<span v-if="isActive.table()">
+					</div>
+					<div>
+						<span v-if="isActive.table()" class="secondary-editor-menu-bar">
 							<button @click="commands.deleteTable">Delete table</button>
 							<button @click="commands.addColumnBefore">Add column before</button>
 							<button @click="commands.addColumnAfter">Add column after</button>
@@ -172,15 +180,16 @@
 							<button @click="commands.addRowBefore">Add row before</button>
 							<button @click="commands.addRowAfter">Add row after</button>
 							<button @click="commands.deleteRow">Delete row</button>
-							<button @click="commands.toggleCellMerge">Mere cells</button>
+							<button @click="commands.toggleCellMerge">Merge cells</button>
 						</span>
+						<span v-else></span>
 					</div>
-				</editor-menu-bar>
-				<editor-content class="description editing" :editor="editor"></editor-content>
-			</div>
+				</div>
+			</editor-menu-bar>
+			<editor-content class="description" :editor="editor"></editor-content>
+		</div>
 
-			<div v-else class="description" v-html="currentRoom.description">
-			</div>
+		<div v-else class="description" v-html="currentRoom.description">
 		</div>
 	</div>
     <div v-else>
@@ -285,6 +294,16 @@ export default {
 			var emptyParagraphRegex = /<p><\/p>/g;
 			return html.replace(emptyParagraphRegex, "<p><br></p>");
 		},
+
+		cleanDataColwidth(html) {
+			var dataColwidthRegex = /data-colwidth/g;
+			return html.replace(dataColwidthRegex, "width");
+		},
+
+		uncleanDataColwidth(html) {
+			var widthRegex = /width/g;
+			return html.replace(widthRegex, "data-colwidth");
+		},
 	},
 
 	created() {
@@ -294,18 +313,23 @@ export default {
 	mounted() {
 		this.editor = new Editor({
 			extensions: [
-				new Heading({ levels: [1, 2, 3]}),
+				new Heading({
+					levels: [1, 2, 3]
+				}),
 				new Bold(),
 				new Underline(),
 				new Italic(),
-				new Table({ resizable: true }),
+				new Table({
+					resizable: true,
+				}),
 				new TableHeader(),
 				new TableCell(),
 				new TableRow(),
 			],
 			content: this.currentRoom.description,
 			onUpdate: ({ getHTML }) => {
-				const descriptionHTML = this.addBrToEmptyParagraph(getHTML());
+				const descriptionHTML = this.cleanDataColwidth(this.addBrToEmptyParagraph(getHTML()));
+				console.log(descriptionHTML);
 				this.currentRoom.description = descriptionHTML;
 				this.$emit('input', descriptionHTML);
 			},
@@ -315,7 +339,7 @@ export default {
 	watch: {
 		// populates the description when the room data is loaded
 		currentRoom () {
-			this.editor.setContent(this.currentRoom.description);
+			this.editor.setContent(this.uncleanDataColwidth(this.currentRoom.description));
 		},
 	},
 
@@ -389,11 +413,6 @@ export default {
 	margin-left: 5rem;
 }
 
-#room-contents {
-	display: flex;
-	justify-content: space-between;
-}
-
 .room-name, .type, .description {
 	border: 1px solid transparent;
 }
@@ -445,12 +464,54 @@ export default {
 	border-color: #6D7392;
 }
 
-.description textarea {
-	min-height: 15rem;
+.editor-menu-bar {
+	margin-bottom: 3px;
 }
 
-table {
+.editor-menu-bar button {
+	/*margin-right: 3px;*/
+	border: unset;
+	border-radius: unset;
+	border-left: 3px solid transparent;
+	border-right: 1px solid white;
+	background: transparent;
+}
+
+.editor-menu-bar button.is-active {
+	background: #50596c;
+	border-left: 3px solid #50596c;
+}
+
+.editor-menu-bar button:hover {
+	background: #50596c;
+}
+
+.secondary-editor-menu-bar button {
+	border-top: 2px double white;
+	margin: 0;
+}
+</style>
+
+<style>
+.description table {
+	width: unset;
+}
+
+table p {
+	margin: 0;
+}
+
+.description th {
 	border: 1px solid white;
+	padding: 0.5rem;
 }
 
+.description td {
+	border: 1px solid white;
+	padding-left: 0.5rem;
+}
+
+.resize-cursor {
+	cursor: col-resize;
+}
 </style>
