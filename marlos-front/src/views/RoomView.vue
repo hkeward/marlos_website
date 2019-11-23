@@ -170,8 +170,11 @@
 						<button :class="{ 'is-active': isActive.table() }" @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: true})">
 							<font-awesome-icon icon="table"></font-awesome-icon>
 						</button>
-						<button :class="{ 'is-active': isActive.link() }" @click="showLinkMenu(getMarkAttrs('link'))">
+						<button :class="{ 'is-active': isActive.link() }" @click="showLinkPrompt(getMarkAttrs('link'))">
 							<font-awesome-icon icon="link"></font-awesome-icon>
+						</button>
+						<button :class="{ 'is-active': isActive.image() }" @click="showImagePrompt()">
+							<font-awesome-icon icon="image"></font-awesome-icon>
 						</button>
 					</div>
 					<div>
@@ -183,6 +186,16 @@
 							<button @click="commands.addRowBefore">Add row before</button>
 							<button @click="commands.addRowAfter">Add row after</button>
 							<button @click="commands.deleteRow">Delete row</button>
+						</span>
+						<span v-else-if="newImageLink" class="secondary-menubar" :class="{ 'is-active': newImageLink }">
+							<div>
+								<form @submit.prevent="setImageUrl(commands.image, imageLinkUrl)">
+									<input class="link-input" type="text" v-model="imageLinkUrl" placeholder="https://" ref="imageLinkInput"/>
+									<button class="link-input update-add" @click="setImageUrl(commands.image, imageLinkUrl)">
+										<span>Add image</span>
+									</button>
+								</form>
+							</div>
 						</span>
 						<span v-else class="secondary-menubar" :class="{ 'is-active': isActive.link() || newLink }">
 							<div>
@@ -214,7 +227,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow, Link } from 'tiptap-extensions';
+import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow, Link, Image } from 'tiptap-extensions';
 
 export default {
 	name: 'room',
@@ -236,7 +249,9 @@ export default {
 			info_expanded: false,
 			editor: null,
 			linkUrl: null,
-			newLink: false
+			newLink: false,
+			imageLinkUrl: null,
+			newImageLink: false
 		}
 	},
 
@@ -317,6 +332,9 @@ export default {
 		},
 
 		uncleanDataColwidth(html) {
+			if (html == null) {
+				return html;
+			}
 			const widthRegex = /width/g;
 			return html.replace(widthRegex, "data-colwidth");
 		},
@@ -333,7 +351,7 @@ export default {
 			return href;
 		},
 
-		showLinkMenu(attrs) {
+		showLinkPrompt(attrs) {
 			this.linkUrl = attrs.href;
 			if (!this.linkUrl) {
 				this.newLink = true;
@@ -351,6 +369,23 @@ export default {
 			}
 			this.linkUrl = null;
 			this.newLink = false;
+		},
+
+		showImagePrompt() {
+			if (!this.imageLinkUrl) {
+				this.newImageLink = true;
+			}
+			this.$nextTick(() => {
+				this.$refs.imageLinkInput.focus();
+			})
+		},
+
+		setImageUrl(command, url) {
+			if (url !== null) {
+				command({ src: url });
+			}
+			this.imageLinkUrl = null;
+			this.newImageLink = false;
 		},
 	},
 
@@ -375,7 +410,8 @@ export default {
 				new TableRow(),
 				new Link({
 					openOnClick: false,
-				})
+				}),
+				new Image()
 			],
 			content: this.currentRoom.description,
 			onUpdate: ({ getHTML }) => {
@@ -395,6 +431,7 @@ export default {
 		'editor.isActive.link' (linkFn) {
 			if (!linkFn()) {
 				this.newLink = false;
+				this.newImageLink = false;
 			}
 			this.linkUrl = this.editor.getMarkAttrs('link').href;
 		}

@@ -52,3 +52,8 @@ Serve production version (of test deployment):
 Unit tests are run using Jest:
 
 `npm run test:unit`
+
+
+## Notes
+
+`<style scoped>` does not work with text rendered by `v-html` (it does not have the data hash attached to it)
