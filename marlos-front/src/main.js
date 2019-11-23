@@ -5,7 +5,7 @@ import router from "./router";
 import { store } from './store/store';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faHeading, faBold, faItalic, faUnderline, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faHeading, faBold, faItalic, faUnderline, faTable, faLink } from '@fortawesome/free-solid-svg-icons';
 require('./assets/styles.css');
 require('./assets/Raleway.css');
 
@@ -16,7 +16,8 @@ library.add(faHeading,
             faBold,
             faItalic,
             faUnderline,
-            faTable);
+            faTable,
+            faLink);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

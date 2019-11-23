@@ -146,7 +146,7 @@
 		</div>
 
 		<div v-if="editing === currentRoom.roomId" class="editing">
-			<editor-menu-bar class="editor-menu-bar" :editor="editor" v-slot="{ commands, isActive }">
+			<editor-menu-bar class="editor-menu-bar" :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
 				<div>
 					<div>
 						<button :class="{ 'is-active': isActive.heading({ level: 1}) }" @click="commands.heading({ level: 1 })">
@@ -167,12 +167,15 @@
 						<button :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
 							<font-awesome-icon icon="italic"></font-awesome-icon>
 						</button>
-						<button @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: true})">
+						<button :class="{ 'is-active': isActive.table() }" @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: true})">
 							<font-awesome-icon icon="table"></font-awesome-icon>
+						</button>
+						<button :class="{ 'is-active': isActive.link() }" @click="showLinkMenu(getMarkAttrs('link'))">
+							<font-awesome-icon icon="link"></font-awesome-icon>
 						</button>
 					</div>
 					<div>
-						<span v-if="isActive.table()" class="secondary-editor-menu-bar">
+						<span v-if="isActive.table()" class="secondary-menubar" :class="{ 'is-active': isActive.table() }">
 							<button @click="commands.deleteTable">Delete table</button>
 							<button @click="commands.addColumnBefore">Add column before</button>
 							<button @click="commands.addColumnAfter">Add column after</button>
@@ -180,9 +183,20 @@
 							<button @click="commands.addRowBefore">Add row before</button>
 							<button @click="commands.addRowAfter">Add row after</button>
 							<button @click="commands.deleteRow">Delete row</button>
-							<button @click="commands.toggleCellMerge">Merge cells</button>
 						</span>
-						<span v-else></span>
+						<span v-else class="secondary-menubar" :class="{ 'is-active': isActive.link() || newLink }">
+							<div>
+								<form @submit.prevent="setLinkUrl(commands.link, linkUrl)">
+									<input class="link-input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput"/>
+									<button class="link-input update-add" @click="setLinkUrl(commands.link, linkUrl)">
+										<span>{{ isActive.link() ? 'Update' : 'Add'}}</span>
+									</button>
+									<button v-if="isActive.link() && getMarkAttrs('link').href !== undefined" class="link-input" @click="setLinkUrl(commands.link, null)" type="button">
+										Remove link
+									</button>
+								</form>
+							</div>
+						</span>
 					</div>
 				</div>
 			</editor-menu-bar>
@@ -200,7 +214,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow } from 'tiptap-extensions';
+import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow, Link } from 'tiptap-extensions';
 
 export default {
 	name: 'room',
@@ -221,6 +235,8 @@ export default {
             roomFound: true,
 			info_expanded: false,
 			editor: null,
+			linkUrl: null,
+			newLink: false
 		}
 	},
 
@@ -230,7 +246,7 @@ export default {
 				'rooms',
 				'editing',
 				'isAdminUser'
-		])
+		]),
 	},
 
 	methods: {
@@ -291,18 +307,50 @@ export default {
 		},
 
 		addBrToEmptyParagraph(html) {
-			var emptyParagraphRegex = /<p><\/p>/g;
+			const emptyParagraphRegex = /<p><\/p>/g;
 			return html.replace(emptyParagraphRegex, "<p><br></p>");
 		},
 
 		cleanDataColwidth(html) {
-			var dataColwidthRegex = /data-colwidth/g;
+			const dataColwidthRegex = /data-colwidth/g;
 			return html.replace(dataColwidthRegex, "width");
 		},
 
 		uncleanDataColwidth(html) {
-			var widthRegex = /width/g;
+			const widthRegex = /width/g;
 			return html.replace(widthRegex, "data-colwidth");
+		},
+
+		cleanLinkUrl(href) {
+			const dotRegex = /\./;
+
+			// prepend non-relative links with https://www.
+			if (href.match(dotRegex)) {
+				const badUrlPrefixRegex = /^(www\.|(?!(https?:\/\/www\.)))/;
+				return href.replace(badUrlPrefixRegex, "https://www.");
+			}
+
+			return href;
+		},
+
+		showLinkMenu(attrs) {
+			this.linkUrl = attrs.href;
+			if (!this.linkUrl) {
+				this.newLink = true;
+			}
+			this.$nextTick(() => {
+				this.$refs.linkInput.focus();
+			})
+		},
+
+		setLinkUrl(command, url) {
+			if (!url) {
+				command({ href: url});
+			} else {
+				command({ href: this.cleanLinkUrl(url) });
+			}
+			this.linkUrl = null;
+			this.newLink = false;
 		},
 	},
 
@@ -325,11 +373,13 @@ export default {
 				new TableHeader(),
 				new TableCell(),
 				new TableRow(),
+				new Link({
+					openOnClick: false,
+				})
 			],
 			content: this.currentRoom.description,
 			onUpdate: ({ getHTML }) => {
 				const descriptionHTML = this.cleanDataColwidth(this.addBrToEmptyParagraph(getHTML()));
-				console.log(descriptionHTML);
 				this.currentRoom.description = descriptionHTML;
 				this.$emit('input', descriptionHTML);
 			},
@@ -341,6 +391,13 @@ export default {
 		currentRoom () {
 			this.editor.setContent(this.uncleanDataColwidth(this.currentRoom.description));
 		},
+
+		'editor.isActive.link' (linkFn) {
+			if (!linkFn()) {
+				this.newLink = false;
+			}
+			this.linkUrl = this.editor.getMarkAttrs('link').href;
+		}
 	},
 
 	beforeDestroy() {
@@ -478,8 +535,8 @@ export default {
 }
 
 .editor-menu-bar button.is-active {
-	background: #50596c;
-	border-left: 3px solid #50596c;
+	background: #6d7392;
+	border-left: 3px solid #6d7392;
 }
 
 .editor-menu-bar button:hover {
@@ -489,6 +546,38 @@ export default {
 .secondary-editor-menu-bar button {
 	border-top: 2px double white;
 	margin: 0;
+}
+
+.secondary-menubar {
+	visibility: hidden;
+}
+
+.secondary-menubar.is-active {
+	visibility: visible;
+}
+
+.link-input {
+	width: unset;
+	display: inline-block;
+	background: #6d7392;
+}
+
+input.link-input {
+	border-radius: 0;
+	margin-left: 0.5rem;
+	padding: 0rem 0.5rem;
+	background: transparent;
+	color: white;
+	border: 1px solid white;
+	min-width: 20rem;
+}
+
+button.link-input {
+	border: none;
+	border-radius: 3px;
+	background: #6d7392;
+	margin-left: 0.5rem;
+	transition-duration: 0s;
 }
 </style>
 
