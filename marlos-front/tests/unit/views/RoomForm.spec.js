@@ -1,6 +1,6 @@
-import Vuex from 'vuex'
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import RoomForm from '@/views/RoomForm'
+import Vuex from "vuex"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import RoomForm from "@/views/RoomForm"
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -32,20 +32,20 @@ beforeEach(() => {
     });
 });
 
-describe('RoomForm', () => {
-    it('submits a valid room', () => {
+describe("RoomForm", () => {
+    it("submits a valid room", () => {
         const wrapper = shallowMount(RoomForm, {
             store,
             localVue
         });
 
-        wrapper.find('#type').setValue("Fighting");
-        wrapper.find("form").trigger('submit');
-        expect(wrapper.find('.error-message').text()).toBe("❗ Please fill out all required fields");
+        wrapper.find("#type").setValue("Fighting");
+        wrapper.find("form").trigger("submit");
+        expect(wrapper.find(".error-message").text()).toBe("❗ Please fill out all required fields");
 
         wrapper.find('#room-name').setValue("A Town Within");
         wrapper.find('#tags').setValue("riddle");
-        wrapper.find("form").trigger('submit');
+        wrapper.find("form").trigger("submit");
         expect(actions.addRoom).toHaveBeenCalled();
         expect(wrapper.find('.success-message').text()).toBe("✅ Room successfully added");
     });
