@@ -21,7 +21,7 @@
                 <button v-for="tag in tagFilters" v-bind:key="tagFilters.indexOf(tag)" @click="removeFilter(tag)" class="filter-button">
                     {{ "❌ " + tag }}
                 </button>
-                <router-link v-if="isAdminUser" :to="{ name: 'create' }" tag="button" id="create-room">Create new room</router-link>
+                <button v-if="isAdminUser" @click="addRoom" id="create-room">Create new room</button>
             </div>
         </div>
         <p v-if="rooms.length < 1" class="empty-table">
@@ -96,7 +96,8 @@ export default {
 
     methods: {
         ...mapActions([
-            'getRoomData'
+            'getRoomData',
+            'addRoom'
         ]),
         filterMode(tag) {
             if (!this.tagFilters.includes(tag)) {

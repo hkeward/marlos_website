@@ -16,11 +16,11 @@ const getRoomData = async ({commit, state}) => {
     }
 };
 
-const addRoom = async ({ commit, state }, room) => {
+const addRoom = async ({ commit, state }) => {
     try {
         const response = await fetch('https://heatherward.dev/rest/rooms', {
             method: 'POST',
-            body: JSON.stringify(room),
+            body: JSON.stringify(state.genericRoom),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Authorization': 'Bearer ' + state.keycloak.token
@@ -29,9 +29,10 @@ const addRoom = async ({ commit, state }, room) => {
         const data = await response;
         const roomId = await data.json();
         if (data.status === 200) {
-            const newRoom = {...room, roomId};
+            const newRoom = {...state.genericRoom, roomId};
             commit('ADD_ROOM', newRoom);
-            router.push("/rooms");
+            router.push(`/rooms/${roomId}`);
+            commit('EDIT_MODE', roomId);
         }
     } catch(error) {
         throw Error("Error adding room");

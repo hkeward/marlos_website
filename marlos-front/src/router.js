@@ -4,7 +4,6 @@ import Home from './views/Home.vue'
 import RoomList from './views/RoomList.vue'
 import About from './views/About.vue'
 import RoomView from './views/RoomView.vue'
-import RoomForm from './views/RoomForm.vue'
 
 Vue.use(VueRouter);
 
@@ -26,12 +25,6 @@ export default new VueRouter({
       path: '/about',
       name: 'about',
       component: About
-    },
-    // 'create' has to go before 'room' or it will try to assign a room id of 'create'
-    {
-      path: '/rooms/create',
-      name: 'create',
-      component: RoomForm
     },
     {
       path: '/rooms/:id',

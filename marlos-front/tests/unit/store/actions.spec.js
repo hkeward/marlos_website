@@ -15,7 +15,7 @@ const room1_updated = {roomId: 1, roomName: "First room renamed", type: "Fightin
 
 beforeEach(() => {
     commit = jest.fn();
-    state = {keycloak: {token: ""}, fetched: false};
+    state = {keycloak: {token: ""}, fetched: false, genericRoom: room1};
     url = '';
     body = {};
     mockError = false;
@@ -61,7 +61,7 @@ describe("getRoomData", () => {
 describe("addRoom", () => {
     it("added a room", async () => {
        returnData = {json: () => room1.roomId, status: 200};
-       await actions.addRoom({commit, state}, room1);
+       await actions.addRoom({commit, state});
 
        expect(url).toBe("https://heatherward.dev/rest/rooms");
        expect(body).toEqual({method: 'POST', body: JSON.stringify(room1), headers: {'Content-type': 'application/json; charset=UTF-8', 'Authorization': 'Bearer ' + state.keycloak.token}});
