@@ -13,6 +13,10 @@ const EDIT_MODE = (state, mode) => {
     state.editing = mode;
 };
 
+const SET_INFO_EXPANDED = (state, mode) => {
+    state.infoExpanded = mode;
+};
+
 const SAVE_ROOM = (state, updatedRoom) => {
     state.rooms[updatedRoom.roomId] = updatedRoom;
 };
@@ -33,6 +37,7 @@ export default {
     SET_ROOMS,
     ADD_ROOM,
     EDIT_MODE,
+    SET_INFO_EXPANDED,
     SAVE_ROOM,
     DELETE_ROOM,
     CONFIGURE_KEYCLOAK,

@@ -48,9 +48,9 @@
 		</div>
 
 		<div id="more-info-section">
-			<div v-if="info_expanded" class="more-info">
+			<div v-if="infoExpanded" class="more-info">
 
-				<button @click="toggleInfo" class="toggle-info">▼ Less</button>
+				<button @click="toggleInfoExpanded" class="toggle-info">▼ Less</button>
 
 				<div v-if="editing === currentRoom.roomId" id="advanced-editing">
 					<div id="center-container">
@@ -140,7 +140,7 @@
 			</div>
 
 			<div v-else class="more-info">
-				<button @click="toggleInfo" class="toggle-info">► More info</button>
+				<button @click="toggleInfoExpanded" class="toggle-info">► More info</button>
 
 			</div>
 		</div>
@@ -246,7 +246,6 @@ export default {
             currentRoom: {},
 			cachedRoom: {},
             roomFound: true,
-			info_expanded: false,
 			editor: null,
 			linkUrl: null,
 			newLink: false,
@@ -260,13 +259,15 @@ export default {
 				'keycloak',
 				'rooms',
 				'editing',
-				'isAdminUser'
+				'isAdminUser',
+				'infoExpanded'
 		]),
 	},
 
 	methods: {
 		...mapActions([
 				'toggleEditing',
+				'toggleInfoExpanded',
 				'editRoom',
 				'deleteRoom'
 		]),
@@ -284,10 +285,6 @@ export default {
                     this.roomFound = false;
                 }
             }
-		},
-
-		toggleInfo() {
-			this.info_expanded = !this.info_expanded;
 		},
 
 		onEdit(e) {

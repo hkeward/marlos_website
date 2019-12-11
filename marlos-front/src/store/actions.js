@@ -33,6 +33,7 @@ const addRoom = async ({ commit, state }) => {
             commit('ADD_ROOM', newRoom);
             router.push(`/rooms/${roomId}`);
             commit('EDIT_MODE', roomId);
+            commit('SET_INFO_EXPANDED', true);
         }
     } catch(error) {
         throw Error("Error adding room");
@@ -41,6 +42,10 @@ const addRoom = async ({ commit, state }) => {
 
 const toggleEditing = ({commit}, mode) => {
     commit('EDIT_MODE', mode);
+};
+
+const toggleInfoExpanded = ({commit, state}) => {
+    commit('SET_INFO_EXPANDED', !state.infoExpanded);
 };
 
 const editRoom = async ({ commit, state }, updatedRoom) => {
@@ -103,6 +108,7 @@ export default {
     getRoomData,
     addRoom,
     toggleEditing,
+    toggleInfoExpanded,
     editRoom,
     deleteRoom,
     initializeKeycloak
