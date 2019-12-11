@@ -17,6 +17,7 @@ export const store = new Vuex.Store({
         editing: null,
         isAdminUser: false,
         infoExpanded: false,
+        isNewRoom: false,
         fetched: false,
         genericRoom: {
             roomName: "New room",

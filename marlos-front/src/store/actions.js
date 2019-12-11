@@ -34,6 +34,7 @@ const addRoom = async ({ commit, state }) => {
             router.push(`/rooms/${roomId}`);
             commit('EDIT_MODE', roomId);
             commit('SET_INFO_EXPANDED', true);
+            commit('SET_NEW_ROOM', true);
         }
     } catch(error) {
         throw Error("Error adding room");
@@ -62,6 +63,9 @@ const editRoom = async ({ commit, state }, updatedRoom) => {
         if (data.status === 200) {
             commit('SAVE_ROOM', updatedRoom);
             commit('EDIT_MODE', false);
+            if (state.isNewRoom) {
+                commit('SET_NEW_ROOM', false);
+            }
         }
     } catch (error) {
         throw Error("Error saving room");
@@ -77,6 +81,9 @@ const deleteRoom = async ({ commit, state }, roomId) => {
         const data = await response;
         if (data.status === 200) {
             commit('DELETE_ROOM', roomId);
+            if (state.isNewRoom) {
+                commit('SET_NEW_ROOM', false);
+            }
             router.push("/rooms");
         }
     } catch (error) {

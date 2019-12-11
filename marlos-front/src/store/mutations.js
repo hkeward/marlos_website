@@ -17,6 +17,10 @@ const SET_INFO_EXPANDED = (state, mode) => {
     state.infoExpanded = mode;
 };
 
+const SET_NEW_ROOM = (state, mode) => {
+    state.isNewRoom = mode;
+};
+
 const SAVE_ROOM = (state, updatedRoom) => {
     state.rooms[updatedRoom.roomId] = updatedRoom;
 };
@@ -38,6 +42,7 @@ export default {
     ADD_ROOM,
     EDIT_MODE,
     SET_INFO_EXPANDED,
+    SET_NEW_ROOM,
     SAVE_ROOM,
     DELETE_ROOM,
     CONFIGURE_KEYCLOAK,

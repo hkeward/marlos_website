@@ -26,7 +26,7 @@
 					Save
 				</button>
 
-				<button @click="cancelEdit" class="muted-button">
+				<button @click="isNewRoom ? deleteRoom(currentRoom.roomId) : cancelEdit()" class="muted-button">
 					Cancel
 				</button>
 
@@ -260,7 +260,8 @@ export default {
 				'rooms',
 				'editing',
 				'isAdminUser',
-				'infoExpanded'
+				'infoExpanded',
+				'isNewRoom'
 		]),
 	},
 
