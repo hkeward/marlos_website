@@ -16,7 +16,22 @@ export const store = new Vuex.Store({
         rooms: {},
         editing: null,
         isAdminUser: false,
-        fetched: false
+        infoExpanded: false,
+        isNewRoom: false,
+        fetched: false,
+        genericRoom: {
+            roomName: "New room",
+            timeEstimate: null,
+            rating: null,
+            difficulty: null,
+            grid: null,
+            darkvision: null,
+            type: "Room type",
+            environment: null,
+            tags: "",
+            quality: null,
+            description: "Room description"
+        },
     },
     mutations,
     actions

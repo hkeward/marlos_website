@@ -16,11 +16,11 @@ const getRoomData = async ({commit, state}) => {
     }
 };
 
-const addRoom = async ({ commit, state }, room) => {
+const addRoom = async ({ commit, state }) => {
     try {
         const response = await fetch('https://heatherward.dev/rest/rooms', {
             method: 'POST',
-            body: JSON.stringify(room),
+            body: JSON.stringify(state.genericRoom),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'Authorization': 'Bearer ' + state.keycloak.token
@@ -29,9 +29,12 @@ const addRoom = async ({ commit, state }, room) => {
         const data = await response;
         const roomId = await data.json();
         if (data.status === 200) {
-            const newRoom = {...room, roomId};
+            const newRoom = {...state.genericRoom, roomId};
             commit('ADD_ROOM', newRoom);
-            router.push("/rooms");
+            router.push(`/rooms/${roomId}`);
+            commit('EDIT_MODE', roomId);
+            commit('SET_INFO_EXPANDED', true);
+            commit('SET_NEW_ROOM', true);
         }
     } catch(error) {
         throw Error("Error adding room");
@@ -40,6 +43,10 @@ const addRoom = async ({ commit, state }, room) => {
 
 const toggleEditing = ({commit}, mode) => {
     commit('EDIT_MODE', mode);
+};
+
+const toggleInfoExpanded = ({commit, state}) => {
+    commit('SET_INFO_EXPANDED', !state.infoExpanded);
 };
 
 const editRoom = async ({ commit, state }, updatedRoom) => {
@@ -56,6 +63,10 @@ const editRoom = async ({ commit, state }, updatedRoom) => {
         if (data.status === 200) {
             commit('SAVE_ROOM', updatedRoom);
             commit('EDIT_MODE', false);
+            if (state.isNewRoom) {
+                commit('SET_NEW_ROOM', false);
+                commit('SET_INFO_EXPANDED', false);
+            }
         }
     } catch (error) {
         throw Error("Error saving room");
@@ -71,6 +82,10 @@ const deleteRoom = async ({ commit, state }, roomId) => {
         const data = await response;
         if (data.status === 200) {
             commit('DELETE_ROOM', roomId);
+            if (state.isNewRoom) {
+                commit('SET_NEW_ROOM', false);
+                commit('SET_INFO_EXPANDED', false);
+            }
             router.push("/rooms");
         }
     } catch (error) {
@@ -102,6 +117,7 @@ export default {
     getRoomData,
     addRoom,
     toggleEditing,
+    toggleInfoExpanded,
     editRoom,
     deleteRoom,
     initializeKeycloak

@@ -41,6 +41,7 @@ beforeEach(() => {
 
     actions = {
         toggleEditing: jest.fn(),
+        toggleInfoExpanded: jest.fn(),
         editRoom: jest.fn()
     };
 
@@ -53,6 +54,7 @@ beforeEach(() => {
             },
             keycloak: fake_keycloak_object,
             rooms: {},
+            infoExpanded: false,
             editing: null,
             isAdminUser: false,
             fetched: false
@@ -120,7 +122,7 @@ describe('RoomView', () => {
         expect(wrapper.vm.roomFound).toBe(false);
     });
 
-    it('displays admin buttons and expands info', async () => {
+    it('displays admin buttons', async () => {
         returnData = {json: () => room1};
         store.state.isAdminUser = true;
         const wrapper = shallowMount(RoomView, {
@@ -138,10 +140,25 @@ describe('RoomView', () => {
         expect(wrapper.find('.toggle-info').text()).toBe('► More info');
 
         wrapper.find('.toggle-info').trigger('click');
-        expect(wrapper.find('.toggle-info').text()).toBe('▼ Less');
+        expect(actions.toggleInfoExpanded).toHaveBeenCalled();
 
         wrapper.find('.edit-button').trigger('click');
         expect(actions.toggleEditing).toHaveBeenCalled();
+    });
+
+    it('shows expanded info', async () => {
+        returnData = {json: () => room1};
+        store.state.infoExpanded = true;
+        const wrapper = shallowMount(RoomView, {
+            store,
+            localVue,
+            mocks: {
+                $route: { params: { id: room1.roomId } },
+            }
+        });
+
+        await Vue.nextTick();
+        expect(wrapper.find('.toggle-info').text()).toBe('▼ Less');
     });
 
     it('displays editing mode areas', async () => {
@@ -172,15 +189,11 @@ describe('RoomView', () => {
         returnData = {json: () => room1};
         store.state.isAdminUser = true;
         store.state.editing = room1.roomId;
+        store.state.infoExpanded = true;
 
         const wrapper = shallowMount(RoomView, {
             store,
             localVue,
-            data() {
-                return {
-                    info_expanded: true
-                }
-            },
             mocks: {
                 $route: { params: { id: room1.roomId } },
             }
@@ -219,15 +232,11 @@ describe('RoomView', () => {
         room1.darkvision = true;
         room1.grid = true;
         returnData = {json: () => room1};
+        store.state.infoExpanded = true;
 
         const wrapper = shallowMount(RoomView, {
             store,
             localVue,
-            data() {
-                return {
-                    info_expanded: true
-                }
-            },
             mocks: {
                 $route: { params: { id: room1.roomId } },
             }

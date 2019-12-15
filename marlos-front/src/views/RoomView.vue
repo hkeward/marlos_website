@@ -26,7 +26,7 @@
 					Save
 				</button>
 
-				<button @click="cancelEdit" class="muted-button">
+				<button @click="isNewRoom ? deleteRoom(currentRoom.roomId) : cancelEdit()" class="muted-button">
 					Cancel
 				</button>
 
@@ -48,26 +48,20 @@
 		</div>
 
 		<div id="more-info-section">
-			<div v-if="info_expanded" class="more-info">
+			<div v-if="infoExpanded" class="more-info">
 
-				<button @click="toggleInfo" class="toggle-info">▼ Less</button>
+				<button @click="toggleInfoExpanded" class="toggle-info">▼ Less</button>
 
 				<div v-if="editing === currentRoom.roomId" id="advanced-editing">
 					<div id="center-container">
 						<div id="darkvision-grid">
 							<div id="darkvision">
-								<p>Darkvision required?</p>
-									<select v-model="currentRoom.darkvision" class="darkvision">
-										<option value=1>Yes</option>
-										<option value=0>No</option>
-									</select>
+								<input type="checkbox" id="darkvision" class="darkvision" v-model="currentRoom.darkvision" :true-value="1" :false-value="0">
+								<label for="darkvision">Darkvision required</label>
 							</div>
 							<div id="grid">
-								<p>Grid required?</p>
-										<select v-model="currentRoom.grid" class="grid">
-										<option value=1>Yes</option>
-										<option value=0>No</option>
-									</select>
+								<input type="checkbox" id="grid" class="grid" v-model="currentRoom.grid" :true-value="1" :false-value="0">
+								<label for="grid">Grid required</label>
 							</div>
 						</div>
 
@@ -140,7 +134,7 @@
 			</div>
 
 			<div v-else class="more-info">
-				<button @click="toggleInfo" class="toggle-info">► More info</button>
+				<button @click="toggleInfoExpanded" class="toggle-info">► More info</button>
 
 			</div>
 		</div>
@@ -246,7 +240,6 @@ export default {
             currentRoom: {},
 			cachedRoom: {},
             roomFound: true,
-			info_expanded: false,
 			editor: null,
 			linkUrl: null,
 			newLink: false,
@@ -260,13 +253,16 @@ export default {
 				'keycloak',
 				'rooms',
 				'editing',
-				'isAdminUser'
+				'isAdminUser',
+				'infoExpanded',
+				'isNewRoom'
 		]),
 	},
 
 	methods: {
 		...mapActions([
 				'toggleEditing',
+				'toggleInfoExpanded',
 				'editRoom',
 				'deleteRoom'
 		]),
@@ -284,10 +280,6 @@ export default {
                     this.roomFound = false;
                 }
             }
-		},
-
-		toggleInfo() {
-			this.info_expanded = !this.info_expanded;
 		},
 
 		onEdit(e) {
