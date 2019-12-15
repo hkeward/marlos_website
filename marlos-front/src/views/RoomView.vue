@@ -3,7 +3,7 @@
 		<div id="room-header">
 			<div id="title-info">
 
-				<h1 v-if="editing === currentRoom.roomId" v-text="currentRoom.roomName" @blur="onEdit" class="room-name editing" contenteditable="true">
+				<h1 v-if="editing === currentRoom.roomId" v-text="currentRoom.roomName" @blur="onEdit" id="roomName" class="room-name editing" contenteditable="true">
 				</h1>
 
 				<h1 v-else class="room-name" contenteditable="false">
@@ -11,7 +11,7 @@
 				</h1>
 
 
-				<h3 v-if="editing === currentRoom.roomId" v-text="currentRoom.type" @blur="onEdit" class="type editing" contenteditable="true">
+				<h3 v-if="editing === currentRoom.roomId" v-text="currentRoom.type" @blur="onEdit" id="type" class="type editing" contenteditable="true">
 				</h3>
 
 				<h3 v-else class="type" contenteditable="false">
@@ -47,97 +47,7 @@
 			</div>
 		</div>
 
-		<div id="more-info-section">
-			<div v-if="infoExpanded" class="more-info">
-
-				<button @click="toggleInfoExpanded" class="toggle-info">▼ Less</button>
-
-				<div v-if="editing === currentRoom.roomId" id="advanced-editing">
-					<div id="center-container">
-						<div id="darkvision-grid">
-							<div id="darkvision">
-								<input type="checkbox" id="darkvision" class="darkvision" v-model="currentRoom.darkvision" :true-value="1" :false-value="0">
-								<label for="darkvision">Darkvision required</label>
-							</div>
-							<div id="grid">
-								<input type="checkbox" id="grid" class="grid" v-model="currentRoom.grid" :true-value="1" :false-value="0">
-								<label for="grid">Grid required</label>
-							</div>
-						</div>
-
-						<div id="rate-qual-diff" class="rate-qual-diff">
-							<div id="labels">
-								<p>
-									Rating
-								</p>
-								<p>
-									Quality
-								</p>
-								<p>
-									Difficulty
-								</p>
-								<p>
-									Environment
-								</p>
-							</div>
-
-							<div id="textboxes">
-								<p v-text="currentRoom.rating" @blur="onEdit" class="rating editing" contenteditable="true"></p>
-								<p v-text="currentRoom.quality" @blur="onEdit" class="quality editing" contenteditable="true"></p>
-								<p v-text="currentRoom.difficulty" @blur="onEdit" class="difficulty editing" contenteditable="true"></p>
-								<p v-text="currentRoom.environment" @blur="onEdit" class="environment editing" contenteditable="true"></p>
-							</div>
-
-						</div>
-
-						<div id="empty-div">
-						</div>
-					</div>
-
-						<div id="tags">
-							Tags: {{ "#" + currentRoom.tags }}
-						</div>
-
-				</div>
-
-				<div v-else id="advanced">
-
-					<div id="center-container">
-						<div id="darkvision-grid">
-							<ul>
-								<li v-if="currentRoom.darkvision == 1" id="darkvision" contenteditable="false">Darkvision required</li>
-								<li v-if="currentRoom.grid == 1" id="grid" contenteditable="false">Grid required</li>
-							</ul>
-						</div>
-
-						<div class="rate-qual-diff">
-							<p v-if="currentRoom.rating">
-								Rating: {{ currentRoom.rating }}
-							</p>
-							<p v-if="currentRoom.quality">
-								Quality: {{ currentRoom.quality }}
-							</p>
-							<p v-if="currentRoom.difficulty">
-								Difficulty: {{ currentRoom.difficulty }}
-							</p>
-							<p v-if="currentRoom.environment">
-								Environment: {{ currentRoom.environment }}
-							</p>
-						</div>
-
-					</div>
-
-					<div id="tags">
-						Tags: {{ "#" + currentRoom.tags }}
-					</div>
-				</div>
-			</div>
-
-			<div v-else class="more-info">
-				<button @click="toggleInfoExpanded" class="toggle-info">► More info</button>
-
-			</div>
-		</div>
+		<advanced-room-info :currentRoom="currentRoom" />
 
 		<div v-if="editing === currentRoom.roomId" class="editing">
 			<editor-menu-bar class="editor-menu-bar" :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
@@ -222,6 +132,7 @@
 import { mapState, mapActions } from 'vuex';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow, Link, Image } from 'tiptap-extensions';
+import AdvancedRoomInfo from '@/components/AdvancedRoomInfo.vue';
 
 export default {
 	name: 'room',
@@ -229,6 +140,7 @@ export default {
 	components: {
 		EditorContent,
 		EditorMenuBar,
+		AdvancedRoomInfo
 	},
 
 	props: {
@@ -254,7 +166,6 @@ export default {
 				'rooms',
 				'editing',
 				'isAdminUser',
-				'infoExpanded',
 				'isNewRoom'
 		]),
 	},
@@ -262,7 +173,6 @@ export default {
 	methods: {
 		...mapActions([
 				'toggleEditing',
-				'toggleInfoExpanded',
 				'editRoom',
 				'deleteRoom'
 		]),
@@ -283,23 +193,7 @@ export default {
 		},
 
 		onEdit(e) {
-			const classes = Array.from(e.target.classList);
-			const contents = e.target.innerText;
-			if (classes.includes("room-name")) {
-				this.currentRoom.roomName = contents;
-			} else if (classes.includes("type")) {
-				this.currentRoom.type = contents;
-			} else if (classes.includes("rating")) {
-				this.currentRoom.rating = contents;
-			} else if (classes.includes("quality")) {
-				this.currentRoom.quality = contents;
-			} else if (classes.includes("difficulty")) {
-				this.currentRoom.difficulty = contents;
-			} else if (classes.includes("environment")) {
-				this.currentRoom.environment = contents;
-			} else {
-				console.error("onEdit called from an unexpected input location!");
-			}
+			this.currentRoom[e.target.id] = e.target.innerText;
 		},
 
 		editMode(room) {
@@ -449,54 +343,6 @@ export default {
 #room-header {
 	display: flex;
 	justify-content: space-between;
-}
-
-.toggle-info {
-	width: 100%;
-	text-align: left;
-	background: transparent;
-	border: 1px solid transparent;
-	margin-left: 0;
-	padding-left: 0;
-}
-
-.toggle-info:hover {
-	background: transparent;
-	border: 1px solid transparent;
-}
-
-.toggle-info:focus {
-	background: transparent;
-	border:1px solid transparent;
-}
-
-#darkvision-grid {
-	padding-right: 1rem;
-}
-
-#advanced {
-	background: #6D7392;
-	border-radius: 4px;
-	padding-bottom: 10px;
-}
-
-#tags {
-	margin-left: 10px;
-}
-
-#center-container {
-	display: flex;
-	justify-content: flex-start;
-}
-
-#rate-qual-diff {
-	display: flex;
-	justify-content: space-between;
-	min-width: 25%;
-}
-
-.rate-qual-diff {
-	margin-left: 5rem;
 }
 
 .room-name, .type, .description {

@@ -99,6 +99,7 @@ export default {
             'getRoomData',
             'addRoom'
         ]),
+
         filterMode(tag) {
             if (!this.tagFilters.includes(tag)) {
                 this.tagFilters.push(tag);
@@ -134,6 +135,7 @@ export default {
                 return a.roomName.toLowerCase() > b.roomName.toLowerCase() ? 1 : -1;
             });
         },
+
         ...mapState([
             'rooms',
             'isAdminUser'

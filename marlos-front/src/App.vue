@@ -5,7 +5,7 @@
     <navbar />
 
     <div class="container">
-      <router-view :rooms="rooms" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -18,12 +18,6 @@ export default {
   name: 'app',
   components: {
     Navbar,
-  },
-
-  data() {
-    return {
-      rooms: []
-    }
   },
 
   mounted() {
