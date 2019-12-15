@@ -65,6 +65,7 @@ const editRoom = async ({ commit, state }, updatedRoom) => {
             commit('EDIT_MODE', false);
             if (state.isNewRoom) {
                 commit('SET_NEW_ROOM', false);
+                commit('SET_INFO_EXPANDED', false);
             }
         }
     } catch (error) {
@@ -83,6 +84,7 @@ const deleteRoom = async ({ commit, state }, roomId) => {
             commit('DELETE_ROOM', roomId);
             if (state.isNewRoom) {
                 commit('SET_NEW_ROOM', false);
+                commit('SET_INFO_EXPANDED', false);
             }
             router.push("/rooms");
         }

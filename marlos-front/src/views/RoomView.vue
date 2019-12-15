@@ -56,18 +56,12 @@
 					<div id="center-container">
 						<div id="darkvision-grid">
 							<div id="darkvision">
-								<p>Darkvision required?</p>
-									<select v-model="currentRoom.darkvision" class="darkvision">
-										<option value=1>Yes</option>
-										<option value=0>No</option>
-									</select>
+								<input type="checkbox" id="darkvision" class="darkvision" v-model="currentRoom.darkvision" :true-value="1" :false-value="0">
+								<label for="darkvision">Darkvision required</label>
 							</div>
 							<div id="grid">
-								<p>Grid required?</p>
-										<select v-model="currentRoom.grid" class="grid">
-										<option value=1>Yes</option>
-										<option value=0>No</option>
-									</select>
+								<input type="checkbox" id="grid" class="grid" v-model="currentRoom.grid" :true-value="1" :false-value="0">
+								<label for="grid">Grid required</label>
 							</div>
 						</div>
 
