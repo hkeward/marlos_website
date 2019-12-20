@@ -113,10 +113,6 @@ export default {
         ...mapActions([
             'toggleInfoExpanded'
         ]),
-
-        // onEdit(e) {
-        //     this.currentRoom[e.target.id] = e.target.innerText;
-        // }
     }
 
 }

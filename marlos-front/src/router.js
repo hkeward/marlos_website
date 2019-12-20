@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
 import RoomList from './views/RoomList.vue'
 import About from './views/About.vue'
-import RoomView from './views/RoomView.vue'
+import RoomView from './views/RoomView/RoomView.vue'
 
 Vue.use(VueRouter);
 

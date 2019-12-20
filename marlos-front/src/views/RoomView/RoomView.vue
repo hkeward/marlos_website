@@ -1,52 +1,6 @@
 <template>
 	<div v-if="roomFound" class="room" :roomid="id">
-		<div id="room-header">
-			<div id="title-info">
-
-				<h1 v-if="editing === currentRoom.roomId" v-text="currentRoom.roomName" @blur="onEdit" id="roomName" class="room-name editing" contenteditable="true">
-				</h1>
-
-				<h1 v-else class="room-name" contenteditable="false">
-					{{ currentRoom.roomName }}
-				</h1>
-
-
-				<h3 v-if="editing === currentRoom.roomId" v-text="currentRoom.type" @blur="onEdit" id="type" class="type editing" contenteditable="true">
-				</h3>
-
-				<h3 v-else class="type" contenteditable="false">
-					{{ currentRoom.type }}
-				</h3>
-
-			</div>
-
-			<div v-if="editing === currentRoom.roomId && isAdminUser" class="edit-bar">
-
-				<button @click="editRoom(currentRoom)" class="save-button">
-					Save
-				</button>
-
-				<button @click="isNewRoom ? deleteRoom(currentRoom.roomId) : cancelEdit()" class="muted-button">
-					Cancel
-				</button>
-
-			</div>
-
-			<div v-else-if="isAdminUser" class="edit-bar">
-
-				<button @click="editMode(currentRoom)" class="edit-button">
-					Edit
-				</button>
-
-				<button @click="deleteRoom(currentRoom.roomId)" class="delete-button">
-					Delete
-				</button>
-			</div>
-
-			<div v-else class="edit-bar">
-			</div>
-		</div>
-
+		<room-title-info :currentRoom="currentRoom" />
 		<advanced-room-info :currentRoom="currentRoom" />
 
 		<div v-if="editing === currentRoom.roomId" class="editing">
@@ -132,7 +86,8 @@
 import { mapState, mapActions } from 'vuex';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { Heading, Bold, Underline, Italic, Table, TableHeader, TableCell, TableRow, Link, Image } from 'tiptap-extensions';
-import AdvancedRoomInfo from '@/components/AdvancedRoomInfo.vue';
+import AdvancedRoomInfo from './AdvancedRoomInfo.vue';
+import RoomTitleInfo from './RoomTitleInfo';
 
 export default {
 	name: 'room',
@@ -140,7 +95,8 @@ export default {
 	components: {
 		EditorContent,
 		EditorMenuBar,
-		AdvancedRoomInfo
+		AdvancedRoomInfo,
+		RoomTitleInfo,
 	},
 
 	props: {
@@ -150,7 +106,6 @@ export default {
 	data() {
 		return {
             currentRoom: {},
-			cachedRoom: {},
             roomFound: true,
 			editor: null,
 			linkUrl: null,
@@ -171,12 +126,6 @@ export default {
 	},
 
 	methods: {
-		...mapActions([
-				'toggleEditing',
-				'editRoom',
-				'deleteRoom'
-		]),
-
 		async getCurrentRoom (roomId) {
 			if (roomId in this.rooms) {
 				this.currentRoom = this.rooms[roomId];
@@ -194,17 +143,6 @@ export default {
 
 		onEdit(e) {
 			this.currentRoom[e.target.id] = e.target.innerText;
-		},
-
-		editMode(room) {
-				this.cachedRoom = Object.assign({}, room);
-				this.toggleEditing(room.roomId);
-		},
-
-		cancelEdit() {
-			Object.assign(this.currentRoom, this.cachedRoom);
-			this.currentRoom.__ob__.dep.notify();
-			this.toggleEditing(false);
 		},
 
 		addBrToEmptyParagraph(html) {
