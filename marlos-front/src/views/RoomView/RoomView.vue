@@ -1,5 +1,5 @@
 <template>
-	<div v-if="roomFound" class="room" :roomid="id">
+	<div v-if="roomFound" class="room">
 		<room-title-info :currentRoom="currentRoom" />
 		<advanced-room-info :currentRoom="currentRoom" />
 		<room-description :currentRoom="currentRoom" />
