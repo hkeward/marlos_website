@@ -40,7 +40,6 @@ describe("getRoomData", () => {
        await actions.getRoomData({commit, state});
 
        expect(url).toBe("https://heatherward.dev/rest/rooms");
-       expect(body).toEqual({headers: {'Authorization': 'Bearer ' + state.keycloak.token}});
        expect(commit).toHaveBeenCalledWith('SET_ROOMS', { 1: room1, 2: room2});
    });
 
@@ -64,7 +63,7 @@ describe("addRoom", () => {
        await actions.addRoom({commit, state});
 
        expect(url).toBe("https://heatherward.dev/rest/rooms");
-       expect(body).toEqual({method: 'POST', body: JSON.stringify(room1), headers: {'Content-type': 'application/json; charset=UTF-8', 'Authorization': 'Bearer ' + state.keycloak.token}});
+       expect(body).toEqual({method: 'POST', body: JSON.stringify(room1), headers: {'Content-type': 'application/json; charset=UTF-8'}});
        expect(commit).toHaveBeenCalledWith('ADD_ROOM', room1);
     });
 
@@ -95,8 +94,7 @@ describe('editRoom', () => {
             method: 'PUT',
             body: JSON.stringify(room1_updated),
             headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer ' + state.keycloak.token
+                'Content-type': 'application/json; charset=UTF-8'
             }});
         expect(commit).toHaveBeenCalledWith('SAVE_ROOM', room1_updated);
         expect(commit).toHaveBeenCalledWith('EDIT_MODE', false);
@@ -117,8 +115,7 @@ describe('deleteRoom', () => {
 
         expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1.roomId}`);
         expect(body).toEqual({
-            method: 'DELETE',
-            headers: {'Authorization': 'Bearer ' + state.keycloak.token}
+            method: 'DELETE'
         });
         expect(commit).toHaveBeenCalledWith('DELETE_ROOM', room1.roomId);
     });

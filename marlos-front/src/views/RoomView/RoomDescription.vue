@@ -134,7 +134,8 @@ export default {
 
             // prepend non-relative links with https://www.
             if (href.match(dotRegex)) {
-                const badUrlPrefixRegex = /^(www\.|(?!(https?:\/\/www\.)))/;
+                // matches anything that doesn't start with www., http(s)://www., http(s)://
+                const badUrlPrefixRegex = /^(www\.|(?!(https?:\/\/(www\.|))))/;
                 return href.replace(badUrlPrefixRegex, "https://www.");
             }
 
