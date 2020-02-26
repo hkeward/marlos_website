@@ -5,8 +5,8 @@ var body;
 var mockError;
 var returnData;
 
-var commit;
 var state;
+var commit;
 
 const room1 = { roomId: 1, roomName: "First room", type: "Fighting", tags: ""};
 const room2 = { roomId: 2, roomName: "Second room", type: "RP", tags: "first tag"};
@@ -127,13 +127,5 @@ describe('deleteRoom', () => {
         mockError = true;
 
         await expect(actions.deleteRoom({commit, state}, room1.roomId)).rejects.toThrow("Error deleting room");
-    });
-});
-
-describe('initializeKeycloak', () => {
-    it('initialized keycloak', () => {
-        actions.initializeKeycloak({commit, state});
-
-        expect(commit).toHaveBeenCalledWith('CONFIGURE_KEYCLOAK');
     });
 });

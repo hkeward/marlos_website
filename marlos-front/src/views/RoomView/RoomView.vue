@@ -40,6 +40,7 @@ export default {
 		...mapState([
 				'keycloak',
 				'rooms',
+				'genericRoom',
 		]),
 	},
 
@@ -49,9 +50,7 @@ export default {
 				this.currentRoom = this.rooms[roomId];
 			} else {
                 try {
-                    const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
-                    headers: {'Authorization': 'Bearer ' + this.keycloak.token}
-                });
+                    const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {});
                     this.currentRoom = await response.json();
                 } catch (err) {
                     this.roomFound = false;
@@ -60,7 +59,9 @@ export default {
 		},
 
 		onEdit(e) {
-			this.currentRoom[e.target.id] = e.target.innerText;
+			if (Object.keys(this.genericRoom).includes(e.target.id)) {
+				this.currentRoom[e.target.id] = e.target.innerText;
+			}
 		},
 	},
 
