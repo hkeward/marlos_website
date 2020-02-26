@@ -70,7 +70,7 @@ describe('RoomDescription functions', () => {
             }
         });
         expect(wrapper.vm.cleanLinkUrl("github.com")).toBe("https://www.github.com");
-        // expect(wrapper.vm.cleanLinkUrl("https://github.com")).toBe("https://github.com");
+        expect(wrapper.vm.cleanLinkUrl("https://github.com")).toBe("https://github.com");
         expect(wrapper.vm.cleanLinkUrl("www.github.com")).toBe("https://www.github.com");
         expect(wrapper.vm.cleanLinkUrl("https://www.github.com")).toBe("https://www.github.com");
     });
