@@ -5,9 +5,7 @@ const getRoomData = async ({commit, state}) => {
         return;
     }
     try {
-        const response = await fetch("https://heatherward.dev/rest/rooms", {
-            headers: {'Authorization': 'Bearer ' + state.keycloak.token}
-        });
+        const response = await fetch("https://heatherward.dev/rest/rooms", {});
         const data_array = await response.json();
         const data_json = Object.assign({}, ...(data_array.map(item => ({ [item['roomId']]: item }) )));
         commit('SET_ROOMS', data_json);
@@ -23,7 +21,6 @@ const addRoom = async ({ commit, state }) => {
             body: JSON.stringify(state.genericRoom),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer ' + state.keycloak.token
             }
         });
         const data = await response;
@@ -41,7 +38,7 @@ const addRoom = async ({ commit, state }) => {
     }
 };
 
-const toggleEditing = ({commit}, mode) => {
+const toggleEditing = ({ commit }, mode) => {
     commit('EDIT_MODE', mode);
 };
 
@@ -56,7 +53,6 @@ const editRoom = async ({ commit, state }, updatedRoom) => {
             body: JSON.stringify(updatedRoom),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer ' + state.keycloak.token
             }
         });
         const data = await response;
@@ -76,8 +72,7 @@ const editRoom = async ({ commit, state }, updatedRoom) => {
 const deleteRoom = async ({ commit, state }, roomId) => {
     try {
         const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
-            method: 'DELETE',
-            headers: {'Authorization': 'Bearer ' + state.keycloak.token}
+            method: 'DELETE'
         });
         const data = await response;
         if (data.status === 200) {
@@ -93,7 +88,7 @@ const deleteRoom = async ({ commit, state }, roomId) => {
     }
 };
 
-const initializeKeycloak = ({ commit, state }) => {
+const initializeKeycloak = ({ commit, state, dispatch }) => {
     commit('CONFIGURE_KEYCLOAK');
     return new Promise(function(resolve, reject) {
         state.keycloak.init({onLoad: "login-required"})
@@ -102,8 +97,15 @@ const initializeKeycloak = ({ commit, state }) => {
                     window.location.reload();
                     reject();
                 } else {
-                    console.log("Authenticated");
                     commit('SET_USER_ROLE');
+                    state.keycloak.onTokenExpired = () => {
+                        dispatch("refreshToken")
+                            .catch(() => {
+                                console.error("Error refreshing token");
+                            });
+                    };
+                    // Force the first token refresh; onTokenExpired seems only to start up after the first refresh
+                    dispatch("refreshToken", 3600);
                     resolve();
                 }
             })
@@ -113,6 +115,10 @@ const initializeKeycloak = ({ commit, state }) => {
     })
 };
 
+const refreshToken = ({ state }, minValidity=30) => {
+    return state.keycloak.updateToken(minValidity);
+};
+
 export default {
     getRoomData,
     addRoom,
@@ -120,5 +126,6 @@ export default {
     toggleInfoExpanded,
     editRoom,
     deleteRoom,
-    initializeKeycloak
+    initializeKeycloak,
+    refreshToken
 };

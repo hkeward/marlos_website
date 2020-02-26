@@ -33,6 +33,7 @@ const CONFIGURE_KEYCLOAK = (state) => {
     state.keycloak = new Keycloak(state.KEYCLOAK_CONFIG);
 };
 
+
 const SET_USER_ROLE = (state) => {
     state.isAdminUser = state.keycloak.hasRealmRole('admin');
 };
