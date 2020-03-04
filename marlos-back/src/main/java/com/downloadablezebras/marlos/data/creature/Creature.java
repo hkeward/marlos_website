@@ -7,9 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -29,7 +27,7 @@ public class Creature {
     })
     private TextReference textReference;
 
-    @ManyToMany(mappedBy = "creatures", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "creatures", cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JsonBackReference
     List<Room> rooms = new ArrayList<>();
 

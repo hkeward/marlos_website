@@ -1,16 +1,12 @@
 package com.downloadablezebras.marlos.data.room;
 
 import com.downloadablezebras.marlos.data.creature.Creature;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -35,12 +31,11 @@ public class Room {
     @Column(columnDefinition = "text")
     private String description;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(
             name = "room_creature",
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "creature_id"))
-    @JsonManagedReference
     List<Creature> creatures = new ArrayList<>();
 
     public Room() {

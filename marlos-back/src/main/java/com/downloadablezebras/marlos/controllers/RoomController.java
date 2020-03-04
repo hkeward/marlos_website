@@ -3,6 +3,7 @@ package com.downloadablezebras.marlos.controllers;
 import com.downloadablezebras.marlos.data.room.RoomDataRepository;
 import com.downloadablezebras.marlos.data.room.Room;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class RoomController {
     }
 
     // create new room
+    @Transactional
     @PostMapping("/rooms")
     public Long createRoom(@RequestBody Room newRoom) {
         repository.save(newRoom);
