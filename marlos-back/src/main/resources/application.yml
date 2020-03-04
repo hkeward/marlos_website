@@ -7,3 +7,38 @@ spring:
     url: jdbc:mysql://localhost:3306/marlos?useSSL=false
     username: "root"
     password: ""
+
+keycloak:
+  realm: marlos
+  auth-server-url: https://keycloak.heatherward.dev/auth
+  ssl-required: external
+  resource: marlos-rest
+  public-client: true
+  bearer-only: true
+  cors: true
+  confidential-port: 0
+  use-resource-role-mappings: false
+  principal-attribute: preferred_username
+  security-constraints:
+    - auth-roles:
+        - admin
+        - user
+      security-collections:
+        - name: "requests from any registered user"
+          patterns:
+          - /rest/*
+          methods: GET, HEAD, CONNECT, OPTIONS
+    - authRoles:
+        - admin
+      securityCollections:
+        - name: "admin requests (create, update, delete)"
+          patterns:
+          - /rest/*
+          methods: POST, PUT, UPDATE, DELETE, TRACE, PATCH
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.apache.catalina: DEBUG
