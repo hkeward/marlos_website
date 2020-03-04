@@ -52,6 +52,7 @@ public class RoomController {
                              room.setTags(updatedRoom.getTags());
                              room.setQuality(updatedRoom.getQuality());
                              room.setDescription(updatedRoom.getDescription());
+                             room.setCreatures(updatedRoom.getCreatures());
                              return repository.save(room);
                          })
                          .orElseGet(() -> {

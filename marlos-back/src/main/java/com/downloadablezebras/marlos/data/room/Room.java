@@ -1,10 +1,15 @@
 package com.downloadablezebras.marlos.data.room;
 
 import com.downloadablezebras.marlos.data.creature.Creature;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,6 +20,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long roomId;
+
     private String roomName;
     private Integer timeEstimate;
     private String rating;
@@ -25,20 +31,23 @@ public class Room {
     private String environment;
     private String tags;
     private String quality;
+
     @Column(columnDefinition = "text")
     private String description;
-    @ManyToMany
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "room_creature",
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "creature_id"))
-    Set<Creature> creatures;
+    @JsonManagedReference
+    List<Creature> creatures = new ArrayList<>();
 
     public Room() {
     }
 
     public Room(String roomName, Integer timeEstimate, String rating, String difficulty, Byte grid, Byte darkvision, String type,
-         String environment, String tags, String quality, String description) {
+         String environment, String tags, String quality, String description, List<Creature> creatures) {
         this.roomName = roomName;
         this.timeEstimate = timeEstimate;
         this.rating = rating;
@@ -50,5 +59,30 @@ public class Room {
         this.tags = tags;
         this.quality = quality;
         this.description = description;
+        this.creatures = creatures;
+    }
+
+    public void setCreatures(List<Creature> creatures) {
+        this.creatures = creatures;
+    }
+
+    public List<Creature> getCreatures() {
+        return new ArrayList<>(creatures);
+    }
+
+    public void addCreature(Creature creature) {
+        if (creatures.contains(creature)) {
+            return;
+        }
+        creatures.add(creature);
+        creature.addRoom(this);
+    }
+
+    public void removeCreature(Creature creature) {
+        if (!creatures.contains(creature)) {
+            return;
+        }
+        creatures.remove(creature);
+        creature.removeRoom(this);
     }
 }
