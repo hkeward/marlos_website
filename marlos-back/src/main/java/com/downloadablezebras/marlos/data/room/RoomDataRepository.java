@@ -1,4 +1,4 @@
-package com.downloadablezebras.marlos.data;
+package com.downloadablezebras.marlos.data.room;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

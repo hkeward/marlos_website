@@ -1,7 +1,7 @@
 package com.downloadablezebras.marlos.controllers;
 
-import com.downloadablezebras.marlos.data.RoomDataRepository;
-import com.downloadablezebras.marlos.data.Room;
+import com.downloadablezebras.marlos.data.room.RoomDataRepository;
+import com.downloadablezebras.marlos.data.room.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

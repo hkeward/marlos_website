@@ -1,9 +1,11 @@
-package com.downloadablezebras.marlos.data;
+package com.downloadablezebras.marlos.data.room;
 
+import com.downloadablezebras.marlos.data.creature.Creature;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -11,7 +13,7 @@ import javax.persistence.*;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long roomId;
     private String roomName;
     private Integer timeEstimate;
@@ -25,6 +27,12 @@ public class Room {
     private String quality;
     @Column(columnDefinition = "text")
     private String description;
+    @ManyToMany
+    @JoinTable(
+            name = "room_creature",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "creature_id"))
+    Set<Creature> creatures;
 
     public Room() {
     }
