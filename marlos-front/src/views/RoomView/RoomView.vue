@@ -32,7 +32,7 @@ export default {
 	data() {
 		return {
             currentRoom: {},
-            roomFound: true,
+            // roomFound: true,
 		}
 	},
 
@@ -42,6 +42,9 @@ export default {
 				'rooms',
 				'genericRoom',
 		]),
+		roomFound() {
+			return this.currentRoom.roomId;
+		}
 	},
 
 	methods: {
@@ -53,8 +56,8 @@ export default {
                     const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {});
                     this.currentRoom = await response.json();
                 } catch (err) {
-                    this.roomFound = false;
-                }
+					console.error(err);
+				}
             }
 		},
 
