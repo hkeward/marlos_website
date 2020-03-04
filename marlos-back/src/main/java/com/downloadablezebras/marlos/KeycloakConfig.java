@@ -49,7 +49,6 @@ public class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
         return new NullAuthenticatedSessionStrategy();
     }
 
-//    TODO reenable csrf
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         super.configure(http);

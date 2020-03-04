@@ -3,10 +3,7 @@ package com.downloadablezebras.marlos.data;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -26,6 +23,7 @@ public class Room {
     private String environment;
     private String tags;
     private String quality;
+    @Column(columnDefinition = "text")
     private String description;
 
     public Room() {
