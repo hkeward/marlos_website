@@ -8,7 +8,7 @@ spring:
         format_sql: true
   datasource:
     driverClassName: "com.mysql.cj.jdbc.Driver"
-    url: jdbc:mysql://localhost:3306/marlos?useSSL=false
+    url: jdbc:mysql://localhost:3306/marlos?useSSL=false&serverTimezone=EST
     username: "root"
     password: ""
 

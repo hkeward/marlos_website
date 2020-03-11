@@ -27,41 +27,12 @@ public class Creature {
     })
     private TextReference textReference;
 
-    @ManyToMany(mappedBy = "creatures", cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonBackReference
-    List<Room> rooms = new ArrayList<>();
-
     public Creature() {
 
     }
 
-    public Creature(String creatureName, TextReference textReference, List<Room> rooms) {
+    public Creature(String creatureName, TextReference textReference) {
         this.creatureName = creatureName;
         this.textReference = textReference;
-        this.rooms = rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
-
-    public List<Room> getRooms() {
-        return new ArrayList<>(rooms);
-    }
-
-    public void addRoom(Room room) {
-        if (rooms.contains(room)) {
-            return;
-        }
-        rooms.add(room);
-        room.addCreature(this);
-    }
-
-    public void removeRoom(Room room) {
-        if (!rooms.contains(room)) {
-            return;
-        }
-        rooms.remove(room);
-        room.removeCreature(this);
     }
 }

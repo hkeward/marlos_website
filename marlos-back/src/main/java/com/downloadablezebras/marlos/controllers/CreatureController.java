@@ -39,7 +39,6 @@ public class CreatureController {
                 .map(creature -> {
                     creature.setCreatureName(updatedCreature.getCreatureName());
                     creature.setTextReference(updatedCreature.getTextReference());
-                    creature.setRooms(updatedCreature.getRooms());
                     return repository.save(creature);
                 })
                 .orElseGet(() -> {

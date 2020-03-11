@@ -70,7 +70,6 @@ public class Room {
             return;
         }
         creatures.add(creature);
-        creature.addRoom(this);
     }
 
     public void removeCreature(Creature creature) {
@@ -78,6 +77,5 @@ public class Room {
             return;
         }
         creatures.remove(creature);
-        creature.removeRoom(this);
     }
 }
