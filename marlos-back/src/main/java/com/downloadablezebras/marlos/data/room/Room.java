@@ -15,9 +15,9 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long roomId;
+    private Long id;
 
-    private String roomName;
+    private String name;
     private Integer timeEstimate;
     private String rating;
     private String difficulty;
@@ -41,9 +41,9 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomName, Integer timeEstimate, String rating, String difficulty, Byte grid, Byte darkvision, String type,
+    public Room(String name, Integer timeEstimate, String rating, String difficulty, Byte grid, Byte darkvision, String type,
          String environment, String tags, String quality, String description, List<Creature> creatures) {
-        this.roomName = roomName;
+        this.name = name;
         this.timeEstimate = timeEstimate;
         this.rating = rating;
         this.difficulty = difficulty;

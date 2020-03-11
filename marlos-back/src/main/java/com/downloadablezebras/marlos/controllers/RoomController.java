@@ -35,7 +35,7 @@ public class RoomController {
     @PostMapping("/rooms")
     public Long createRoom(@RequestBody Room newRoom) {
         repository.save(newRoom);
-        return newRoom.getRoomId();
+        return newRoom.getId();
     }
 
     // update existing room
@@ -43,7 +43,7 @@ public class RoomController {
     public Room updateRoom(@RequestBody Room updatedRoom, @PathVariable Long id) {
         return repository.findById(id)
                          .map(room -> {
-                             room.setRoomName(updatedRoom.getRoomName());
+                             room.setName(updatedRoom.getName());
                              room.setTimeEstimate(updatedRoom.getTimeEstimate());
                              room.setRating(updatedRoom.getRating());
                              room.setDifficulty(updatedRoom.getDifficulty());
@@ -58,7 +58,7 @@ public class RoomController {
                              return repository.save(room);
                          })
                          .orElseGet(() -> {
-                             updatedRoom.setRoomId(id);
+                             updatedRoom.setId(id);
                              return repository.save(updatedRoom);
                          });
     }

@@ -30,19 +30,19 @@ public class CreatureController {
     @PostMapping("/creatures")
     public Long createCreature(@RequestBody Creature newCreature) {
         repository.save(newCreature);
-        return newCreature.getCreatureId();
+        return newCreature.getId();
     }
 
     @PutMapping("/creatures/{id}")
     public Creature updateCreature(@RequestBody Creature updatedCreature, @PathVariable Long id) {
         return repository.findById(id)
                 .map(creature -> {
-                    creature.setCreatureName(updatedCreature.getCreatureName());
+                    creature.setName(updatedCreature.getName());
                     creature.setTextReference(updatedCreature.getTextReference());
                     return repository.save(creature);
                 })
                 .orElseGet(() -> {
-                    updatedCreature.setCreatureId(id);
+                    updatedCreature.setId(id);
                     return repository.save(updatedCreature);
                 });
     }

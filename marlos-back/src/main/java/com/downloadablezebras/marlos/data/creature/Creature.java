@@ -16,9 +16,10 @@ public class Creature {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long creatureId;
+    private Long id;
 
-    private String creatureName;
+    private String name;
+    private String type;
 
     @Embedded
     @AttributeOverrides({
@@ -32,7 +33,7 @@ public class Creature {
     }
 
     public Creature(String creatureName, TextReference textReference) {
-        this.creatureName = creatureName;
+        this.name = name;
         this.textReference = textReference;
     }
 }
