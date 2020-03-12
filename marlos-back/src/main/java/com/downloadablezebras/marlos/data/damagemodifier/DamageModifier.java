@@ -19,5 +19,4 @@ public class DamageModifier {
 
     private String damage_type;
     private String description;
-    private String modification_type;
 }
