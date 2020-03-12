@@ -1,7 +1,7 @@
 package com.downloadablezebras.marlos.controllers;
 
-import com.downloadablezebras.marlos.data.damage_modifier.DamageModifier;
-import com.downloadablezebras.marlos.data.damage_modifier.DamageModifierDataRepository;
+import com.downloadablezebras.marlos.data.damagemodifier.DamageModifier;
+import com.downloadablezebras.marlos.data.damagemodifier.DamageModifierDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

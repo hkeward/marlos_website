@@ -1,4 +1,4 @@
-package com.downloadablezebras.marlos.data.status_condition;
+package com.downloadablezebras.marlos.data.statuscondition;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

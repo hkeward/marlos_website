@@ -1,7 +1,7 @@
 package com.downloadablezebras.marlos.controllers;
 
-import com.downloadablezebras.marlos.data.status_condition.StatusCondition;
-import com.downloadablezebras.marlos.data.status_condition.StatusConditionRepository;
+import com.downloadablezebras.marlos.data.statuscondition.StatusCondition;
+import com.downloadablezebras.marlos.data.statuscondition.StatusConditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

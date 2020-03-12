@@ -1,7 +1,7 @@
 package com.downloadablezebras.marlos.data.creature;
 
-import com.downloadablezebras.marlos.data.damage_modifier.DamageModifier;
-import com.downloadablezebras.marlos.data.status_condition.StatusCondition;
+import com.downloadablezebras.marlos.data.damagemodifier.DamageModifier;
+import com.downloadablezebras.marlos.data.statuscondition.StatusCondition;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,4 +1,4 @@
-package com.downloadablezebras.marlos.data.status_condition;
+package com.downloadablezebras.marlos.data.statuscondition;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

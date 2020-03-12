@@ -1,4 +1,4 @@
-package com.downloadablezebras.marlos.data.damage_modifier;
+package com.downloadablezebras.marlos.data.damagemodifier;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
