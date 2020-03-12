@@ -1,5 +1,6 @@
 package com.downloadablezebras.marlos.data.creature;
 
+import com.downloadablezebras.marlos.data.damagemodifier.DamageModifier;
 import com.downloadablezebras.marlos.data.statuscondition.StatusCondition;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -64,9 +65,12 @@ public class Creature {
 
     private String skills;
 
-    //    @OneToMany(mappedBy = "creature", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-        @OneToMany(mappedBy = "creature", cascade = CascadeType.ALL)
-    private List<CreatureDamageModifier> damageModifiers = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name="creature_damageModifier",
+            joinColumns = @JoinColumn(name = "creature_id"),
+            inverseJoinColumns = @JoinColumn(name= "damage_modifier_id"))
+    private List<DamageModifier> damageModifiers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -104,7 +108,7 @@ public class Creature {
     }
 
     public Creature(String name, int level, String size, String type, String alignment, int ac, HP hp, String speed, Abilities abilities,
-                    Abilities savingThrows, String skills, List<CreatureDamageModifier> damageModifiers,
+                    Abilities savingThrows, String skills, List<DamageModifier> damageModifiers,
                     List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
                     TextReference textReference) {
         this.name = name;
@@ -118,10 +122,7 @@ public class Creature {
         this.abilities = abilities;
         this.savingThrows = savingThrows;
         this.skills = skills;
-
-        for(CreatureDamageModifier damageModifier : damageModifiers) damageModifier.setCreature(this);
         this.damageModifiers = damageModifiers;
-
         this.conditionImmunities = conditionImmunities;
         this.senses = senses;
         this.languages = languages;

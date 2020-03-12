@@ -39,6 +39,7 @@ public class DamageModifierController {
                 .map(modifier -> {
                     modifier.setDamage_type(updatedModifier.getDamage_type());
                     modifier.setDescription(updatedModifier.getDescription());
+                    modifier.setModification_type(updatedModifier.getModification_type());
                     return repository.save(modifier);
                 })
                 .orElseGet(() -> {

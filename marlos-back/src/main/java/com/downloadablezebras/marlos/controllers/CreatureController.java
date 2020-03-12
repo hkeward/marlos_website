@@ -1,6 +1,7 @@
 package com.downloadablezebras.marlos.controllers;
 
-import com.downloadablezebras.marlos.data.creature.*;
+import com.downloadablezebras.marlos.data.creature.Creature;
+import com.downloadablezebras.marlos.data.creature.CreatureDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,25 +29,14 @@ public class CreatureController {
 
     @PostMapping("/creatures")
     public Long createCreature(@RequestBody Creature newCreature) {
-        for(CreatureDamageModifier damageModifier : newCreature.getDamageModifiers()) {
-            damageModifier.setCreature(newCreature);
-        }
-
         repository.save(newCreature);
-
         return newCreature.getId();
     }
 
     @PutMapping("/creatures/{id}")
     public Creature updateCreature(@RequestBody Creature updatedCreature, @PathVariable Long id) {
-
-
         return repository.findById(id)
                 .map(creature -> {
-//                    this just creates new entries with new ids, doesn't delete old ones
-                    for(CreatureDamageModifier damageModifier : updatedCreature.getDamageModifiers()) {
-                        damageModifier.setCreature(creature);
-                    }
                     creature.setName(updatedCreature.getName());
                     creature.setLevel(updatedCreature.getLevel());
                     creature.setSize(updatedCreature.getSize());
