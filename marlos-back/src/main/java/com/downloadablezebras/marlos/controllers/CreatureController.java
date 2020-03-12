@@ -38,6 +38,21 @@ public class CreatureController {
         return repository.findById(id)
                 .map(creature -> {
                     creature.setName(updatedCreature.getName());
+                    creature.setLevel(updatedCreature.getLevel());
+                    creature.setSize(updatedCreature.getSize());
+                    creature.setType(updatedCreature.getType());
+                    creature.setAlignment(updatedCreature.getAlignment());
+                    creature.setAc(updatedCreature.getAc());
+                    creature.setHp(updatedCreature.getHp());
+                    creature.setSpeed(updatedCreature.getSpeed());
+                    creature.setAbilities(updatedCreature.getAbilities());
+                    creature.setSavingThrows(updatedCreature.getSavingThrows());
+                    creature.setSkills(updatedCreature.getSkills());
+                    creature.setDamageModifiers(updatedCreature.getDamageModifiers());
+                    creature.setConditionImmunities(updatedCreature.getConditionImmunities());
+                    creature.setSenses(updatedCreature.getSenses());
+                    creature.setLanguages(updatedCreature.getLanguages());
+                    creature.setCr(updatedCreature.getCr());
                     creature.setTextReference(updatedCreature.getTextReference());
                     return repository.save(creature);
                 })

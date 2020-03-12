@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface RoomDataRepository extends JpaRepository<Room, Long> {
 
-    List<Room> findByRoomName(String name);
-    Room findOneByRoomName(String name);
+    List<Room> findByName(String name);
+    Room findOneByName(String name);
 }
