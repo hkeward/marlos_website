@@ -67,10 +67,28 @@ public class Creature {
 
     @ManyToMany
     @JoinTable(
-            name="creature_damageModifier",
+            name="creature_damage_immunity",
             joinColumns = @JoinColumn(name = "creature_id"),
-            inverseJoinColumns = @JoinColumn(name= "damage_modifier_id"))
-    private List<DamageModifier> damageModifiers = new ArrayList<>();
+            inverseJoinColumns = @JoinColumn(name = "damage_modifier_id")
+    )
+    private List<DamageModifier> damageImmunities = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name="creature_damage_vulnerability",
+            joinColumns = @JoinColumn(name = "creature_id"),
+            inverseJoinColumns = @JoinColumn(name = "damage_modifier_id")
+    )
+    private List<DamageModifier> damageVulnerabilities = new ArrayList<>();
+
+
+    @ManyToMany
+    @JoinTable(
+            name="creature_damage_resistance",
+            joinColumns = @JoinColumn(name = "creature_id"),
+            inverseJoinColumns = @JoinColumn(name = "damage_modifier_id")
+    )
+    private List<DamageModifier> damageResistances = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -108,8 +126,8 @@ public class Creature {
     }
 
     public Creature(String name, int level, String size, String type, String alignment, int ac, HP hp, String speed, Abilities abilities,
-                    Abilities savingThrows, String skills, List<DamageModifier> damageModifiers,
-                    List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
+                    Abilities savingThrows, String skills, List<DamageModifier> damageImmunities, List<DamageModifier> damageVulnerabilities,
+                    List<DamageModifier> damageResistances, List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
                     TextReference textReference) {
         this.name = name;
         this.level = level;
@@ -122,7 +140,9 @@ public class Creature {
         this.abilities = abilities;
         this.savingThrows = savingThrows;
         this.skills = skills;
-        this.damageModifiers = damageModifiers;
+        this.damageImmunities = damageImmunities;
+        this.damageVulnerabilities = damageVulnerabilities;
+        this.damageResistances = damageResistances;
         this.conditionImmunities = conditionImmunities;
         this.senses = senses;
         this.languages = languages;

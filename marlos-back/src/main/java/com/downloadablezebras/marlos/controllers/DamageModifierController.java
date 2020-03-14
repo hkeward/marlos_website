@@ -38,9 +38,7 @@ public class DamageModifierController {
         return repository.findById(id)
                 .map(modifier -> {
                     modifier.setDamage_type(updatedModifier.getDamage_type());
-                    modifier.setDescription(updatedModifier.getDescription());
-                    modifier.setModification_type(updatedModifier.getModification_type());
-                    return repository.save(modifier);
+                    modifier.setDescription(updatedModifier.getDescription());return repository.save(modifier);
                 })
                 .orElseGet(() -> {
                     updatedModifier.setId(id);

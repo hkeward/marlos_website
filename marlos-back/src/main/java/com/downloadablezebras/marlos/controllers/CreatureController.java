@@ -48,7 +48,9 @@ public class CreatureController {
                     creature.setAbilities(updatedCreature.getAbilities());
                     creature.setSavingThrows(updatedCreature.getSavingThrows());
                     creature.setSkills(updatedCreature.getSkills());
-                    creature.setDamageModifiers(updatedCreature.getDamageModifiers());
+                    creature.setDamageImmunities(updatedCreature.getDamageImmunities());
+                    creature.setDamageVulnerabilities(updatedCreature.getDamageVulnerabilities());
+                    creature.setDamageResistances(updatedCreature.getDamageResistances());
                     creature.setConditionImmunities(updatedCreature.getConditionImmunities());
                     creature.setSenses(updatedCreature.getSenses());
                     creature.setLanguages(updatedCreature.getLanguages());
