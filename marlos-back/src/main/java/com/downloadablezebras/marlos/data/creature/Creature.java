@@ -1,6 +1,8 @@
 package com.downloadablezebras.marlos.data.creature;
 
+import com.downloadablezebras.marlos.data.InnateSpellList;
 import com.downloadablezebras.marlos.data.damagemodifier.DamageModifier;
+import com.downloadablezebras.marlos.data.spell.Spell;
 import com.downloadablezebras.marlos.data.statuscondition.StatusCondition;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -89,6 +91,13 @@ public class Creature {
             inverseJoinColumns = @JoinColumn(name = "damage_modifier_id")
     )
     private List<DamageModifier> damageResistances = new ArrayList<>();
+
+    @Embedded
+    private InnateSpellList innateSpells;
+
+    @ManyToMany
+    @JoinTable(name="creature_spell")
+    private List<Spell> spells;
 
     @ManyToMany
     @JoinTable(

@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 @Data
 @Embeddable
 public class Senses {
-    private boolean blindsight;
-    private boolean darkvision;
-    private boolean truesight;
+    private Boolean blindsight;
+    private Boolean darkvision;
+    private Boolean truesight;
 }
