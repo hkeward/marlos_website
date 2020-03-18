@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/rest")
+@RequestMapping("/rest")
 public class DamageModifierController {
 
     @Autowired
     private DamageModifierDataRepository repository;
 
-    @GetMapping(value="/damage_modifiers")
+    @GetMapping("/damage_modifiers")
     public List<DamageModifier> getDamageModifiers() {
         List<DamageModifier> results;
         results = repository.findAll();
@@ -38,7 +38,8 @@ public class DamageModifierController {
         return repository.findById(id)
                 .map(modifier -> {
                     modifier.setDamage_type(updatedModifier.getDamage_type());
-                    modifier.setDescription(updatedModifier.getDescription());return repository.save(modifier);
+                    modifier.setDescription(updatedModifier.getDescription());
+                    return repository.save(modifier);
                 })
                 .orElseGet(() -> {
                     updatedModifier.setId(id);

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/rest")
+@RequestMapping("/rest")
 public class SpellController {
 
     @Autowired
     private SpellDataRepository repository;
 
-    @GetMapping(value="/spells")
+    @GetMapping("/spells")
     public List<Spell> getSpells() {
         List<Spell> results;
         results = repository.findAll();

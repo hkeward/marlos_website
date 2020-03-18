@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/rest")
+@RequestMapping("/rest")
 public class CreatureController {
 
     @Autowired
     private CreatureDataRepository repository;
 
-    @GetMapping(value="/creatures")
+    @GetMapping("/creatures")
     public List<Creature> getCreatures() {
         List<Creature> results;
         results = repository.findAll();
@@ -45,7 +45,7 @@ public class CreatureController {
                     creature.setAc(updatedCreature.getAc());
                     creature.setHp(updatedCreature.getHp());
                     creature.setSpeed(updatedCreature.getSpeed());
-                    creature.setAbilities(updatedCreature.getAbilities());
+                    creature.setAbilityScores(updatedCreature.getAbilityScores());
                     creature.setSavingThrows(updatedCreature.getSavingThrows());
                     creature.setSkills(updatedCreature.getSkills());
                     creature.setDamageImmunities(updatedCreature.getDamageImmunities());
@@ -56,6 +56,9 @@ public class CreatureController {
                     creature.setLanguages(updatedCreature.getLanguages());
                     creature.setCr(updatedCreature.getCr());
                     creature.setTextReference(updatedCreature.getTextReference());
+                    creature.setCreatureAbilities(updatedCreature.getCreatureAbilities());
+                    creature.setActions(updatedCreature.getActions());
+                    creature.setLegendaryActions(updatedCreature.getLegendaryActions());
                     return repository.save(creature);
                 })
                 .orElseGet(() -> {

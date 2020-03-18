@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 
 @Data
 @Embeddable
-public class Abilities {
+public class AbilityScores {
     private int strength;
     private int dexterity;
     private int constitution;

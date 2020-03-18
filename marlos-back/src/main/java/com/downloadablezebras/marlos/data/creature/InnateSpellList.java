@@ -1,10 +1,9 @@
-package com.downloadablezebras.marlos.data;
+package com.downloadablezebras.marlos.data.creature;
 
 import com.downloadablezebras.marlos.data.spell.Spell;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;

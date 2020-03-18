@@ -1,20 +1,20 @@
 package com.downloadablezebras.marlos.controllers;
 
 import com.downloadablezebras.marlos.data.statuscondition.StatusCondition;
-import com.downloadablezebras.marlos.data.statuscondition.StatusConditionRepository;
+import com.downloadablezebras.marlos.data.statuscondition.StatusConditionDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/rest")
+@RequestMapping("/rest")
 public class StatusConditionController {
 
     @Autowired
-    private StatusConditionRepository repository;
+    private StatusConditionDataRepository repository;
 
-    @GetMapping(value="/status_conditions")
+    @GetMapping("/status_conditions")
     public List<StatusCondition> getStatusConditions() {
         List<StatusCondition> results;
         results = repository.findAll();

@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/rest")
+@RequestMapping("/rest")
 public class RoomController {
 
     @Autowired
     private RoomDataRepository repository;
 
     // get all rooms
-    @GetMapping(value="/rooms")
+    @GetMapping("/rooms")
     public List<Room> getRooms() {
         List<Room> results;
         results = repository.findAll();

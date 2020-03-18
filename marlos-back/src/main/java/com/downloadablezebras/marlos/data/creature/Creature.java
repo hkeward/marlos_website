@@ -1,6 +1,7 @@
 package com.downloadablezebras.marlos.data.creature;
 
-import com.downloadablezebras.marlos.data.InnateSpellList;
+import com.downloadablezebras.marlos.data.ability.Ability;
+import com.downloadablezebras.marlos.data.action.Action;
 import com.downloadablezebras.marlos.data.damagemodifier.DamageModifier;
 import com.downloadablezebras.marlos.data.spell.Spell;
 import com.downloadablezebras.marlos.data.statuscondition.StatusCondition;
@@ -52,7 +53,7 @@ public class Creature {
             @AttributeOverride(name = "wisdom", column = @Column(name = "wisdom")),
             @AttributeOverride(name = "charisma", column = @Column(name = "charisma"))
     })
-    private Abilities abilities;
+    private AbilityScores abilityScores;
 
     @Embedded
     @AttributeOverrides({
@@ -63,7 +64,7 @@ public class Creature {
             @AttributeOverride(name = "wisdom", column = @Column(name = "saving_wisdom")),
             @AttributeOverride(name = "charisma", column = @Column(name = "saving_charisma"))
     })
-    private Abilities savingThrows;
+    private AbilityScores savingThrows;
 
     private String skills;
 
@@ -130,14 +131,23 @@ public class Creature {
     })
     private TextReference textReference;
 
+    @ManyToMany
+    private List<Ability> creatureAbilities = new ArrayList<>();
+
+    @ManyToMany
+    private List<Action> actions = new ArrayList<>();
+
+    @ManyToMany
+    private List<Action> legendaryActions = new ArrayList<>();
+
     public Creature() {
 
     }
 
-    public Creature(String name, int level, String size, String type, String alignment, int ac, HP hp, String speed, Abilities abilities,
-                    Abilities savingThrows, String skills, List<DamageModifier> damageImmunities, List<DamageModifier> damageVulnerabilities,
+    public Creature(String name, int level, String size, String type, String alignment, int ac, HP hp, String speed, AbilityScores abilityScores,
+                    AbilityScores savingThrows, String skills, List<DamageModifier> damageImmunities, List<DamageModifier> damageVulnerabilities,
                     List<DamageModifier> damageResistances, List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
-                    TextReference textReference) {
+                    TextReference textReference, List<Ability> creatureAbilities, List<Action> actions, List<Action> legendaryActions) {
         this.name = name;
         this.level = level;
         this.size = size;
@@ -146,7 +156,7 @@ public class Creature {
         this.ac = ac;
         this.hp = hp;
         this.speed = speed;
-        this.abilities = abilities;
+        this.abilityScores = abilityScores;
         this.savingThrows = savingThrows;
         this.skills = skills;
         this.damageImmunities = damageImmunities;
@@ -157,5 +167,8 @@ public class Creature {
         this.languages = languages;
         this.cr = cr;
         this.textReference = textReference;
+        this.creatureAbilities = creatureAbilities;
+        this.actions = actions;
+        this.legendaryActions = legendaryActions;
     }
 }
