@@ -6,7 +6,7 @@ const SET_ROOMS = (state, rooms) => {
 };
 
 const ADD_ROOM = (state, newRoom) => {
-    state.rooms = { ...state.rooms, [newRoom.roomId]: newRoom };
+    state.rooms = { ...state.rooms, [newRoom.id]: newRoom };
 };
 
 const EDIT_MODE = (state, mode) => {
@@ -22,11 +22,11 @@ const SET_NEW_ROOM = (state, mode) => {
 };
 
 const SAVE_ROOM = (state, updatedRoom) => {
-    state.rooms[updatedRoom.roomId] = updatedRoom;
+    state.rooms[updatedRoom.id] = updatedRoom;
 };
 
-const DELETE_ROOM = (state, roomId) => {
-    delete state.rooms[roomId];
+const DELETE_ROOM = (state, id) => {
+    delete state.rooms[id];
 };
 
 const CONFIGURE_KEYCLOAK = (state) => {

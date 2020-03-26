@@ -10,8 +10,8 @@ let room1;
 
 beforeEach(() => {
     room1 = {
-        roomId: 1,
-        roomName: "First room",
+        id: 1,
+        name: "First room",
         type: "fighting",
         tags: "",
         description: "good",
@@ -46,7 +46,7 @@ describe('RoomDescription', () => {
     });
 
     it('displays editing bar', () => {
-        store.state.editing = room1.roomId;
+        store.state.editing = room1.id;
         const wrapper = shallowMount(RoomDescription, {
             store,
             localVue,

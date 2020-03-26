@@ -4,7 +4,7 @@
 
             <button @click="toggleInfoExpanded" class="toggle-info">▼ Less</button>
 
-            <div v-if="editing === currentRoom.roomId" id="advanced-editing">
+            <div v-if="editing === currentRoom.id" id="advanced-editing">
                 <div id="center-container">
                     <div id="darkvision-grid">
                         <div id="darkvision">

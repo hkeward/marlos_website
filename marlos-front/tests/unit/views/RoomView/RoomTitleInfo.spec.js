@@ -15,8 +15,8 @@ const parentComponentStub = { name:"parentStub", template:'<div></div>', methods
 beforeEach(() => {
     cancelEdit = jest.fn();
     room1 = {
-        roomId: 1,
-        roomName: "First room",
+        id: 1,
+        name: "First room",
         type: "fighting",
         tags: "",
         description: "good",
@@ -44,7 +44,7 @@ beforeEach(() => {
 });
 
 describe('RoomTitleInfo', () => {
-    it('displays a roomName and type for a room, does not display admin buttons', () => {
+    it('displays a name and type for a room, does not display admin buttons', () => {
         const wrapper = shallowMount(RoomTitleInfo, {
             store,
             localVue,
@@ -53,7 +53,7 @@ describe('RoomTitleInfo', () => {
             },
         });
 
-        expect(wrapper.find('.room-name').text()).toBe(room1.roomName);
+        expect(wrapper.find('.room-name').text()).toBe(room1.name);
         expect(wrapper.find('.type').text()).toBe(room1.type);
         expect(wrapper.find('.edit-button').exists()).toBe(false);
         expect(wrapper.find('.delete-button').exists()).toBe(false);
@@ -78,7 +78,7 @@ describe('RoomTitleInfo', () => {
 
     it('displays editing mode buttons',  () => {
         store.state.isAdminUser = true;
-        store.state.editing = room1.roomId;
+        store.state.editing = room1.id;
         const wrapper = shallowMount(RoomTitleInfo, {
             parentComponent: parentComponentStub,
             store,

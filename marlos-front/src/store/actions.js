@@ -7,7 +7,7 @@ const getRoomData = async ({commit, state}) => {
     try {
         const response = await fetch("https://heatherward.dev/rest/rooms", {});
         const data_array = await response.json();
-        const data_json = Object.assign({}, ...(data_array.map(item => ({ [item['roomId']]: item }) )));
+        const data_json = Object.assign({}, ...(data_array.map(item => ({ [item['id']]: item }) )));
         commit('SET_ROOMS', data_json);
     } catch (err) {
         throw Error("Error fetching room data");
@@ -24,12 +24,12 @@ const addRoom = async ({ commit, state }) => {
             }
         });
         const data = await response;
-        const roomId = await data.json();
+        const id = await data.json();
         if (data.status === 200) {
-            const newRoom = {...state.genericRoom, roomId};
+            const newRoom = {...state.genericRoom, id};
             commit('ADD_ROOM', newRoom);
-            router.push(`/rooms/${roomId}`);
-            commit('EDIT_MODE', roomId);
+            router.push(`/rooms/${id}`);
+            commit('EDIT_MODE', id);
             commit('SET_INFO_EXPANDED', true);
             commit('SET_NEW_ROOM', true);
         }
@@ -48,7 +48,7 @@ const toggleInfoExpanded = ({commit, state}) => {
 
 const editRoom = async ({ commit, state }, updatedRoom) => {
     try {
-        const response = await fetch(`https://heatherward.dev/rest/rooms/${updatedRoom.roomId}`, {
+        const response = await fetch(`https://heatherward.dev/rest/rooms/${updatedRoom.id}`, {
             method: 'PUT',
             body: JSON.stringify(updatedRoom),
             headers: {
@@ -69,14 +69,14 @@ const editRoom = async ({ commit, state }, updatedRoom) => {
     }
 };
 
-const deleteRoom = async ({ commit, state }, roomId) => {
+const deleteRoom = async ({ commit, state }, id) => {
     try {
-        const response = await fetch(`https://heatherward.dev/rest/rooms/${roomId}`, {
+        const response = await fetch(`https://heatherward.dev/rest/rooms/${id}`, {
             method: 'DELETE'
         });
         const data = await response;
         if (data.status === 200) {
-            commit('DELETE_ROOM', roomId);
+            commit('DELETE_ROOM', id);
             if (state.isNewRoom) {
                 commit('SET_NEW_ROOM', false);
                 commit('SET_INFO_EXPANDED', false);

@@ -13,8 +13,8 @@ let parentComponentStub;
 beforeEach(() => {
     parentComponentStub = { name:"parentStub", template:'<div></div>', methods: {onEdit: jest.fn()} };
     room1 = {
-        roomId: 1,
-        roomName: "First room",
+        id: 1,
+        name: "First room",
         type: "fighting",
         tags: "",
         description: "good",
@@ -54,7 +54,7 @@ describe('AdvancedRoomInfo', () => {
 
     it('emits an event on focus change', async() => {
         store.state.isAdminUser = true;
-        store.state.editing = room1.roomId;
+        store.state.editing = room1.id;
         store.state.infoExpanded = true;
         const wrapper = shallowMount(AdvancedRoomInfo, {
             parentComponent: parentComponentStub,

@@ -5,8 +5,8 @@ var state;
 
 beforeEach(() => {
     room_data = {
-        4: {roomId: 4, roomName: 'Fourth room', type: 'Fighting', tags: ""},
-        16: {roomId: 16, roomName: 'Sixteen', type: 'RP', tags: ""}
+        4: {id: 4, name: 'Fourth room', type: 'Fighting', tags: ""},
+        16: {id: 16, name: 'Sixteen', type: 'RP', tags: ""}
     };
     state = {
         rooms: {},
@@ -24,8 +24,8 @@ describe("SET_ROOMS", () => {
      mutations.SET_ROOMS(state, room_data);
 
      expect(state).toEqual({
-         rooms: { 4: { roomId: 4, roomName: 'Fourth room', type: 'Fighting', tags: ""},
-          16: { roomId: 16, roomName: 'Sixteen', type: 'RP', tags: ""}},
+         rooms: { 4: { id: 4, name: 'Fourth room', type: 'Fighting', tags: ""},
+          16: { id: 16, name: 'Sixteen', type: 'RP', tags: ""}},
          fetched: true,
          editing: null,
          isAdminUser: false
@@ -34,22 +34,22 @@ describe("SET_ROOMS", () => {
 });
 
 
-const newRoom1 = { roomId: 15, roomName: 'A new room', type: 'RP', tags: "riddle"};
-const newRoom2 = { roomId: 25, roomName: 'Second new room', type: 'Fighting', tags: "magic"};
+const newRoom1 = { id: 15, name: 'A new room', type: 'RP', tags: "riddle"};
+const newRoom2 = { id: 25, name: 'Second new room', type: 'Fighting', tags: "magic"};
 
 describe("ADD_ROOM", () => {
    it('adds a room to state.rooms when state.rooms is empty and when it is non-empty', () => {
        mutations.ADD_ROOM(state, newRoom1);
 
        expect(state.rooms).toEqual(
-           { 15: { roomId: 15, roomName: 'A new room', type: 'RP', tags: "riddle"}}
+           { 15: { id: 15, name: 'A new room', type: 'RP', tags: "riddle"}}
        );
 
        mutations.ADD_ROOM(state, newRoom2);
 
        expect(state.rooms).toEqual(
-          { 15: { roomId: 15, roomName: 'A new room', type: 'RP', tags: "riddle"},
-            25: { roomId: 25, roomName: 'Second new room', type: 'Fighting', tags: "magic"}}
+          { 15: { id: 15, name: 'A new room', type: 'RP', tags: "riddle"},
+            25: { id: 25, name: 'Second new room', type: 'Fighting', tags: "magic"}}
        );
    });
 });
@@ -63,7 +63,7 @@ describe('EDIT_MODE', () => {
 });
 
 
-const updatedRoom = { roomId: 15, roomName: 'Better room name', type: 'Fighting', tags: "riddle"};
+const updatedRoom = { id: 15, name: 'Better room name', type: 'Fighting', tags: "riddle"};
 
 describe("SAVE_ROOM", () => {
     it('changes the room name and type', () => {
@@ -71,7 +71,7 @@ describe("SAVE_ROOM", () => {
         mutations.SAVE_ROOM(state, updatedRoom);
 
         expect(state.rooms).toEqual(
-            { 15: { roomId: 15, roomName: 'Better room name', type: 'Fighting', tags: "riddle"}}
+            { 15: { id: 15, name: 'Better room name', type: 'Fighting', tags: "riddle"}}
         );
     });
 });
@@ -82,7 +82,7 @@ describe("DELETE_ROOM", () => {
       mutations.DELETE_ROOM(state, 4);
 
       expect(state.rooms).toEqual(
-          { 16: {roomId: 16, roomName: 'Sixteen', type: 'RP', tags: ""}}
+          { 16: {id: 16, name: 'Sixteen', type: 'RP', tags: ""}}
       );
    });
 });

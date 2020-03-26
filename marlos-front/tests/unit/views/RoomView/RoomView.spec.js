@@ -29,8 +29,8 @@ beforeEach(() => {
     mockError = false;
     returnData = {};
     room1 = {
-        roomId: 1,
-        roomName: "First room",
+        id: 1,
+        name: "First room",
         type: "fighting",
         tags: "",
         description: "good",
@@ -56,7 +56,7 @@ describe('RoomView', () => {
             store,
             localVue,
             mocks: {
-                $route: {params: {id: room1.roomId}},
+                $route: {params: {id: room1.id}},
             }
         });
 
@@ -69,14 +69,14 @@ describe('RoomView', () => {
             store,
             localVue,
             mocks: {
-                $route: { params: { id: room1.roomId } }
+                $route: { params: { id: room1.id } }
             }
         });
 
         await Vue.nextTick();
 
         expect(fetch).toHaveBeenCalled();
-        expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1.roomId}`);
+        expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1.id}`);
     });
 
 

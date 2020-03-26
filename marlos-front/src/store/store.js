@@ -20,7 +20,7 @@ export const store = new Vuex.Store({
         isNewRoom: false,
         fetched: false,
         genericRoom: {
-            roomName: "New room",
+            name: "New room",
             timeEstimate: null,
             rating: null,
             difficulty: null,
