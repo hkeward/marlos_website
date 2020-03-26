@@ -9,5 +9,6 @@ import javax.persistence.Embeddable;
 public class Senses {
     private Boolean blindsight;
     private Boolean darkvision;
+    private Boolean tremorsense;
     private Boolean truesight;
 }

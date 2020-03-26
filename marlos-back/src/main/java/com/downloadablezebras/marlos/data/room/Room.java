@@ -18,15 +18,22 @@ public class Room {
     private Long id;
 
     private String name;
-    private Integer timeEstimate;
-    private String rating;
-    private String difficulty;
-    private Byte grid;
-    private Byte darkvision;
+    private int timeEstimate;
+
+    @Enumerated(EnumType.STRING)
+    private Rating rating;
+
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty;
+
+    private Boolean gridRequired;
+    private Boolean darkvisionRequired;
     private String type;
     private String environment;
     private String tags;
-    private String quality;
+
+    @Enumerated(EnumType.STRING)
+    private Quality quality;
 
     @Column(columnDefinition = "text")
     private String description;
@@ -41,14 +48,14 @@ public class Room {
     public Room() {
     }
 
-    public Room(String name, Integer timeEstimate, String rating, String difficulty, Byte grid, Byte darkvision, String type,
-         String environment, String tags, String quality, String description, List<Creature> creatures) {
+    public Room(String name, Integer timeEstimate, Rating rating, Difficulty difficulty, Boolean gridRequired, Boolean darkvisionRequired, String type,
+         String environment, String tags, Quality quality, String description, List<Creature> creatures) {
         this.name = name;
         this.timeEstimate = timeEstimate;
         this.rating = rating;
         this.difficulty = difficulty;
-        this.grid = grid;
-        this.darkvision = darkvision;
+        this.gridRequired = gridRequired;
+        this.darkvisionRequired = darkvisionRequired;
         this.type = type;
         this.environment = environment;
         this.tags = tags;

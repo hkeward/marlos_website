@@ -47,8 +47,8 @@ public class RoomController {
                              room.setTimeEstimate(updatedRoom.getTimeEstimate());
                              room.setRating(updatedRoom.getRating());
                              room.setDifficulty(updatedRoom.getDifficulty());
-                             room.setGrid(updatedRoom.getGrid());
-                             room.setDarkvision(updatedRoom.getDarkvision());
+                             room.setGridRequired(updatedRoom.getGridRequired());
+                             room.setDarkvisionRequired(updatedRoom.getDarkvisionRequired());
                              room.setType(updatedRoom.getType());
                              room.setEnvironment(updatedRoom.getEnvironment());
                              room.setTags(updatedRoom.getTags());

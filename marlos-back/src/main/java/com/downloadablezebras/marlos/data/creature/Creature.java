@@ -26,11 +26,14 @@ public class Creature {
     @Column(nullable = true)
     private int level;
 
-    private String size;
+    @Enumerated(EnumType.STRING)
+    private Size size;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private CreatureType type;
 
-    private String alignment;
+    @Enumerated(EnumType.STRING)
+    private Alignment alignment;
 
     @Column(nullable = true)
     private int ac;
@@ -42,7 +45,15 @@ public class Creature {
     })
     private HP hp;
 
-    private String speed;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "walking", column = @Column(name = "walking_speed")),
+            @AttributeOverride(name = "burrow", column = @Column(name = "burrow_speed")),
+            @AttributeOverride(name = "climb", column = @Column(name = "climb_speed")),
+            @AttributeOverride(name = "fly", column = @Column(name = "fly_speed")),
+            @AttributeOverride(name = "swim", column = @Column(name = "swim_speed"))
+    })
+    private Speed speed;
 
     @Embedded
     @AttributeOverrides({
@@ -102,17 +113,12 @@ public class Creature {
 
     @ManyToMany
     @JoinTable(
-            name="creature_conditionImmunity",
+            name="creature_condition_immunity",
             joinColumns = @JoinColumn(name = "creature_id"),
             inverseJoinColumns = @JoinColumn(name = "condition_immunity_id"))
     private List<StatusCondition> conditionImmunities = new ArrayList<>();
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "blindsight", column = @Column(name = "blindsight")),
-            @AttributeOverride(name = "darkvision", column = @Column(name = "darkvision")),
-            @AttributeOverride(name = "truesight", column = @Column(name = "truesight"))
-    })
     private Senses senses;
 
     private String languages;
@@ -132,19 +138,22 @@ public class Creature {
     private TextReference textReference;
 
     @ManyToMany
-    private List<Ability> creatureAbilities = new ArrayList<>();
+    @JoinTable(name="creature_ability")
+    private List<Ability> abilities = new ArrayList<>();
 
     @ManyToMany
+    @JoinTable(name="creature_action")
     private List<Action> actions = new ArrayList<>();
 
     @ManyToMany
+    @JoinTable(name="creature_legendary_action")
     private List<Action> legendaryActions = new ArrayList<>();
 
     public Creature() {
 
     }
 
-    public Creature(String name, int level, String size, String type, String alignment, int ac, HP hp, String speed, AbilityScores abilityScores,
+    public Creature(String name, int level, Size size, CreatureType type, Alignment alignment, int ac, HP hp, Speed speed, AbilityScores abilityScores,
                     AbilityScores savingThrows, String skills, List<DamageModifier> damageImmunities, List<DamageModifier> damageVulnerabilities,
                     List<DamageModifier> damageResistances, List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
                     TextReference textReference, List<Ability> creatureAbilities, List<Action> actions, List<Action> legendaryActions) {
@@ -167,7 +176,7 @@ public class Creature {
         this.languages = languages;
         this.cr = cr;
         this.textReference = textReference;
-        this.creatureAbilities = creatureAbilities;
+        this.abilities = creatureAbilities;
         this.actions = actions;
         this.legendaryActions = legendaryActions;
     }

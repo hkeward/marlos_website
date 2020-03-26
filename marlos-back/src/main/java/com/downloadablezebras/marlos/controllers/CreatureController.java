@@ -56,7 +56,7 @@ public class CreatureController {
                     creature.setLanguages(updatedCreature.getLanguages());
                     creature.setCr(updatedCreature.getCr());
                     creature.setTextReference(updatedCreature.getTextReference());
-                    creature.setCreatureAbilities(updatedCreature.getCreatureAbilities());
+                    creature.setAbilities(updatedCreature.getAbilities());
                     creature.setActions(updatedCreature.getActions());
                     creature.setLegendaryActions(updatedCreature.getLegendaryActions());
                     return repository.save(creature);

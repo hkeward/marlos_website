@@ -19,7 +19,8 @@ public class Spell {
     @Column(nullable = true)
     private int spellLevel;
 
-    private String school;
+    @Enumerated(EnumType.STRING)
+    private School school;
 
     @Column(nullable = true)
     private Boolean concentration;
@@ -36,7 +37,7 @@ public class Spell {
     public Spell() {
     }
 
-    public Spell(String name, int spellLevel, String school, Boolean concentration,
+    public Spell(String name, int spellLevel, School school, Boolean concentration,
                  String spellRange, SpellComponents components, String duration, String description) {
         this.name = name;
         this.spellLevel = spellLevel;
