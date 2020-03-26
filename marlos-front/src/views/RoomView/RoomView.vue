@@ -55,7 +55,9 @@ export default {
                 try {
                     const response = await fetch(`https://heatherward.dev/rest/rooms/${id}`, {});
                     this.currentRoom = await response.json();
-                } catch (err) {}
+                } catch (err) {
+                	console.error(err);
+				}
             }
 		},
 
