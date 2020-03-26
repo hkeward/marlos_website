@@ -7,6 +7,6 @@ import javax.persistence.Embeddable;
 @Data
 @Embeddable
 public class ChallengeRating {
-    private int rating;
-    private int experience;
+    private Integer rating;
+    private Integer experience;
 }

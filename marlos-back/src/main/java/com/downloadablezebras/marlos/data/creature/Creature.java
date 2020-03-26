@@ -23,8 +23,7 @@ public class Creature {
 
     private String name;
 
-    @Column(nullable = true)
-    private int level;
+    private Integer level;
 
     @Enumerated(EnumType.STRING)
     private Size size;
@@ -35,8 +34,7 @@ public class Creature {
     @Enumerated(EnumType.STRING)
     private Alignment alignment;
 
-    @Column(nullable = true)
-    private int ac;
+    private Integer ac;
 
     @Embedded
     @AttributeOverrides({
@@ -153,7 +151,7 @@ public class Creature {
 
     }
 
-    public Creature(String name, int level, Size size, CreatureType type, Alignment alignment, int ac, HP hp, Speed speed, AbilityScores abilityScores,
+    public Creature(String name, Integer level, Size size, CreatureType type, Alignment alignment, Integer ac, HP hp, Speed speed, AbilityScores abilityScores,
                     AbilityScores savingThrows, String skills, List<DamageModifier> damageImmunities, List<DamageModifier> damageVulnerabilities,
                     List<DamageModifier> damageResistances, List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
                     TextReference textReference, List<Ability> creatureAbilities, List<Action> actions, List<Action> legendaryActions) {

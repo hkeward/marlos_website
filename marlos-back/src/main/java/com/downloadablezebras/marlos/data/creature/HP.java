@@ -7,6 +7,6 @@ import javax.persistence.Embeddable;
 @Data
 @Embeddable
 public class HP {
-    private int average;
+    private Integer average;
     private String hit_die;
 }

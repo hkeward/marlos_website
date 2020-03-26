@@ -18,7 +18,6 @@ public class Room {
     private Long id;
 
     private String name;
-    @Column(nullable = true)
     private Integer timeEstimate;
 
     @Enumerated(EnumType.STRING)

@@ -8,5 +8,5 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TextReference {
     private String book;
-    private int pageNumber;
+    private Integer pageNumber;
 }
