@@ -19,7 +19,7 @@ public class Room {
 
     private String name;
     @Column(nullable = true)
-    private int timeEstimate;
+    private Integer timeEstimate;
 
     @Enumerated(EnumType.STRING)
     private Rating rating;
