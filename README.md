@@ -56,9 +56,10 @@ Unit tests are run using Jest:
 
 ## Backend
 
+```
 mvn package
-java -jar target/marlos.jar
-
+java -Dorg.apache.el.parser.COERCE_TO_ZERO=false -jar target/marlos.jar
+```
 
 ## Notes
 
