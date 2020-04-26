@@ -8,10 +8,10 @@ var returnData;
 var state;
 var commit;
 
-const room1 = { roomId: 1, roomName: "First room", type: "Fighting", tags: ""};
-const room2 = { roomId: 2, roomName: "Second room", type: "RP", tags: "first tag"};
+const room1 = { id: 1, name: "First room", type: "Fighting", tags: ""};
+const room2 = { id: 2, name: "Second room", type: "RP", tags: "first tag"};
 
-const room1_updated = {roomId: 1, roomName: "First room renamed", type: "Fighting", tags: ""};
+const room1_updated = {id: 1, name: "First room renamed", type: "Fighting", tags: ""};
 
 beforeEach(() => {
     commit = jest.fn();
@@ -59,7 +59,7 @@ describe("getRoomData", () => {
 
 describe("addRoom", () => {
     it("added a room", async () => {
-       returnData = {json: () => room1.roomId, status: 200};
+       returnData = {json: () => room1.id, status: 200};
        await actions.addRoom({commit, state});
 
        expect(url).toBe("https://heatherward.dev/rest/rooms");
@@ -76,7 +76,7 @@ describe("addRoom", () => {
 
 describe('toggleEditing', () => {
    it('toggles edit mode', () => {
-       const mode = room1.roomId;
+       const mode = room1.id;
        actions.toggleEditing({commit}, mode);
 
        expect(commit).toHaveBeenCalledWith('EDIT_MODE', mode);
@@ -89,7 +89,7 @@ describe('editRoom', () => {
 
         await actions.editRoom({commit, state}, room1_updated);
 
-        expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1_updated.roomId}`);
+        expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1_updated.id}`);
         expect(body).toEqual({
             method: 'PUT',
             body: JSON.stringify(room1_updated),
@@ -111,18 +111,18 @@ describe('deleteRoom', () => {
     it('deleted a room', async () => {
         returnData = {status: 200};
 
-        await actions.deleteRoom({commit, state}, room1.roomId);
+        await actions.deleteRoom({commit, state}, room1.id);
 
-        expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1.roomId}`);
+        expect(url).toBe(`https://heatherward.dev/rest/rooms/${room1.id}`);
         expect(body).toEqual({
             method: 'DELETE'
         });
-        expect(commit).toHaveBeenCalledWith('DELETE_ROOM', room1.roomId);
+        expect(commit).toHaveBeenCalledWith('DELETE_ROOM', room1.id);
     });
 
     it('caught an error', async () => {
         mockError = true;
 
-        await expect(actions.deleteRoom({commit, state}, room1.roomId)).rejects.toThrow("Error deleting room");
+        await expect(actions.deleteRoom({commit, state}, room1.id)).rejects.toThrow("Error deleting room");
     });
 });

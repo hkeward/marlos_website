@@ -13,8 +13,8 @@ var room2;
 const fake_keycloak_object = {token: "fake_token"};
 
 beforeEach(() => {
-    room1 = {roomId: 1, roomName: "B First room", type: "fighting", tags: "magic, riddle", description: "good", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
-    room2 = {roomId: 2, roomName: "A Second room", type: "RP", tags: "magic", description: "Many spiders", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
+    room1 = {id: 1, name: "B First room", type: "fighting", tags: "magic, riddle", description: "good", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
+    room2 = {id: 2, name: "A Second room", type: "RP", tags: "magic", description: "Many spiders", rating: null, quality: null, difficulty: null, environment: null, darkvision: false, grid: false};
 
     actions = {
         getRoomData: jest.fn()

@@ -5,10 +5,10 @@ A website and tools used to organize D&D encounters.
 
 ## Current setup
 
-Keycloak 6.0.1
-Wildfly 10.0.0 with Keycloak adapter
-
-nginx
+- Keycloak 6.0.1
+- Spring boot REST backend
+- Node serving Vue frontend
+- nginx for reverse proxy
 
 ## Frontend
 
@@ -53,6 +53,13 @@ Unit tests are run using Jest:
 
 `npm run test:unit`
 
+
+## Backend
+
+```
+mvn package
+java -Dorg.apache.el.parser.COERCE_TO_ZERO=false -jar target/marlos.jar
+```
 
 ## Notes
 

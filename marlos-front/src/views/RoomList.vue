@@ -41,10 +41,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="room in filteredRooms" v-bind:key="room.roomId">
+                    <tr v-for="room in filteredRooms" v-bind:key="room.id">
                         <td>
-                            <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.roomId}}">
-                                {{ room.roomName }}
+                            <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.id}}">
+                                {{ room.name }}
                             </router-link>
                         </td>
 
@@ -124,15 +124,15 @@ export default {
                 filteredRooms = rooms_array.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
             }
 
-            // filter by search term (check in roomName, type, tags)
+            // filter by search term (check in name, type, tags)
             filteredRooms = filteredRooms.filter(room => {
-                return ((room.roomName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) ||
+                return ((room.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) ||
                         (room.type.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) ||
                         (room.tags.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1));
             });
 
             return filteredRooms.sort((a, b) => {
-                return a.roomName.toLowerCase() > b.roomName.toLowerCase() ? 1 : -1;
+                return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
             });
         },
 

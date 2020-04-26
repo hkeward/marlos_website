@@ -2,15 +2,15 @@
     <div id="room-header">
         <div id="title-info">
 
-            <h1 v-if="editing === currentRoom.roomId" v-text="currentRoom.roomName" @blur="$parent.onEdit" id="roomName" class="room-name editing" contenteditable="true">
+            <h1 v-if="editing === currentRoom.id" v-text="currentRoom.name" @blur="$parent.onEdit" id="name" class="room-name editing" contenteditable="true">
             </h1>
 
             <h1 v-else class="room-name" contenteditable="false">
-                {{ currentRoom.roomName }}
+                {{ currentRoom.name }}
             </h1>
 
 
-            <h3 v-if="editing === currentRoom.roomId" v-text="currentRoom.type" @blur="$parent.onEdit" id="type" class="type editing" contenteditable="true">
+            <h3 v-if="editing === currentRoom.id" v-text="currentRoom.type" @blur="$parent.onEdit" id="type" class="type editing" contenteditable="true">
             </h3>
 
             <h3 v-else class="type" contenteditable="false">
@@ -19,13 +19,13 @@
 
         </div>
 
-        <div v-if="editing === currentRoom.roomId && isAdminUser" class="edit-bar">
+        <div v-if="editing === currentRoom.id && isAdminUser" class="edit-bar">
 
             <button @click="editRoom(currentRoom)" class="save-button">
                 Save
             </button>
 
-            <button @click="isNewRoom ? deleteRoom(currentRoom.roomId) : cancelEdit()" class="muted-button">
+            <button @click="isNewRoom ? deleteRoom(currentRoom.id) : cancelEdit()" class="muted-button">
                 Cancel
             </button>
 
@@ -37,7 +37,7 @@
                 Edit
             </button>
 
-            <button @click="deleteRoom(currentRoom.roomId)" class="delete-button">
+            <button @click="deleteRoom(currentRoom.id)" class="delete-button">
                 Delete
             </button>
         </div>
@@ -80,7 +80,7 @@ export default {
 
         editMode(room) {
             this.cachedRoom = Object.assign({}, room);
-            this.toggleEditing(room.roomId);
+            this.toggleEditing(room.id);
         },
 
         cancelEdit() {
