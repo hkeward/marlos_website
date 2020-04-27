@@ -29,9 +29,9 @@ beforeEach(() => {
             },
             keycloak: fake_keycloak_object,
             rooms: {1: room1, 2: room2},
-            editing: null,
+            editing: {room: null, creature: null, spell: null},
             isAdminUser: false,
-            fetched: false
+            fetched: {rooms: false}
         },
         actions
     });

@@ -2,7 +2,7 @@
     <div id="room-header">
         <div id="title-info">
 
-            <h1 v-if="editing === currentRoom.id" v-text="currentRoom.name" @blur="$parent.onEdit" id="name" class="room-name editing" contenteditable="true">
+            <h1 v-if="editing.room === currentRoom.id" v-text="currentRoom.name" @blur="$parent.onEdit" id="name" class="room-name editing" contenteditable="true">
             </h1>
 
             <h1 v-else class="room-name" contenteditable="false">
@@ -10,7 +10,7 @@
             </h1>
 
 
-            <h3 v-if="editing === currentRoom.id" v-text="currentRoom.type" @blur="$parent.onEdit" id="type" class="type editing" contenteditable="true">
+            <h3 v-if="editing.room === currentRoom.id" v-text="currentRoom.type" @blur="$parent.onEdit" id="type" class="type editing" contenteditable="true">
             </h3>
 
             <h3 v-else class="type" contenteditable="false">
@@ -19,13 +19,13 @@
 
         </div>
 
-        <div v-if="editing === currentRoom.id && isAdminUser" class="edit-bar">
+        <div v-if="editing.room === currentRoom.id && isAdminUser" class="edit-bar">
 
             <button @click="editRoom(currentRoom)" class="save-button">
                 Save
             </button>
 
-            <button @click="isNewRoom ? deleteRoom(currentRoom.id) : cancelEdit()" class="muted-button">
+            <button @click="isNew.room ? deleteRoom(currentRoom.id) : cancelEdit()" class="muted-button">
                 Cancel
             </button>
 
@@ -67,7 +67,7 @@ export default {
         ...mapState([
            'editing',
            'isAdminUser',
-           'isNewRoom'
+           'isNew'
          ])
     },
 
@@ -80,13 +80,13 @@ export default {
 
         editMode(room) {
             this.cachedRoom = Object.assign({}, room);
-            this.toggleEditing(room.id);
+            this.toggleEditing({type: 'room', mode: room.id});
         },
 
         cancelEdit() {
             Object.assign(this.currentRoom, this.cachedRoom);
             this.currentRoom.__ob__.dep.notify();
-            this.toggleEditing(false);
+            this.toggleEditing({type: 'room', mode: false});
         },
     },
 }

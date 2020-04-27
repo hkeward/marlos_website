@@ -30,7 +30,7 @@ beforeEach(() => {
         state: {
             rooms: {},
             infoExpanded: false,
-            editing: null,
+            editing: {room: null, creature: null, spell: null},
             isAdminUser: false,
         }
     });
@@ -54,7 +54,7 @@ describe('AdvancedRoomInfo', () => {
 
     it('emits an event on focus change', async() => {
         store.state.isAdminUser = true;
-        store.state.editing = room1.id;
+        store.state.editing.room = room1.id;
         store.state.infoExpanded = true;
         const wrapper = shallowMount(AdvancedRoomInfo, {
             parentComponent: parentComponentStub,

@@ -26,7 +26,7 @@ beforeEach(() => {
     store = new Vuex.Store({
         state: {
             rooms: {},
-            editing: null,
+            editing: {room: null, creature: null, spell: null},
         }
     });
 });
@@ -46,7 +46,7 @@ describe('RoomDescription', () => {
     });
 
     it('displays editing bar', () => {
-        store.state.editing = room1.id;
+        store.state.editing.room = room1.id;
         const wrapper = shallowMount(RoomDescription, {
             store,
             localVue,

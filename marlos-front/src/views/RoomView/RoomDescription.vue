@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="editing === currentRoom.id" class="editing">
+        <div v-if="editing.room === currentRoom.id" class="editing">
             <editor-menu-bar class="editor-menu-bar" :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
                 <div>
                     <div>

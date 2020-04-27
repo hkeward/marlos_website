@@ -31,14 +31,12 @@ export default {
 
 	data() {
 		return {
-            currentRoom: {},
-            // roomFound: true,
+            currentRoom: {}
 		}
 	},
 
 	computed: {
 		...mapState([
-				'keycloak',
 				'rooms',
 				'genericRoom',
 		]),
@@ -65,12 +63,12 @@ export default {
 			if (Object.keys(this.genericRoom).includes(e.target.id)) {
 				this.currentRoom[e.target.id] = e.target.innerText;
 			}
-		},
+		}
 	},
 
 	created() {
 		this.getCurrentRoom(this.$route.params.id);
-	},
+	}
 }
 </script>
 
