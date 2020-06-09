@@ -1,21 +1,55 @@
 <template>
   <div id="creature-header">
     <div id="title-info">
+      <div>
+        <h1 v-if="editing.creature === currentCreature.id" v-text="currentCreature.name" @blur="$parent.onEdit" id="name" class="creature-name editing" contenteditable="true">
+        </h1>
 
-      <h1 v-if="editing.creature === currentCreature.id" v-text="currentCreature.name" @blur="$parent.onEdit" id="name" class="creature-name editing" contenteditable="true">
-      </h1>
+        <h1 v-else class="creature-name" contenteditable="false">
+          {{ currentCreature.name }}
+        </h1>
+      </div>
 
-      <h1 v-else class="creature-name" contenteditable="false">
-        {{ currentCreature.name }}
-      </h1>
+      <div>
+        <div v-if="editing.creature === currentCreature.id" id="size_type_alignment">
+          <div>
+            <select v-model="currentCreature.size">
+              <option disabled value="">--Size--</option>
+              <option v-for="(size, code) in creatureEnums.size" :value="code" :key="code">
+                {{ size }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <select v-model="currentCreature.type">
+              <option disabled value="">--Type--</option>
+              <option v-for="(type, code) in creatureEnums.type" :value="code" :key="code">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <select v-model="currentCreature.alignment">
+              <option disabled value="">--Alignment--</option>
+              <option v-for="(alignment, code) in creatureEnums.alignment" :value="code" :key="code">
+                {{ alignment }}
+              </option>
+            </select>
+          </div>
+        </div>
 
-
-      <h3 v-if="editing.creature === currentCreature.id" v-text="currentCreature.type" @blur="$parent.onEdit" id="type" class="type editing" contenteditable="true">
-      </h3>
-
-      <h3 v-else class="type" contenteditable="false">
-        {{ currentCreature.type }}
-      </h3>
+        <div v-else id="size_type_alignment">
+          <div class="type" contenteditable="false">
+            {{ currentCreature.size | title_case }}
+          </div>
+          <div class="type" contenteditable="false">
+            {{ currentCreature.type | lowercase }},
+          </div>
+          <div class="type" contenteditable="false">
+            {{ currentCreature.alignment | lowercase }}
+          </div>
+        </div>
+      </div>
 
     </div>
 
@@ -67,7 +101,8 @@ export default {
         ...mapState([
             'editing',
             'isAdminUser',
-            'isNew'
+            'isNew',
+            'creatureEnums'
         ])
     },
 
@@ -93,12 +128,9 @@ export default {
 </script>
 
 <style scoped>
-  .delete-button, .edit-button, .save-button, .muted-button {
-    margin: 30px 0 10px 5px;
-  }
-
   #title-info {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: baseline;
   }
@@ -117,31 +149,15 @@ export default {
   .type {
     font-weight: 400;
     border: 1px solid transparent;
+    margin: 0;
   }
 
-  .save-button {
-    background: #AAC97A;
-    border-color: #AAC97A;
-    color: #1F2430;
-  }
-
-  .save-button:hover {
-    color: white;
-  }
-
-  .delete-button {
-    background: #D33C40;
-    border-color: #D33C40;
-  }
-
-  .muted-button {
-    background: #6D7392;
-    border-color: #6D7392;
-  }
-
-  .edit-bar {
-    margin: 30px 0 0 0;
+  #size_type_alignment {
     display: flex;
-    justify-content: flex-end;
+  }
+
+  /* this is a disgusting way to make spaces appear Heather */
+  #size_type_alignment div {
+    margin-right: 2px;
   }
 </style>

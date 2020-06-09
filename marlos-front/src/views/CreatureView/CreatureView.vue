@@ -1,22 +1,21 @@
 <template>
   <div v-if="creatureFound">
     <creature-title-info :currentCreature="currentCreature" />
-    <div>
-      <p>Raw json of the object, I'll prettify this later</p>
-      <p>{{ currentCreature }}</p>
-    </div>
+    <ability-scores :currentCreature="currentCreature"></ability-scores>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import CreatureTitleInfo from './CreatureTitleInfo'
+import AbilityScores from './AbilityScores.vue'
 
 export default {
     name: 'creature-view',
 
     components: {
-        CreatureTitleInfo
+        CreatureTitleInfo,
+        AbilityScores
     },
 
     data() {

@@ -109,6 +109,43 @@ export const store = new Vuex.Store({
             abilities: [],
             actions: [],
             legendaryActions: []
+        },
+        creatureEnums: {
+            size: {
+                "TINY": "Tiny",
+                "SMALL": "Small",
+                "MEDIUM": "Medium",
+                "LARGE": "Large",
+                "HUGE": "Huge",
+                "GARGANTUAN": "Gargantuan",
+            },
+            type: {
+                "ABBERATION": "Abberation",
+                "BEAST": "Beast",
+                "CELESTIAL": "Celestial",
+                "CONSTRUCT": "Construct",
+                "DRAGON": "Dragon",
+                "ELEMENTAL": "Elemental",
+                "FEY": "Fey",
+                "FIEND": "Fiend",
+                "GIANT": "Giant",
+                "HUMANOID": "Humanoid",
+                "MONSTROSITY": "Monstrosity",
+                "OOZE": "Ooze",
+                "PLANT": "Plant",
+                "UNDEAD": "Undead",
+            },
+            alignment: {
+                "LAWFUL_GOOD": "Lawful good",
+                "NEUTRAL_GOOD": "Neutral good",
+                "CHAOTIC_GOOD": "Chaotic good",
+                "LAWFUL_NEUTRAL": "Lawful neutral",
+                "NEUTRAL": "Neutral",
+                "CHAOTIC_NEUTRAL": "Chaotic neutral",
+                "LAWFUL_EVIL": "Lawful evil",
+                "NEUTRAL_EVIL": "Neutral evil",
+                "CHAOTIC_EVIL": "Chaotic evil",
+            }
         }
     },
     mutations,

@@ -93,10 +93,6 @@ export default {
 </script>
 
 <style scoped>
-.delete-button, .edit-button, .save-button, .muted-button {
-    margin: 30px 0 10px 5px;
-}
-
 #title-info {
     display: flex;
     justify-content: flex-start;
@@ -117,31 +113,5 @@ export default {
 .type {
     font-weight: 400;
     border: 1px solid transparent;
-}
-
-.save-button {
-    background: #AAC97A;
-    border-color: #AAC97A;
-    color: #1F2430;
-}
-
-.save-button:hover {
-    color: white;
-}
-
-.delete-button {
-    background: #D33C40;
-    border-color: #D33C40;
-}
-
-.muted-button {
-    background: #6D7392;
-    border-color: #6D7392;
-}
-
-.edit-bar {
-	margin: 30px 0 0 0;
-	display: flex;
-	justify-content: flex-end;
 }
 </style>

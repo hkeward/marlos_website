@@ -4,6 +4,9 @@ import CreatureTitleInfo from '@/views/CreatureView/CreatureTitleInfo'
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.filter('capitalize', (value) => value);
+localVue.filter('title_case', (value) => value);
+localVue.filter('lowercase', (value) => value);
 
 var cancelEdit;
 var actions;
@@ -30,7 +33,18 @@ beforeEach(() => {
                 room: false,
                 creature: false,
                 spell: false
-            }
+            },
+            creatureEnums: {
+                size: {
+                    "TINY": "Tiny",
+                },
+                type: {
+                    "HUMANOID": "Humanoid",
+                },
+                alignment: {
+                    "CHAOTIC_NEUTRAL": "Chaotic neutral",
+                },
+            },
         },
         actions
     });

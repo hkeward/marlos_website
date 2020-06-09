@@ -44,6 +44,33 @@ const unregister = fetchIntercept.register({
   }
 });
 
+// Filters
+Vue.filter('capitalize', (value) => {
+   if (!value) return '';
+   value = value.toString();
+   return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase().split('_').join(' ');
+});
+
+Vue.filter('title_case', (value) => {
+    var converted = [];
+    if (!value) {
+        return '';
+    } else {
+        value.toString().split('_').forEach(word => {
+            converted.push(word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+        });
+        return converted.join(' ');
+    }
+});
+
+Vue.filter('lowercase', (value) => {
+    if (!value) {
+        return ''
+    } else {
+        return value.toString().toLowerCase().split('_').join(' ');
+    }
+});
+
 store.dispatch('initializeKeycloak')
     .then(() => {
         new Vue({
