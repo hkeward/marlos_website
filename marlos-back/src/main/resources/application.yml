@@ -9,7 +9,7 @@ spring:
         format_sql: true
   datasource:
     driverClassName: "com.mysql.cj.jdbc.Driver"
-    url: jdbc:mysql://localhost:3306/marlos?useSSL=false&serverTimezone=EST5EDT
+    url: jdbc:mysql://localhost:3306/marlos?useSSL=false&serverTimezone=EST5EDT&createDatabaseIfNotExist=true
     username: "root"
     password: ""
 
