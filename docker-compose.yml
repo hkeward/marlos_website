@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  keycloak:
+    image: openjdk:11
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - ${KEYCLOAK_DIR}:/keycloak
+    entrypoint: ["/keycloak/bin/standalone.sh", "-Djboss.socket.binding.port-offset=100"]
+  database:
+    image: mysql:8.0
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - ${MYSQL_DIR}:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  backend:
+    image: ${BACKEND_IMAGE}
+    restart: unless-stopped
+    network_mode: "host"
+    depends_on: 
+      - database
+  frontend-prod:
+    image: ${FRONTEND_PROD_IMAGE}
+    restart: unless-stopped
+    network_mode: "host"
+    depends_on:
+      - backend
+  frontend-testing:
+    image: ${FRONTEND_TESTING_IMAGE}
+    restart: unless-stopped
+    network_mode: "host"
+    depends_on:
+      - backend
+    volumes:
+      - ~/Documents/Github_repos/marlos_website/marlos-front:/target
