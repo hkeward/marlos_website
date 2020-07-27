@@ -5,7 +5,11 @@ ADD ./target/src ./src
 ADD ./target/pom.xml ./
 ADD ./target/.mvn ./.mvn
 
-RUN mvn package -DskipTests
+RUN apt-get -qq update && \
+	apt-get -qq install mysql-server
+
+# mysql must be running for tests to work
+RUN service mysql start && mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY ''; FLUSH PRIVILEGES;" && mvn package
 
 
 FROM openjdk:11
