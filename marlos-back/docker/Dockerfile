@@ -1,9 +1,9 @@
 FROM maven:3.6.3-adoptopenjdk-8 AS builder
 
 WORKDIR /build
-ADD ./src ./src
-ADD ./pom.xml ./
-ADD ./.mvn ./.mvn
+ADD ./target/src ./src
+ADD ./target/pom.xml ./
+ADD ./target/.mvn ./.mvn
 
 RUN mvn package -DskipTests
 

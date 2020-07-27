@@ -10,41 +10,44 @@ A website and tools used to organize D&D encounters.
 - Node serving Vue frontend
 - nginx for reverse proxy
 
+## Running
+
+Configuration via environment variables:
+- MYSQL_DIR: path to mysql persistent files
+- MYSQL_ROOT_PASSWORD: password for mysql backend database
+- KEYCLOAK_DIR: path to keycloak installation files
+- BACKEND_IMAGE: name of backend image
+- FRONTEND_PROD_IMAGE: name of production frontend docker image
+- FRONTEND_TESTING_IMAGE: name of testing frontend docker image
+
+
+Build:
+`make build`
+
+Run:
+`make run`
+
+This will build the back and frontend images (including the testing frontend image) and start them up.
+
+
 ## Frontend
 
 ### Production
 
 To build:
 
-`npm run build`
+`make build-prod`
 
-This will build the files and store them in `marlos-front/dist/`
-
-To serve:
-
-`serve -s dist &`
-
-Will serve on port 5000.
+This will build the production docker image.
 
 
-### Testing live server
+### Testing
 
-View changes in real time -- start the development server. Recommended to start this in a screen session so it can be detached from.
+To build:
 
-`npm run serve -- --port 5500 &`
+`make build-testing`
 
-When changes are saved in Webstorm, changed files are automatically uploaded to the web server. Changes can then be seen at `testing.heatherward.dev`. This is to get around the issue of CORS/requesting things from localhost -> the real backend. Offline development is still problematic; this will hopefully be resolved when I dockerize the components and I can actually run the full stack locally.
-
-Be aware that testing uses the same database as production; changes are real!
-
-
-Build production version (of test deployment):
-
-`npm run build -- --dest dist-testing`
-
-Serve production version (of test deployment):
-
-`serve -l 5500 dist-testing &`
+This will install dependencies and build the testing docker image. Changes to files will go live immediately.
 
 
 ### Tests
@@ -56,10 +59,10 @@ Unit tests are run using Jest:
 
 ## Backend
 
-```
-mvn package
-java -Dorg.apache.el.parser.COERCE_TO_ZERO=false -jar target/marlos.jar
-```
+To build:
+
+`make build`
+
 
 ## Notes
 
