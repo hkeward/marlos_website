@@ -67,3 +67,8 @@ To build:
 ## Notes
 
 `<style scoped>` does not work with text rendered by `v-html` (it does not have the data hash attached to it)
+
+### Tomcat complaining (marlos-back)
+
+`sudo ln -sv /usr/lib/x86_64-linux-gnu/libtcnative-1.so /usr/lib/`
+
