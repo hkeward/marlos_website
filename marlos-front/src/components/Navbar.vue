@@ -6,6 +6,8 @@
 			<router-link to="/" class="navbar" tag="button">Home</router-link>
 			<router-link to="/about" class="navbar" tag="button">About</router-link>
 			<router-link to="/rooms" class="navbar" tag="button">Rooms</router-link>
+			<router-link to="/creatures" class="navbar" tag="button">Creatures</router-link>
+			<router-link to="/spells" class="navbar" tag="button">Spells</router-link>
 		</div>
 		<div id="login-signup" :helpertext="helpertext">
 <!--			<p class="helpertext"> {{ helpertext }} </p>-->

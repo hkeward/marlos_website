@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import RoomTitleInfo from '@/views/RoomView/RoomTitleInfo'
+import Vue from "vue";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -36,8 +37,13 @@ beforeEach(() => {
     store = new Vuex.Store({
         state: {
             rooms: {},
-            editing: null,
+            editing: {room: null, creature: null, spell: null},
             isAdminUser: false,
+            isNew: {
+                room: false,
+                creature: false,
+                spell: false
+            }
         },
         actions
     });
@@ -78,7 +84,7 @@ describe('RoomTitleInfo', () => {
 
     it('displays editing mode buttons',  () => {
         store.state.isAdminUser = true;
-        store.state.editing = room1.id;
+        store.state.editing.room = room1.id;
         const wrapper = shallowMount(RoomTitleInfo, {
             parentComponent: parentComponentStub,
             store,

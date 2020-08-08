@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from './views/Home.vue'
-import RoomList from './views/RoomList.vue'
-import About from './views/About.vue'
-import RoomView from './views/RoomView/RoomView.vue'
+import Home from './views/Home'
+import RoomList from './views/RoomList'
+import About from './views/About'
+import RoomView from './views/RoomView/RoomView'
+import CreatureList from './views/CreatureList'
+import CreatureView from './views/CreatureView/CreatureView'
+import SpellList from './views/SpellList'
 
 Vue.use(VueRouter);
 
@@ -17,19 +20,34 @@ export default new VueRouter({
       component: Home
     },
     {
-      path: '/rooms',
-      name: 'rooms',
-      component: RoomList
-    },
-    {
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/rooms',
+      name: 'rooms',
+      component: RoomList
     },
     {
       path: '/rooms/:id',
       name: 'room',
       component: RoomView,
     },
+    {
+      path: '/creatures',
+      name: 'creatures',
+      component: CreatureList
+    },
+    {
+      path: '/creatures/:id',
+      name: 'creature',
+      component: CreatureView
+    },
+    {
+      path: '/spells',
+      name: 'spells',
+      component: SpellList
+    }
   ]
 })

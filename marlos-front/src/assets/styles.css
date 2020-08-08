@@ -56,7 +56,6 @@ button:hover {
 
 button:focus, button:active {
 	outline: 0;
-	border: 1px solid #4D489C;
 }
 
 /* Tables */
@@ -93,4 +92,40 @@ th {
 	line-height: 1;
 	font-family: 'Raleway', sans-serif;
 	color: white;
+}
+
+option:disabled {
+	color: #1F2430;
+	font-style: oblique;
+}
+
+/* View edit bar */
+.delete-button, .edit-button, .save-button, .muted-button {
+	margin: 10px 0 40px 5px;
+	height: 50px;
+	/* required so elements don't move on hover */
+	border: 1px solid transparent;
+}
+
+.delete-button {
+	background: #D33C40;
+}
+
+.muted-button {
+	background: #6D7392;
+}
+
+.save-button {
+	background: #AAC97A;
+	color: #1F2430;
+}
+
+.save-button:hover {
+	color: white;
+}
+
+.edit-bar {
+	margin: 30px 0 0 0;
+	display: flex;
+	justify-content: flex-end;
 }

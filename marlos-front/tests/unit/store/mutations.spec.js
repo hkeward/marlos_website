@@ -10,8 +10,8 @@ beforeEach(() => {
     };
     state = {
         rooms: {},
-        fetched: false,
-        editing: null,
+        fetched: {rooms: false, creatures: false, spells: false},
+        editing: {room: null, creature: null, spell: null},
         isAdminUser: false
     };
 });
@@ -26,8 +26,8 @@ describe("SET_ROOMS", () => {
      expect(state).toEqual({
          rooms: { 4: { id: 4, name: 'Fourth room', type: 'Fighting', tags: ""},
           16: { id: 16, name: 'Sixteen', type: 'RP', tags: ""}},
-         fetched: true,
-         editing: null,
+         fetched: {rooms: true, creatures: false, spells: false},
+         editing: {room: null, creature: null, spell: null},
          isAdminUser: false
      });
    });
@@ -56,9 +56,9 @@ describe("ADD_ROOM", () => {
 
 describe('EDIT_MODE', () => {
    it('sets editing to mode', () => {
-       mutations.EDIT_MODE(state, 15);
+       mutations.EDIT_MODE(state, {type: 'room', mode: 15});
 
-       expect(state.editing).toEqual(15);
+       expect(state.editing.room).toEqual(15);
    });
 });
 

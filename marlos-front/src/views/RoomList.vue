@@ -4,11 +4,11 @@
     <div id="room-list">
         <div id="header-info">
             <div class="title">
-                <h1>All Rooms</h1>
+                <h1>Rooms</h1>
             </div>
         </div>
         <div id="interact-buttons">
-            <div class="search-bar" >
+            <div class="search-bar">
                 <input v-model="searchTerm"
                        placeholder="Search rooms"
                        onfocus="this.placeholder=''"
@@ -43,7 +43,7 @@
                 <tbody>
                     <tr v-for="room in filteredRooms" v-bind:key="room.id">
                         <td>
-                            <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.id}}">
+                            <router-link tag="button" class="room-button" :to="{ name: 'room', params: { id : room.id }}">
                                 {{ room.name }}
                             </router-link>
                         </td>
@@ -107,18 +107,23 @@ export default {
         },
 
         removeFilter(tagToRemove) {
-            this.tagFilters = this.tagFilters.filter(tag => tag != tagToRemove);
+            this.tagFilters = this.tagFilters.filter(tag => tag !== tagToRemove);
         },
     },
 
     computed: {
+        ...mapState([
+            'rooms',
+            'isAdminUser'
+        ]),
+
         filteredRooms: function() {
             const filterArray = Array.from(this.tagFilters);
             var rooms_array = Object.keys(this.rooms).map(key => this.rooms[key]);
             var filteredRooms;
 
             // filter by tags
-            if (filterArray.length == 0) {
+            if (filterArray.length === 0) {
                 filteredRooms = rooms_array;
             } else {
                 filteredRooms = rooms_array.filter(room => filterArray.every(tag => room.tags.toLowerCase().includes(tag)));
@@ -135,11 +140,6 @@ export default {
                 return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
             });
         },
-
-        ...mapState([
-            'rooms',
-            'isAdminUser'
-        ])
     },
 
     mounted() {
@@ -149,72 +149,72 @@ export default {
 </script>
 
 <style scoped>
-#header-info {
-    display: flex;
-    justify-content: space-between;
-}
+    #header-info {
+        display: flex;
+        justify-content: space-between;
+    }
 
-.title {
-    display: flex;
-    justify-content: flex-start;
-}
+    .title {
+        display: flex;
+        justify-content: flex-start;
+    }
 
-h1 {
-    margin-bottom: 5px;
-}
+    h1 {
+        margin-bottom: 5px;
+    }
 
-.search-bar {
-    display: flex;
-    justify-content: flex-start;
-    vertical-align: middle;
-}
+    .search-bar {
+        display: flex;
+        justify-content: flex-start;
+        vertical-align: middle;
+    }
 
-input {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    border-radius: 3px;
-    border-style: hidden;
-}
+    input {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        border-radius: 3px;
+        border-style: hidden;
+    }
 
-#interact-buttons {
-    margin: 10px 0 10px 0;
-    display: flex;
-    justify-content: space-between;
-}
+    #interact-buttons {
+        margin: 10px 0 10px 0;
+        display: flex;
+        justify-content: space-between;
+    }
 
-.filter-button {
-    margin: 0 5px 0 0;
-}
+    .filter-button {
+        margin: 0 5px 0 0;
+    }
 
-#create-room {
-    background: #AAC97A;
-    border-color: #AAC97A;
-    color: #1F2430;
-}
+    #create-room {
+        background: #AAC97A;
+        border-color: #AAC97A;
+        color: #1F2430;
+    }
 
-#create-room:hover {
-    background: #1F2430;
-    color: white;
-}
+    #create-room:hover {
+        background: #1F2430;
+        color: white;
+    }
 
-.room-button {
-    width: 15rem;
-    margin-bottom: 0;
-}
+    .room-button {
+        width: 15rem;
+        margin-bottom: 0;
+    }
 
-.tag-button {
-    border: transparent;
-    background: transparent;
-    padding: 0.2rem;
-    margin: 0;
-}
+    .tag-button {
+        border: transparent;
+        background: transparent;
+        padding: 0.2rem;
+        margin: 0;
+    }
 
-.tag-button:hover {
-    background: #1F2430;
-}
+    .tag-button:hover {
+        background: #1F2430;
+    }
 
-table {
-    margin-bottom: 3rem;
-}
+    table {
+        margin-bottom: 3rem;
+    }
 
 </style>

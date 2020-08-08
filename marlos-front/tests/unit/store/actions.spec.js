@@ -1,4 +1,5 @@
 import actions from '@/store/actions.js'
+import Vue from "vue";
 
 var url;
 var body;
@@ -15,7 +16,7 @@ const room1_updated = {id: 1, name: "First room renamed", type: "Fighting", tags
 
 beforeEach(() => {
     commit = jest.fn();
-    state = {keycloak: {token: ""}, fetched: false, genericRoom: room1};
+    state = {keycloak: {token: ""}, fetched: {rooms: false}, genericRoom: room1, isNew: {room: false, creature: false, spell: false}};
     url = '';
     body = {};
     mockError = false;
@@ -44,7 +45,7 @@ describe("getRoomData", () => {
    });
 
    it('did not fetch room data if it was already fetched', async () => {
-        state.fetched = true;
+        state.fetched.rooms = true;
         await actions.getRoomData({commit, state});
 
         expect(commit).not.toHaveBeenCalled();
@@ -76,10 +77,11 @@ describe("addRoom", () => {
 
 describe('toggleEditing', () => {
    it('toggles edit mode', () => {
-       const mode = room1.id;
-       actions.toggleEditing({commit}, mode);
+       const type = 'room';
+       const room_id = room1.id;
+       actions.toggleEditing({commit}, {type: type, mode: room_id});
 
-       expect(commit).toHaveBeenCalledWith('EDIT_MODE', mode);
+       expect(commit).toHaveBeenCalledWith('EDIT_MODE', {type: type, mode: room_id});
    });
 });
 
@@ -97,7 +99,7 @@ describe('editRoom', () => {
                 'Content-type': 'application/json; charset=UTF-8'
             }});
         expect(commit).toHaveBeenCalledWith('SAVE_ROOM', room1_updated);
-        expect(commit).toHaveBeenCalledWith('EDIT_MODE', false);
+        expect(commit).toHaveBeenCalledWith('EDIT_MODE', {type: 'room', mode: false});
     });
 
     it('caught an error', async () => {
