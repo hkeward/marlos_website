@@ -17,19 +17,19 @@ services:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   backend:
-    image: ${BACKEND_IMAGE}
+    image: ${MARLOS_BACKEND_IMAGE}
     restart: unless-stopped
     network_mode: "host"
     depends_on: 
       - database
   frontend-prod:
-    image: ${FRONTEND_PROD_IMAGE}
+    image: ${MARLOS_FRONTEND_PROD_IMAGE}
     restart: unless-stopped
     network_mode: "host"
     depends_on:
       - backend
   frontend-testing:
-    image: ${FRONTEND_TESTING_IMAGE}
+    image: ${MARLOS_FRONTEND_TESTING_IMAGE}
     restart: unless-stopped
     network_mode: "host"
     depends_on:
