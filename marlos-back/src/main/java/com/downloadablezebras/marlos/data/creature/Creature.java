@@ -39,7 +39,8 @@ public class Creature {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "average", column = @Column(name = "average_hp")),
-            @AttributeOverride(name = "hit_die", column = @Column(name = "hit_die"))
+            @AttributeOverride(name = "hit_die", column = @Column(name = "hit_die")),
+            @AttributeOverride(name = "die_count", column = @Column(name = "die_count"))
     })
     private HP hp;
 
