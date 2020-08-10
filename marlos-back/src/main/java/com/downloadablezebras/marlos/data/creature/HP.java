@@ -9,4 +9,5 @@ import javax.persistence.Embeddable;
 public class HP {
     private Integer average;
     private String hit_die;
+    private Integer die_count;
 }
