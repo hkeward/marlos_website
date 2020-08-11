@@ -1,6 +1,7 @@
 <template>
   <div v-if="creatureFound">
     <creature-title-info :currentCreature="currentCreature" />
+    <ac-block :currentCreature="currentCreature" />
     <ability-scores :currentCreature="currentCreature"></ability-scores>
   </div>
 </template>
@@ -9,11 +10,13 @@
 import { mapState } from 'vuex';
 import CreatureTitleInfo from './CreatureTitleInfo'
 import AbilityScores from './AbilityScores.vue'
+import AcBlock from "./ACBlock";
 
 export default {
     name: 'creature-view',
 
     components: {
+        AcBlock,
         CreatureTitleInfo,
         AbilityScores
     },
@@ -49,8 +52,28 @@ export default {
         },
 
         onEdit(e) {
-            if (Object.keys(this.genericCreature).includes(e.target.id)) {
-                this.currentCreature[e.target.id] = e.target.innerText;
+            var levels = e.target.id.split('.');
+            if (checkNested(this.genericCreature, levels[0], levels.slice(1,))) {
+              setNested(this.currentCreature, levels, e.target.innerText);
+            }
+
+            function checkNested(obj, level, ...rest) {
+                if (obj === undefined) {
+                    return false;
+                }
+                if (rest.length == 0 && obj.hasOwnProperty(level)) {
+                    return true;
+                } else {
+                    return checkNested(obj[level], ...rest);
+                }
+            }
+
+            function setNested(obj, path, value) {
+                if (path.length == 1) {
+                    obj[path] = value;
+                    return;
+                }
+                return setNested(obj[path[0]], path.slice(1), value)
             }
         }
     },
