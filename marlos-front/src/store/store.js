@@ -54,7 +54,8 @@ export const store = new Vuex.Store({
             ac: null,
             hp: {
                 average: null,
-                hit_die: null
+                hit_die: null,
+                die_count: null
             },
             speed: {
                 walk: null,
