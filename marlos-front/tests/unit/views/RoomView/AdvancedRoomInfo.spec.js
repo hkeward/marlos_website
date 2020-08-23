@@ -49,7 +49,7 @@ describe('AdvancedRoomInfo', () => {
 
         await Vue.nextTick();
 
-        expect(wrapper.find('.toggle-info').text()).toBe('▼ Less');
+        expect(wrapper.find('.toggle-info').text()).toBe('▼ Metadata');
     });
 
     it('emits an event on focus change', async() => {
