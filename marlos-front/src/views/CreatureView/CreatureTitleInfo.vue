@@ -154,10 +154,11 @@ export default {
 
   #size_type_alignment {
     display: flex;
+    font-style: italic;
   }
 
   /* this is a disgusting way to make spaces appear Heather */
-  #size_type_alignment div {
-    margin-right: 2px;
-  }
+  /*#size_type_alignment div {*/
+  /*  margin-right: 2px;*/
+  /*}*/
 </style>

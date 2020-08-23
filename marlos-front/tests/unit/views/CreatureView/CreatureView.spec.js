@@ -13,6 +13,17 @@ var returnData;
 var store;
 var creature1;
 
+// from https://stackoverflow.com/a/52259482/8997224
+beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+afterAll(() => {
+    console.error.mockRestore();
+});
+afterEach(() => {
+    console.error.mockClear();
+});
+
 beforeEach(() => {
     global.fetch = jest.fn().mockImplementation((_url, _body) => {
         return new Promise((resolve, reject) => {

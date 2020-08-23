@@ -3,22 +3,25 @@
     <creature-title-info :currentCreature="currentCreature" />
     <ac-block :currentCreature="currentCreature" />
     <ability-scores :currentCreature="currentCreature"></ability-scores>
+    <vulnerabilities :currentCreature="currentCreature"></vulnerabilities>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import CreatureTitleInfo from './CreatureTitleInfo'
-import AbilityScores from './AbilityScores.vue'
 import AcBlock from "./ACBlock";
+import AbilityScores from './AbilityScores'
+import Vulnerabilities from './Vulnerabilities'
 
 export default {
     name: 'creature-view',
 
     components: {
-        AcBlock,
         CreatureTitleInfo,
-        AbilityScores
+        AcBlock,
+        AbilityScores,
+        Vulnerabilities
     },
 
     data() {

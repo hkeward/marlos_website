@@ -2,10 +2,10 @@
     <div id="more-info-section">
         <div v-if="infoExpanded" class="more-info">
 
-            <button @click="toggleInfoExpanded" class="toggle-info">▼ Less</button>
+            <button @click="toggleInfoExpanded" class="toggle-info">▼ Metadata</button>
 
             <div v-if="editing.room === currentRoom.id" id="advanced-editing">
-                <div id="center-container">
+                <div class="center-container">
                     <div id="darkvision-grid">
                         <div id="darkvision">
                             <input type="checkbox" id="darkvision" class="darkvision" v-model="currentRoom.darkvision" :true-value="1" :false-value="0">
@@ -17,8 +17,8 @@
                         </div>
                     </div>
 
-                    <div id="rate-qual-diff" class="rate-qual-diff">
-                        <div id="labels">
+                    <div class="labeled-div">
+                        <div>
                             <p>
                                 Rating
                             </p>
@@ -33,7 +33,7 @@
                             </p>
                         </div>
 
-                        <div id="textboxes">
+                        <div>
                             <p v-text="currentRoom.rating" @blur="$parent.onEdit" id="rating" class="rating editing" contenteditable="true"></p>
                             <p v-text="currentRoom.quality" @blur="$parent.onEdit" id="quality" class="quality editing" contenteditable="true"></p>
                             <p v-text="currentRoom.difficulty" @blur="$parent.onEdit" id="difficulty" class="difficulty editing" contenteditable="true"></p>
@@ -42,7 +42,7 @@
 
                     </div>
 
-                    <div id="empty-div">
+                    <div>
                     </div>
                 </div>
 
@@ -54,15 +54,15 @@
 
             <div v-else id="advanced">
 
-                <div id="center-container">
-                    <div id="darkvision-grid">
+                <div class="center-container">
+                    <div v-if="currentRoom.darkvision == 1 || currentRoom.grid == 1" id="darkvision-grid">
                         <ul>
                             <li v-if="currentRoom.darkvision == 1" id="darkvision" contenteditable="false">Darkvision required</li>
                             <li v-if="currentRoom.grid == 1" id="grid" contenteditable="false">Grid required</li>
                         </ul>
                     </div>
 
-                    <div class="rate-qual-diff">
+                    <div>
                         <p v-if="currentRoom.rating">
                             Rating: {{ currentRoom.rating }}
                         </p>
@@ -86,7 +86,7 @@
         </div>
 
         <div v-else class="more-info">
-            <button @click="toggleInfoExpanded" class="toggle-info">► More info</button>
+            <button @click="toggleInfoExpanded" class="toggle-info">► Metadata</button>
 
         </div>
     </div>
@@ -117,6 +117,20 @@ export default {
 
 }
 </script>
+
+<style>
+.center-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.labeled-div {
+    display: flex;
+    justify-content: space-between;
+    min-width: 25%;
+}
+</style>
 
 <style scoped>
 .toggle-info {
@@ -152,47 +166,9 @@ export default {
     margin-left: 10px;
 }
 
-#center-container {
-    display: flex;
-    justify-content: flex-start;
-}
-
-#rate-qual-diff {
-    display: flex;
-    justify-content: space-between;
-    min-width: 25%;
-}
-
-.rate-qual-diff {
-    margin-left: 5rem;
-}
-
 .editing {
     background: #1F2430;
     border-radius: 3px;
     min-width: 100px;
-}
-
-.editor-menu-bar button {
-    /*margin-right: 3px;*/
-    border: unset;
-    border-radius: unset;
-    border-left: 3px solid transparent;
-    border-right: 1px solid white;
-    background: transparent;
-}
-
-.editor-menu-bar button.is-active {
-    background: #6d7392;
-    border-left: 3px solid #6d7392;
-}
-
-.editor-menu-bar button:hover {
-    background: #50596c;
-}
-
-.secondary-editor-menu-bar button {
-    border-top: 2px double white;
-    margin: 0;
 }
 </style>
