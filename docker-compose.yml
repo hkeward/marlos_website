@@ -32,7 +32,5 @@ services:
     image: ${MARLOS_FRONTEND_TESTING_IMAGE}
     restart: unless-stopped
     network_mode: "host"
-    depends_on:
-      - backend
     volumes:
       - ~/Documents/Github_repos/marlos_website/marlos-front:/target

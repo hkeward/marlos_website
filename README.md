@@ -49,6 +49,10 @@ To build:
 
 This will install dependencies and build the testing docker image. Changes to files will go live immediately.
 
+Local dev (run testing frontend against remote database and keycloak):
+
+`make local-dev`
+
 
 ### Tests
 
