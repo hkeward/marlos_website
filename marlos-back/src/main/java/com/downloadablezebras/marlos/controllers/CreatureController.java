@@ -59,6 +59,10 @@ public class CreatureController {
                     creature.setAbilities(updatedCreature.getAbilities());
                     creature.setActions(updatedCreature.getActions());
                     creature.setLegendaryActions(updatedCreature.getLegendaryActions());
+                    creature.setInnateSpells(updatedCreature.getInnateSpells());
+                    creature.setSpells(updatedCreature.getSpells());
+                    creature.setInnateSpellcastingAbility(updatedCreature.getInnateSpellcastingAbility());
+                    creature.setSpellcastingAbility(updatedCreature.getInnateSpellcastingAbility());
                     return repository.save(creature);
                 })
                 .orElseGet(() -> {

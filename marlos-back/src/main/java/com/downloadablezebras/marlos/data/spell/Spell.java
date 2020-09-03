@@ -35,16 +35,4 @@ public class Spell {
 
     public Spell() {
     }
-
-    public Spell(String name, Integer spellLevel, School school, Boolean concentration,
-                 String spellRange, SpellComponents components, String duration, String description) {
-        this.name = name;
-        this.spellLevel = spellLevel;
-        this.school = school;
-        this.concentration = concentration;
-        this.spellRange = spellRange;
-        this.components = components;
-        this.duration = duration;
-        this.description = description;
-    }
 }
