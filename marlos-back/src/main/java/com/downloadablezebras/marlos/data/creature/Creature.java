@@ -103,13 +103,6 @@ public class Creature {
     )
     private List<DamageModifier> damageResistances = new ArrayList<>();
 
-    @Embedded
-    private InnateSpellList innateSpells;
-
-    @ManyToMany
-    @JoinTable(name="creature_spell")
-    private List<Spell> spells;
-
     @ManyToMany
     @JoinTable(
             name="creature_condition_immunity",
@@ -148,35 +141,26 @@ public class Creature {
     @JoinTable(name="creature_legendary_action")
     private List<Action> legendaryActions = new ArrayList<>();
 
-    public Creature() {
+    @Embedded
+    private InnateSpellList innateSpells;
 
-    }
+    @ManyToMany
+    @JoinTable(name="creature_spell")
+    private List<Spell> spells;
 
-    public Creature(String name, Integer level, Size size, CreatureType type, Alignment alignment, Integer ac, HP hp, Speed speed, AbilityScores abilityScores,
-                    AbilityScores savingThrows, String skills, List<DamageModifier> damageImmunities, List<DamageModifier> damageVulnerabilities,
-                    List<DamageModifier> damageResistances, List<StatusCondition> conditionImmunities, Senses senses, String languages, ChallengeRating cr,
-                    TextReference textReference, List<Ability> creatureAbilities, List<Action> actions, List<Action> legendaryActions) {
-        this.name = name;
-        this.level = level;
-        this.size = size;
-        this.type = type;
-        this.alignment = alignment;
-        this.ac = ac;
-        this.hp = hp;
-        this.speed = speed;
-        this.abilityScores = abilityScores;
-        this.savingThrows = savingThrows;
-        this.skills = skills;
-        this.damageImmunities = damageImmunities;
-        this.damageVulnerabilities = damageVulnerabilities;
-        this.damageResistances = damageResistances;
-        this.conditionImmunities = conditionImmunities;
-        this.senses = senses;
-        this.languages = languages;
-        this.cr = cr;
-        this.textReference = textReference;
-        this.abilities = creatureAbilities;
-        this.actions = actions;
-        this.legendaryActions = legendaryActions;
-    }
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "ability", column = @Column(name = "innate_spellcasting_ability")),
+            @AttributeOverride(name = "description", column = @Column(name = "innate_spellcasting_description"))
+    })
+    private SpellcastingMeta innateSpellcastingAbility;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "ability", column = @Column(name = "spellcasting_ability")),
+            @AttributeOverride(name = "description", column = @Column(name = "spellcasting_description"))
+    })
+    private SpellcastingMeta spellcastingAbility;
+
+    public Creature() {}
 }
