@@ -111,6 +111,9 @@ public class Creature {
     private List<StatusCondition> conditionImmunities = new ArrayList<>();
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "other", column = @Column(name = "other_senses"))
+    })
     private Senses senses;
 
     private String languages;

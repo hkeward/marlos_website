@@ -11,4 +11,5 @@ public class Senses {
     private Boolean darkvision;
     private Boolean tremorsense;
     private Boolean truesight;
+    private String other;
 }
