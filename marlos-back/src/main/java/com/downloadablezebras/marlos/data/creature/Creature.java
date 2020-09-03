@@ -154,14 +154,14 @@ public class Creature {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "ability", column = @Column(name = "innate_spellcasting_ability")),
-            @AttributeOverride(name = "description", column = @Column(name = "innate_spellcasting_description"))
+            @AttributeOverride(name = "description", column = @Column(name = "innate_spellcasting_description", columnDefinition = "text"))
     })
     private SpellcastingMeta innateSpellcastingAbility;
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "ability", column = @Column(name = "spellcasting_ability")),
-            @AttributeOverride(name = "description", column = @Column(name = "spellcasting_description"))
+            @AttributeOverride(name = "description", column = @Column(name = "spellcasting_description", columnDefinition = "text"))
     })
     private SpellcastingMeta spellcastingAbility;
 
