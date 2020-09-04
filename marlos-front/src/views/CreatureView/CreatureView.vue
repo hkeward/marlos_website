@@ -1,9 +1,14 @@
 <template>
-  <div v-if="creatureFound">
+  <div v-if="creatureFound" class="creature-card">
     <creature-title-info :currentCreature="currentCreature" />
     <ac-block :currentCreature="currentCreature" />
     <ability-scores :currentCreature="currentCreature"></ability-scores>
     <vulnerabilities :currentCreature="currentCreature"></vulnerabilities>
+    <abilities :current-creature="currentCreature"></abilities>
+    <actions :currentCreature="currentCreature"></actions>
+  </div>
+  <div v-else>
+    <h1> No creatures with ID {{ this.$route.params.id }} found.</h1>
   </div>
 </template>
 
@@ -13,6 +18,8 @@ import CreatureTitleInfo from './CreatureTitleInfo'
 import AcBlock from "./ACBlock";
 import AbilityScores from './AbilityScores'
 import Vulnerabilities from './Vulnerabilities'
+import Abilities from './Abilities'
+import Actions from './Actions'
 
 export default {
     name: 'creature-view',
@@ -21,7 +28,9 @@ export default {
         CreatureTitleInfo,
         AcBlock,
         AbilityScores,
-        Vulnerabilities
+        Vulnerabilities,
+        Abilities,
+        Actions
     },
 
     data() {
@@ -88,5 +97,7 @@ export default {
 </script>
 
 <style>
-
+.creature-card {
+  padding-bottom: 10em;
+}
 </style>
