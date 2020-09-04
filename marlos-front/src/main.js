@@ -56,7 +56,7 @@ Vue.filter('title_case', (value) => {
     if (!value) {
         return '';
     } else {
-        value.toString().split('_').forEach(word => {
+        value.toString().split(/[\s_]/).forEach(word => {
             converted.push(word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
         });
         return converted.join(' ');
