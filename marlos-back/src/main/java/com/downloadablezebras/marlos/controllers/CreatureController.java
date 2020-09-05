@@ -2,6 +2,8 @@ package com.downloadablezebras.marlos.controllers;
 
 import com.downloadablezebras.marlos.data.creature.Creature;
 import com.downloadablezebras.marlos.data.creature.CreatureDataRepository;
+import com.downloadablezebras.marlos.data.room.Room;
+import com.downloadablezebras.marlos.data.room.RoomDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,9 @@ public class CreatureController {
 
     @Autowired
     private CreatureDataRepository repository;
+
+    @Autowired
+    private RoomDataRepository roomRepository;
 
     @GetMapping("/creatures")
     public List<Creature> getCreatures() {
@@ -72,5 +77,12 @@ public class CreatureController {
     }
 
     @DeleteMapping("/creatures/{id}")
-    public void deleteCreature(@PathVariable Long id) { repository.deleteById(id); }
+    public void deleteCreature(@PathVariable Long id) {
+        Creature creature = repository.getOne(id);
+        List<Room> roomsContainingCreature = roomRepository.findRoomsByCreatures(creature);
+        for (Room room: roomsContainingCreature) {
+            room.removeCreature(creature);
+        }
+        repository.deleteById(id);
+    }
 }
